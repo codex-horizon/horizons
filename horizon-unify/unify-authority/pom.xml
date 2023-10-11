@@ -10,5 +10,10 @@
     </parent>
 
     <artifactId>unify-authority</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>authority-central</module>
+        <module>authority-central-filter</module>
+    </modules>
 
 </project>

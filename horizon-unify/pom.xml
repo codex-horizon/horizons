@@ -11,6 +11,8 @@
 
     <modules>
         <module>unify-authority</module>
+        <module>unify-client-crm</module>
+        <module>unify-client-okr</module>
         <module>unify-common</module>
     </modules>
 
@@ -30,43 +32,11 @@
         <!-- S 第三方依赖包版本控制（任意第三方依赖包必须表现于此）S -->
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
         <orika-core.version>1.5.4</orika-core.version>
+        <unify-common.version>1.0.0</unify-common.version>
         <!-- E 第三方依赖包版本控制（任意第三方依赖包必须表现于此）E -->
     </properties>
     <dependencies>
-        <dependency>
-            <!-- 自动装配启动 -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <!-- 应用健康监控 -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <!-- 数据参数校验 -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <!-- 数据访问操作 -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <!-- 认证授权实现 -->
-            <groupId>org.springframework.security.oauth.boot</groupId>
-            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ma.glasnost.orika</groupId>
-            <artifactId>orika-core</artifactId>
-        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -102,6 +72,11 @@
                 <groupId>ma.glasnost.orika</groupId>
                 <artifactId>orika-core</artifactId>
                 <version>${orika-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.later</groupId>
+                <artifactId>unify-common</artifactId>
+                <version>${unify-common.version}</version>
             </dependency>
             <!-- E 第三方依赖包控制（任意第三方依赖包必须表现于此）E -->
         </dependencies>
@@ -184,14 +159,7 @@
             </build>
         </profile>
     </profiles>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+
     <repositories>
         <repository>
             <id>central</id>

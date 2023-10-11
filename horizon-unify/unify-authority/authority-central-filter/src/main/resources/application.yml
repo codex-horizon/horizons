@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: native
+  application:
+    name: HorizonUnifyAuthorityCentralFilterApplication
+server:
+  shutdown: graceful
+  servlet:
+    context-path: /horizon

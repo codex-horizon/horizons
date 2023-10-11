@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class HorizonUnifyAuthority {
+public class HorizonUnifyClientCrmApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HorizonUnifyAuthority.class, args);
+        SpringApplication.run(HorizonUnifyClientCrmApplication.class, args);
     }
 
 }
