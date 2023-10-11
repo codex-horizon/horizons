@@ -1,0 +1,2 @@
+-- 官方oauth2表结构：https://github.com/spring-attic/spring-security-oauth/blob/main/spring-security-oauth2/src/test/resources/schema.sql
+-- oauth2表字段说明：https://blog.csdn.net/wangxuelei036/article/details/109491215

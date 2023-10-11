@@ -1,15 +1,12 @@
-package com.later.horizon.filter;
+package com.later.horizon.filters;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import java.io.IOException;
-
 public class HorizonUnifyAuthorityCentralFilter implements Filter {
-
     private static final Logger Logger = LoggerFactory.getLogger(HorizonUnifyAuthorityCentralFilter.class);
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         if (Logger.isDebugEnabled()) {
@@ -17,7 +14,6 @@ public class HorizonUnifyAuthorityCentralFilter implements Filter {
         }
         Filter.super.init(filterConfig);
     }
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         if (Logger.isDebugEnabled()) {
@@ -25,7 +21,6 @@ public class HorizonUnifyAuthorityCentralFilter implements Filter {
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
-
     @Override
     public void destroy() {
         if (Logger.isDebugEnabled()) {
