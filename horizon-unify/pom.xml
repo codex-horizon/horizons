@@ -32,6 +32,7 @@
         <!-- S 第三方依赖包版本控制（任意第三方依赖包必须表现于此）S -->
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
         <orika-core.version>1.5.4</orika-core.version>
+        <lombok.version>1.18.30</lombok.version>
         <unify-common.version>1.0.0</unify-common.version>
         <!-- E 第三方依赖包版本控制（任意第三方依赖包必须表现于此）E -->
     </properties>
@@ -72,6 +73,11 @@
                 <groupId>ma.glasnost.orika</groupId>
                 <artifactId>orika-core</artifactId>
                 <version>${orika-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.later</groupId>
