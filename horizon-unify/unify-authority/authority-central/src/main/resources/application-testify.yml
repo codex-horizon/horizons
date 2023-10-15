@@ -5,8 +5,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     name: horizon-unify-${spring.profiles.active}
     url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.name}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: 'ENC(Lu0BtrZBC2fp0Fwt6f/yY0/i3naADicXxrQvLcdhmOYd2PkuiCTE/U6Mcia4Rz9ItAnUGzY5CTFqDHt6qdacrhJDPMg9F8GppmIVgt3tkbF0C2PBxFH5wPvnwy+9oexJJJgmx0Wn0S4+8CzPzYOA/gAI6bSBivj4ZHM8gTqKRF4=)'
-    password: 'ENC(Lu0BtrZBC2fp0Fwt6f/yY0/i3naADicXxrQvLcdhmOYd2PkuiCTE/U6Mcia4Rz9ItAnUGzY5CTFqDHt6qdacrhJDPMg9F8GppmIVgt3tkbF0C2PBxFH5wPvnwy+9oexJJJgmx0Wn0S4+8CzPzYOA/gAI6bSBivj4ZHM8gTqKRF4=)'
+    username: 'ENC(DJEbvb2hYxZHJ17Lhk/Yxdn5mvf/roj0TUahhHN6EjigD682KUwAiqXne/KGNZGZUYQrEqvEP5fGaxt+ru+Y4suzDt8VikPkHPzdBdgXJaHbKHOFd8UR+yYkpwgFk2IfVuA7EQoM9ttjO0+Jx44O3qUGAemGbN8At4aUOQERA2Q=)'
+    password: 'ENC(Db6bq1BBKDfUlf4FZRVLFrnEO8UGE5HpsDcZ1gtECJQkbqd7jkiL7lOyJnB1Of/RmKFM6jHf6xcUz3iyzd/ERdpCsjWfGbJ1xbBSZil8kSxDp/xckuYJYVi/LeoMZzKk8Q+DayG3R47pE/A660js5WfVSPH1SitDGiRWM0NqRRA=)'
   jpa:
     database: mysql
     show-sql: true

@@ -3,8 +3,7 @@ package com.later.horizon.core.security;
 import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.helper.CommonHelper;
 import com.later.horizon.common.helper.RSAHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -23,10 +22,9 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 import java.util.Properties;
 
+@Slf4j
 @Component
-public class WebSecurityDecryptConfigurer extends AbstractEnvironment implements BeanFactoryPostProcessor, EnvironmentAware, Ordered {
-
-    private static final Logger Logger = LoggerFactory.getLogger(WebSecurityDecryptConfigurer.class);
+public class WebSecurityDecryptConfigurer implements BeanFactoryPostProcessor, EnvironmentAware, Ordered {
 
     private static final String EncryptRegex = "(?<=ENC\\().+(?=\\))";
 
@@ -63,8 +61,8 @@ public class WebSecurityDecryptConfigurer extends AbstractEnvironment implements
                 propertySources.addFirst(new PropertiesPropertySource(finalKey, finalProperties));
                 BindResult<Properties> bindResult = Binder.get(environment).bind(finalKey, Bindable.of(Properties.class));
                 if (bindResult.isBound()) {
-                    if (Logger.isDebugEnabled()) {
-                        Logger.debug("in WebSecurityDecryptConfigurer decryptRefreshProperties {} coverage complete.", finalKey);
+                    if (log.isDebugEnabled()) {
+                        log.debug("in WebSecurityDecryptConfigurer decryptRefreshProperties {} coverage complete.", finalKey);
                     }
                 }
             }
@@ -98,7 +96,7 @@ public class WebSecurityDecryptConfigurer extends AbstractEnvironment implements
     @Override
     public int getOrder() {
         // 让其初始化顺序最低，即最后初始化。
-        return Ordered.LOWEST_PRECEDENCE;
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 
 }
