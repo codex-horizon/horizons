@@ -26,7 +26,7 @@ import java.util.Properties;
 @Component
 public class WebSecurityDecryptConfigurer implements BeanFactoryPostProcessor, EnvironmentAware, Ordered {
 
-    private static final String EncryptRegex = "(?<=ENC\\().+(?=\\))";
+    private static final String Encrypt_Regex_Exp = "(?<=ENC\\().+(?=\\))";
 
     private static void decryptRefreshProperties(PropertySource<?> propertySource, Environment environment, MutablePropertySources propertySources, String publicKey) {
         @SuppressWarnings("unchecked") Map<String, Object> source = (Map<String, Object>) propertySource.getSource();
@@ -37,16 +37,16 @@ public class WebSecurityDecryptConfigurer implements BeanFactoryPostProcessor, E
                 continue;
             }
             if (value instanceof String) {
-                if (CommonHelper.matchRegex(EncryptRegex, String.valueOf(value))) {
-                    String str = CommonHelper.findRegex(EncryptRegex, String.valueOf(value));
+                if (CommonHelper.matchRegex(Encrypt_Regex_Exp, String.valueOf(value))) {
+                    String str = CommonHelper.findRegex(Encrypt_Regex_Exp, String.valueOf(value));
                     String decrypt = RSAHelper.decrypt(str, publicKey, false);
                     properties.put(key, decrypt);
                 }
             }
             if (value instanceof OriginTrackedValue) {
                 Object finalValue = ((OriginTrackedValue) value).getValue();
-                if (CommonHelper.matchRegex(EncryptRegex, String.valueOf(finalValue))) {
-                    String str = CommonHelper.findRegex(EncryptRegex, String.valueOf(finalValue));
+                if (CommonHelper.matchRegex(Encrypt_Regex_Exp, String.valueOf(finalValue))) {
+                    String str = CommonHelper.findRegex(Encrypt_Regex_Exp, String.valueOf(finalValue));
                     String decrypt = RSAHelper.decrypt(str, publicKey, false);
                     properties.put(key, decrypt);
                 }

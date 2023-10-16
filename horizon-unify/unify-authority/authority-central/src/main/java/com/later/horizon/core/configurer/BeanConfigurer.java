@@ -1,7 +1,6 @@
 package com.later.horizon.core.configurer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -19,18 +18,21 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import javax.sql.DataSource;
 import java.util.Collections;
 
+@Slf4j
 @Configuration
-public class BeanRegister {
-    private static final Logger Logger = LoggerFactory.getLogger(BeanRegister.class);
+public class BeanConfigurer {
+
     private final DataSource dataSource;
 
-    BeanRegister(final DataSource dataSource) {
+    BeanConfigurer(final DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter() {

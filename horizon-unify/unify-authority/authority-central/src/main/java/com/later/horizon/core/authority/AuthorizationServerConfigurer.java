@@ -1,7 +1,6 @@
 package com.later.horizon.core.authority;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -17,17 +16,25 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
 
+@Slf4j
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
-    private static final Logger Logger = LoggerFactory.getLogger(AuthorizationServerConfigurer.class);
+
     private final DataSource dataSource;
+
     private final JdbcApprovalStore jdbcApprovalStore;
+
     private final JdbcTokenStore jdbcTokenStore;
+
     private final JdbcAuthorizationCodeServices jdbcAuthorizationCodeServices;
+
     private final JdbcClientDetailsService jdbcClientDetailsService;
+
     private final AuthenticationManager authenticationManager;
+
     private final DefaultTokenServices defaultTokenServices;
+
     AuthorizationServerConfigurer(final DataSource dataSource,
                                   final JdbcApprovalStore jdbcApprovalStore,
                                   final JdbcTokenStore jdbcTokenStore,
