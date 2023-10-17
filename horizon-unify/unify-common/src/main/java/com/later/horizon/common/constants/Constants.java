@@ -18,7 +18,8 @@ public class Constants {
     public static final String Form_Parameter_Password_Lowercase = "password";
     public static final String Session_Captcha = "SessionCaptcha:";
     public static final String Username = "super";
-    public static final String RSA_PasswordSeed = "RSA.PasswordSeed";
+    public static final String Env_Cfg_PlaintextDecrypt = "Cfg.PlaintextDecrypt";
+    public static final String Env_RSA_PasswordSeed = "RSA.PasswordSeed";
     public static final String Default_Administrator_Login_Username = "administrator";
     public static final String Default_Login_Password = "123456";
 
@@ -36,6 +37,7 @@ public class Constants {
         Authentication_User_Non_Exist("Authentication_User_Non_Exist", "用户不存在"),
         Captcha_Non_Match("Session_Captcha_Non_Match", "会话验证码不匹配"),
         Jpa_Query_Service_Failed("Jpa_Query_Service_Failed", "查询服务失败"),
+        Cfg_Decrypt_Obtain_Fail("Cfg_Decrypt_Obtain_Fail", "配置解密密码获取失败"),
         ;
 
         private final String code;

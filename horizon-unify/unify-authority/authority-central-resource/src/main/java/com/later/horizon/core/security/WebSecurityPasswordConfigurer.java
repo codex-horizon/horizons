@@ -1,6 +1,7 @@
 package com.later.horizon.core.security;
 
 import com.later.horizon.common.constants.Constants;
+import com.later.horizon.common.exception.BizException;
 import com.later.horizon.common.helper.CommonHelper;
 import com.later.horizon.common.helper.RSAHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,6 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.*;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -24,7 +24,7 @@ import java.util.Properties;
 
 @Slf4j
 @Component
-public class WebSecurityDecryptConfigurer implements BeanFactoryPostProcessor, EnvironmentAware, Ordered {
+public class WebSecurityPasswordConfigurer implements BeanFactoryPostProcessor, EnvironmentAware, Ordered {
 
     private static final String Encrypt_Regex_Exp = "(?<=ENC\\().+(?=\\))";
 
@@ -38,21 +38,18 @@ public class WebSecurityDecryptConfigurer implements BeanFactoryPostProcessor, E
             }
             if (value instanceof String) {
                 if (CommonHelper.matchRegex(Encrypt_Regex_Exp, String.valueOf(value))) {
-                    String str = CommonHelper.findRegex(Encrypt_Regex_Exp, String.valueOf(value));
-                    String decrypt = RSAHelper.decrypt(str, publicKey, false);
-                    properties.put(key, decrypt);
+                    properties.put(key, RSAHelper.decrypt(CommonHelper.findRegex(Encrypt_Regex_Exp, String.valueOf(value)), publicKey, false));
                 }
             }
             if (value instanceof OriginTrackedValue) {
                 Object finalValue = ((OriginTrackedValue) value).getValue();
                 if (CommonHelper.matchRegex(Encrypt_Regex_Exp, String.valueOf(finalValue))) {
-                    String str = CommonHelper.findRegex(Encrypt_Regex_Exp, String.valueOf(finalValue));
-                    String decrypt = RSAHelper.decrypt(str, publicKey, false);
-                    properties.put(key, decrypt);
+                    properties.put(key, RSAHelper.decrypt(CommonHelper.findRegex(Encrypt_Regex_Exp, String.valueOf(finalValue)), publicKey, false));
                 }
             }
         }
-        if (!CollectionUtils.isEmpty(properties)) {
+
+        if (!properties.isEmpty()) {
             for (Object key : properties.keySet()) {
                 String finalKey = (String) key;
                 propertySources.remove(finalKey);
@@ -62,7 +59,7 @@ public class WebSecurityDecryptConfigurer implements BeanFactoryPostProcessor, E
                 BindResult<Properties> bindResult = Binder.get(environment).bind(finalKey, Bindable.of(Properties.class));
                 if (bindResult.isBound()) {
                     if (log.isDebugEnabled()) {
-                        log.debug("in WebSecurityDecryptConfigurer decryptRefreshProperties {} coverage complete.", finalKey);
+                        log.debug("in WebSecurityDecryptConfigurer decryptRefreshProperties key:{} coverage complete.", finalKey);
                     }
                 }
             }
@@ -75,28 +72,33 @@ public class WebSecurityDecryptConfigurer implements BeanFactoryPostProcessor, E
 
     @Override
     public void setEnvironment(Environment environment) {
-        // 获取用户自定义明文密码
-        String passwordSeed = environment.getProperty(Constants.RSA_PasswordSeed);
-        if (StringUtils.hasText(passwordSeed)) {
-            // 获取加密公钥
-            String publicKey = RSAHelper.getPublicKey(passwordSeed);
+        // 是否启用明文密码
+        String cfgPlaintextDecrypt = environment.getProperty(Constants.Env_Cfg_PlaintextDecrypt);
+        if (StringUtils.hasText(cfgPlaintextDecrypt) && Boolean.parseBoolean(cfgPlaintextDecrypt)) {
+            String rsaPasswordSeed = environment.getProperty(Constants.Env_RSA_PasswordSeed);
+            if (StringUtils.hasText(rsaPasswordSeed)) {
+                // 获取加密公钥
+                String publicKey = RSAHelper.getPublicKey(rsaPasswordSeed);
 
-            MutablePropertySources propertySources = ((ConfigurableEnvironment) environment).getPropertySources();
-            for (PropertySource<?> propertySource : propertySources) {
-                if (propertySource instanceof MapPropertySource) {
-                    decryptRefreshProperties(propertySource, environment, propertySources, publicKey);
+                MutablePropertySources propertySources = ((ConfigurableEnvironment) environment).getPropertySources();
+                for (PropertySource<?> propertySource : propertySources) {
+                    if (propertySource instanceof MapPropertySource) {
+                        decryptRefreshProperties(propertySource, environment, propertySources, publicKey);
+                    }
                 }
-            }
 
-            // 移除加密公钥
-            RSAHelper.removeKey(publicKey);
+                // 移除加密公钥
+                RSAHelper.removeKey(publicKey);
+            } else {
+                throw new BizException(Constants.BizStatus.Cfg_Decrypt_Obtain_Fail);
+            }
         }
     }
 
     @Override
     public int getOrder() {
         // 让其初始化顺序最低，即最后初始化。
-        return Ordered.HIGHEST_PRECEDENCE;
+        return Ordered.LOWEST_PRECEDENCE;
     }
 
 }

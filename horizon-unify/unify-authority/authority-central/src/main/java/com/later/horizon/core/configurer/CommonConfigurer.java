@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -20,7 +21,9 @@ import java.util.List;
                 encoding = "UTF-8", ignoreResourceNotFound = true
         )
 })
-public class CommonConfigurer {
+public class CommonConfigurer implements Serializable {
+
+    private static final long serialVersionUUID = 1L;
 
     @Value("${Authority.ApplicationName}")
     private String authorityApplicationName;
@@ -44,6 +47,6 @@ public class CommonConfigurer {
     private List<String> authorityAuthorizationTypes;
 
     @Value("${Authority.Open.Csrf}")
-    private boolean ClientIdOpenCsrf;
+    private boolean authorityOpenCsrf;
 
 }

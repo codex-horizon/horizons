@@ -9,6 +9,14 @@ public class JacksonHelper {
 
     private final static ObjectMapper ObjectMapper = new ObjectMapper();
 
+    public static String convert(Class<?> clazz) {
+        try {
+            return ObjectMapper.writeValueAsString(clazz);
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
     public static <T> T convertBean(String json, Class<T> clazz) {
         try {
             return ObjectMapper.readValue(json, clazz);
