@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -20,19 +21,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(final HttpSecurity http) throws Exception {
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/favicon.ico","/jquery-3.7.1/*");
+    }
+
+    @Override
+    protected void configure(final HttpSecurity httpSecurity) throws Exception {
         if (log.isDebugEnabled()) {
             log.debug("in WebSecurityConfigurer configure.");
         }
-        http
+        httpSecurity
                 .addFilterBefore(new UsernamePasswordAuthenticationFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/favicon.ico", "/static/**").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .formLogin().loginPage("/loginView").loginProcessingUrl("/login").permitAll().successHandler(new AuthenticationSuccessHandler()).failureHandler(new AuthenticationFailureHandler())
                 .and()
-                .formLogin().loginPage("/loginView").loginProcessingUrl("/login").successHandler(new AuthenticationSuccessHandler()).failureHandler(new AuthenticationFailureHandler()).permitAll()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", HttpMethod.GET.name())).permitAll().addLogoutHandler(new LogoutHandler()).logoutSuccessUrl("/logoutView").permitAll();
     }
