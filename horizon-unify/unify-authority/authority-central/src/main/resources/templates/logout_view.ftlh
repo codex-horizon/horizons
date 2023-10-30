@@ -5,6 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-首页
+登出
 </body>
 </html>

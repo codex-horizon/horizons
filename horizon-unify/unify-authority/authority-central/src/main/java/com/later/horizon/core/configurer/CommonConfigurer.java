@@ -28,8 +28,8 @@ public class CommonConfigurer implements Serializable {
     @Value("${Authority.ApplicationName}")
     private String authorityApplicationName;
 
-    @Value("${Authority.IgnoreUris}")
-    private List<String> authorityIgnoreUris;
+    @Value("${Authority.ignoredUris}")
+    private List<String> authorityIgnoredUris;
 
     @Value("${Authority.Origin}")
     private String authorityOrigin;
@@ -46,7 +46,10 @@ public class CommonConfigurer implements Serializable {
     @Value("${Authority.AuthorizationTypes}")
     private List<String> authorityAuthorizationTypes;
 
-    @Value("${Authority.Open.Csrf}")
+    @Value("${Authority.OpenCsrf}")
     private boolean authorityOpenCsrf;
+
+    @Value("${StaticFiles.ignoredUris}")
+    private String[] staticFilesIgnoredUris;
 
 }

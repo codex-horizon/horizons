@@ -1,5 +1,6 @@
 package com.later.horizon.core.security;
 
+import com.later.horizon.core.configurer.CommonConfigurer;
 import com.later.horizon.core.security.filters.UsernamePasswordAuthenticationFilter;
 import com.later.horizon.core.security.handler.AuthenticationFailureHandler;
 import com.later.horizon.core.security.handler.AuthenticationSuccessHandler;
@@ -20,9 +21,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
+    private final CommonConfigurer commonConfigurer;
+
+    WebSecurityConfigurer(final CommonConfigurer commonConfigurer) {
+        this.commonConfigurer = commonConfigurer;
+    }
+
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/favicon.ico","/jquery-3.7.1/*");
+        web.ignoring().antMatchers(commonConfigurer.getStaticFilesIgnoredUris());
     }
 
     @Override
@@ -35,11 +42,12 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().fullyAuthenticated()
                 .and()
-                .formLogin().loginPage("/loginView").loginProcessingUrl("/login").permitAll().successHandler(new AuthenticationSuccessHandler()).failureHandler(new AuthenticationFailureHandler())
-                .and()
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", HttpMethod.GET.name())).permitAll().addLogoutHandler(new LogoutHandler()).logoutSuccessUrl("/logoutView").permitAll();
+                .formLogin().loginPage("/login_view").loginProcessingUrl("/login").permitAll()
+                .successForwardUrl("/login_succeed_view").failureForwardUrl("/login_failed_view")
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", HttpMethod.GET.name())).logoutSuccessUrl("/logout_view").permitAll();
     }
 
     /**
