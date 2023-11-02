@@ -26,11 +26,12 @@ public class LoginController {
     }
 
     /**
-     * 当使用 Spring Security 使用【failureForwardUrl】时，会以及POST方式进入该函数，进入到失败页；
+     * 当使用 Spring Security 使用【failureUrl】时，会以及GET方式进入该函数，进入到失败页（浏览器URL合规，美观）；
+     * 当使用 Spring Security 使用【failureForwardUrl】时，会以及POST方式进入该函数，进入到失败页（浏览器URL合规）；
      *
      * @return 失败页
      */
-    @RequestMapping(name = "失败页", path = "/login_failed_view", method = RequestMethod.POST)
+    @RequestMapping(name = "失败页", path = "/login_failed_view", method = {RequestMethod.GET, RequestMethod.POST})
     public String loginFailedView() {
         return "login_failed_view";
     }
