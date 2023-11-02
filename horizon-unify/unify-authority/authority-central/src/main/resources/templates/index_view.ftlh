@@ -6,6 +6,6 @@
     <link rel="shortcut icon" href="${req.contextPath}/favicon.ico" type="image/x-icon">
 </head>
 <body>
-<#include "logout_view.ftlh"/>
+<#include "./index-child/logout_view.ftlh"/>
 </body>
 </html>

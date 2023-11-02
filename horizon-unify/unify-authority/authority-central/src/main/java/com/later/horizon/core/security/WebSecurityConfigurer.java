@@ -34,7 +34,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers(HttpMethod.GET, commonConfigurer.getStaticFilesIgnoredUris()).permitAll().anyRequest().fullyAuthenticated()
                 .and()
-                .formLogin().loginPage("/login_view").permitAll().loginProcessingUrl("/login").defaultSuccessUrl("/login_succeed_view").failureForwardUrl("/login_failed_view")
+                .formLogin().loginPage("/login_view").permitAll().loginProcessingUrl("/login").defaultSuccessUrl("/index_view", Boolean.TRUE).successForwardUrl("/login_succeed_view").failureForwardUrl("/login_failed_view")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", HttpMethod.POST.name())).logoutSuccessUrl("/login_view");
     }

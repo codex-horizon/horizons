@@ -14,9 +14,9 @@
     <form id="form" method="post" action="${req.contextPath}/login">
         <input type="hidden" name="_csrf" value="${(_csrf)!}" id="_csrf">
         <br>
-        <input type="text" name="username" placeholder="用户名"/>
+        <input type="text" name="username" placeholder="用户名" value="super"/>
         <br>
-        <input type="password" name="password" placeholder="密码"/>
+        <input type="password" name="password" placeholder="密码" value="123456"/>
         <br>
         <button type="submit" id="submit">登录</button>
     </form>
