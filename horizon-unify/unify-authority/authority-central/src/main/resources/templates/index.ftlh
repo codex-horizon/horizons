@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>首页</title>
+    <link rel="shortcut icon" href="${req.contextPath}/favicon.ico" type="image/x-icon">
 </head>
 <body>
-首页
+<#include "logout_view.ftlh"/>
 </body>
 </html>

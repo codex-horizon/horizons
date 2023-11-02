@@ -34,11 +34,6 @@
                 "$1",
             ),
         ) || '');
-
-        $("#submit").click(function () {
-            console.log(JSON.stringify($('#form').serializeArray()))
-            debugger;
-        });
     });
 </script>
 </body>

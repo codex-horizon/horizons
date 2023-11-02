@@ -1,8 +1,11 @@
 package com.later.horizon.core.configurer;
 
+import com.later.horizon.common.converter.Converter;
+import com.later.horizon.common.converter.IConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -17,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import javax.sql.DataSource;
 import java.util.Collections;
+import java.util.Optional;
 
 @Slf4j
 @Configuration
@@ -26,6 +30,16 @@ public class BeanConfigurer {
 
     BeanConfigurer(final DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    @Bean
+    public AuditorAware<Object> auditorAware() {
+        return () -> Optional.of("currentAuditor");
+    }
+
+    @Bean
+    public IConverter iConverter() {
+        return new Converter();
     }
 
     @Bean

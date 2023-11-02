@@ -38,6 +38,9 @@ public class Constants {
         Captcha_Non_Match("Session_Captcha_Non_Match", "会话验证码不匹配"),
         Jpa_Query_Service_Failed("Jpa_Query_Service_Failed", "查询服务失败"),
         Cfg_Decrypt_Obtain_Fail("Cfg_Decrypt_Obtain_Fail", "配置解密密码获取失败"),
+
+        Sso_User_Not_Found("Sso_User_Not_Found","Sso用户未找到"),
+
         ;
 
         private final String code;
