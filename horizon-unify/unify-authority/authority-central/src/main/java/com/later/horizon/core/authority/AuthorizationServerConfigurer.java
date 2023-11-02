@@ -1,5 +1,6 @@
 package com.later.horizon.core.authority;
 
+import com.later.horizon.work.service.IUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,13 +36,16 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
 
     private final DefaultTokenServices defaultTokenServices;
 
+    private final IUserDetailsService iUserDetailsService;
+
     AuthorizationServerConfigurer(final DataSource dataSource,
                                   final JdbcApprovalStore jdbcApprovalStore,
                                   final JdbcTokenStore jdbcTokenStore,
                                   final JdbcAuthorizationCodeServices jdbcAuthorizationCodeServices,
                                   final JdbcClientDetailsService jdbcClientDetailsService,
                                   final AuthenticationManager authenticationManager,
-                                  final DefaultTokenServices defaultTokenServices) {
+                                  final DefaultTokenServices defaultTokenServices,
+                                  final IUserDetailsService iUserDetailsService) {
         this.dataSource = dataSource;
         this.jdbcApprovalStore = jdbcApprovalStore;
         this.jdbcTokenStore = jdbcTokenStore;
@@ -49,6 +53,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         this.jdbcClientDetailsService = jdbcClientDetailsService;
         this.authenticationManager = authenticationManager;
         this.defaultTokenServices = defaultTokenServices;
+        this.iUserDetailsService = iUserDetailsService;
     }
 
     @Override
@@ -63,13 +68,18 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         clients.jdbc(dataSource);
     }
 
+    /**
+     * tokenServices：org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer#createDefaultTokenServices
+     *
+     * @param endpoints the endpoints configurer
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         // 启用增强型JWT，灵活禁用；
         endpoints
                 .tokenServices(defaultTokenServices)
                 // oauth_user_details
-//                .userDetailsService(iUserService)
+                .userDetailsService(iUserDetailsService)
                 // oauth_approvals
                 .approvalStore(jdbcApprovalStore)
                 // oauth_access_token、oauth_refresh_token

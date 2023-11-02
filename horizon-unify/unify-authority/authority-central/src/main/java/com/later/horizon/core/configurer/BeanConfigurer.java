@@ -84,12 +84,15 @@ public class BeanConfigurer {
     public DefaultTokenServices defaultTokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
 
+        defaultTokenServices.setTokenStore(jdbcTokenStore());
+        defaultTokenServices.setSupportRefreshToken(Boolean.TRUE);
+        defaultTokenServices.setReuseRefreshToken(Boolean.TRUE);
+        defaultTokenServices.setClientDetailsService(jdbcClientDetailsService());
+
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Collections.singletonList(jwtAccessTokenConverter()));
         defaultTokenServices.setTokenEnhancer(tokenEnhancerChain);
 
-        defaultTokenServices.setTokenStore(jdbcTokenStore());
-        defaultTokenServices.setSupportRefreshToken(Boolean.TRUE);
         return defaultTokenServices;
     }
 
