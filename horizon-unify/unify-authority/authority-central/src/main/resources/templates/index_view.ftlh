@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="${req.contextPath}/favicon.ico" type="image/x-icon">
 </head>
 <body>
-<form id="form" method="post" action="${req.contextPath}/logout">
+<form id="form" method="post" action="${req.contextPath}/do_logout">
     <input type="hidden" name="_csrf" value="${(_csrf)!}" id="_csrf">
     <br>
     <button type="submit" id="submit">登出</button>

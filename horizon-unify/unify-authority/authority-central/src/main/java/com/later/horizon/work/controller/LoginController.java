@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
 
@@ -42,13 +45,16 @@ public class LoginController {
     }
 
     /**
-     * 当手动调用清除认证时，推荐采用重定向可直观改变浏览器URL，较美观；
+     * 同时支持GET，POST。当手动调用清除认证时，推荐采用重定向可直观改变浏览器URL，较美观；
      *
      * @return 重定向登录页
      */
-    @RequestMapping(name = "清除认证", path = "/do_clear", method = RequestMethod.GET)
-    public String clear() {
+    @RequestMapping(name = "清除认证", path = "/do_logout", method = {RequestMethod.GET, RequestMethod.POST})
+    public String doLogout(HttpServletRequest request) {
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            HttpSession session = request.getSession(false);
+            request.getSession(false);
+            session.invalidate();
             SecurityContextHolder.clearContext();
         }
         return "redirect:login_view";
