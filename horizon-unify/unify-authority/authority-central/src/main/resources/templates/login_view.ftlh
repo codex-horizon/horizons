@@ -11,7 +11,7 @@
     <p>请检查用户名、密码是否正确！</p>
 <#else>
     <h1>用户登录：</h1>
-    <form id="form" method="post" action="${req.contextPath}/login">
+    <form id="form" method="post" action="${req.contextPath}/do_login">
         <input type="hidden" name="_csrf" value="${(_csrf)!}" id="_csrf">
         <br>
         <input type="text" name="username" placeholder="用户名" value="super"/>

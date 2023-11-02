@@ -24,9 +24,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 注意：【defaultSuccessUrl】与【successForwardUrl】二选其一，两者都用仅生效【defaultSuccessUrl】，且不论True还是False一律强制默认成功页；
+     * 注意：【defaultSuccessUrl】与【successForwardUrl】二选其一，两者都用仅生效【defaultSuccessUrl】，（待验证True与False的区别：“且不论True还是False一律强制默认成功页”）；
      * 当使用 Spring Security 使用【defaultSuccessUrl,Boolean】时，当True时，强制默认成功页；当False时，访问指定页面，用户未登入，跳转至登入页面，如果登入成功，（GET形式）跳转至用户访问指定页面，用户访问登入页面，默认的跳转页面；
-     * 当使用 Spring Security 使用【successForwardUrl】时，会以及POST方式进入该函数，必须重定向到主页或其他页；
+     * 当使用 Spring Security 使用【successForwardUrl】时，会以及POST方式进入该函数，必须重定向到（认证okay）主页或其他页；
      * 当使用 Spring Security 使用【failureForwardUrl】时，会以及POST方式进入该函数，进入到失败页；
      *
      * @param httpSecurity 安全配置
@@ -43,9 +43,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers(HttpMethod.GET, commonConfigurer.getStaticFilesIgnoredUris()).permitAll().anyRequest().fullyAuthenticated()
                 .and()
-                .formLogin().loginPage("/login_view").permitAll().loginProcessingUrl("/login").defaultSuccessUrl("/index_view", Boolean.FALSE).successForwardUrl("/login_succeed_view").failureForwardUrl("/login_failed_view")
+                .formLogin().loginPage("/login_view").permitAll().loginProcessingUrl("/do_login").defaultSuccessUrl("/index_view", Boolean.FALSE).successForwardUrl("/login_succeed_view").failureForwardUrl("/login_failed_view")
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", HttpMethod.POST.name())).logoutSuccessUrl("/login_view");
+                .logout().logoutSuccessUrl("/login_view");
     }
 
     /**
