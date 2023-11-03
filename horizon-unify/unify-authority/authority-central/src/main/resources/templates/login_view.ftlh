@@ -21,7 +21,7 @@
         <button type="submit" id="submit">登录</button>
     </form>
 </#if>
-<script type="text/javascript" src="${req.contextPath}/jquery-3.7.1/jquery-3.7.1.js"></script>
+<script type="text/javascript" src="${req.contextPath}/jquery-3.7.1.js"></script>
 <script type="text/javascript">
     $(function () {
         $("#_csrf").val(decodeURIComponent(
