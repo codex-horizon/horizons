@@ -2,7 +2,7 @@
 import {createApp} from 'vue';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-import '@/theme/index.scss'
+import '@/theme/index.scss';
 import * as ElementPlusIcons from '@element-plus/icons-vue';
 import App from './App.vue';
 import {store} from '@/store/index.js';

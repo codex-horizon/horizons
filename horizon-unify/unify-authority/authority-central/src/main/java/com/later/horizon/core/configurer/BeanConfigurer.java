@@ -3,9 +3,12 @@ package com.later.horizon.core.configurer;
 import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.converter.Converter;
 import com.later.horizon.common.converter.IConverter;
+import com.later.horizon.core.filters.TraceFilter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -37,10 +40,14 @@ public class BeanConfigurer {
 
     private final Environment environment;
 
+    private final CommonConfigurer commonConfigurer;
+
     BeanConfigurer(final DataSource dataSource,
-                   final Environment environment) {
+                   final Environment environment,
+                   final CommonConfigurer commonConfigurer) {
         this.dataSource = dataSource;
         this.environment = environment;
+        this.commonConfigurer = commonConfigurer;
     }
 
     @Bean
@@ -51,6 +58,15 @@ public class BeanConfigurer {
     @Bean
     public IConverter iConverter() {
         return new Converter();
+    }
+
+    @Bean
+    public FilterRegistrationBean<TraceFilter> corsFilter() {
+        return new FilterRegistrationBean<TraceFilter>() {{
+            setFilter(new TraceFilter(commonConfigurer));
+            setOrder(Ordered.HIGHEST_PRECEDENCE);
+            setUrlPatterns(Collections.singletonList("/*"));
+        }};
     }
 
     @Bean

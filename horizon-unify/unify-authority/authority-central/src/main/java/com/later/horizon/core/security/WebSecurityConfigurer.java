@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsUtils;
 
 @Slf4j
 @EnableWebSecurity
@@ -44,7 +45,11 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new UsernamePasswordAuthenticationFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
-                .authorizeRequests().antMatchers(HttpMethod.GET, commonConfigurer.getStaticFilesIgnoredUris()).permitAll().anyRequest().fullyAuthenticated()
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.GET, commonConfigurer.getStaticFilesIgnoredUris()).permitAll()
+                    .antMatchers(HttpMethod.POST, commonConfigurer.getRequestAddressIgnoredUris()).permitAll()
+//                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin().loginPage("/login_view").permitAll().loginProcessingUrl("/do_login").defaultSuccessUrl("/index_view", Boolean.TRUE).successForwardUrl("/login_succeed_view").failureForwardUrl("/login_failed_view").failureUrl("/login_failed_view")
                 .and()

@@ -25,8 +25,8 @@ public class CommonConfigurer implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    @Value("${Authority.ApplicationName}")
-    private String authorityApplicationName;
+    @Value("${ApplicationName}")
+    private String applicationName;
 
     @Value("${Authority.ignoredUris}")
     private List<String> authorityIgnoredUris;
@@ -52,4 +52,6 @@ public class CommonConfigurer implements Serializable {
     @Value("${StaticFiles.ignoredUris}")
     private String[] staticFilesIgnoredUris;
 
+    @Value("${RequestAddress.ignoredUris}")
+    private String[] requestAddressIgnoredUris;
 }

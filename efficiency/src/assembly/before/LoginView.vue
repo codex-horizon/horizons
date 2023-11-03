@@ -1,19 +1,19 @@
 <template>
   <div class="container">
-    <el-form class="login" status-icon :model="form" ref="formRef">
+    <el-form class="login" status-icon :model="formModel" ref="formRef" :rules="formRules">
       <el-form-item>
         <div class="form-item-avatar">
           <el-avatar :size="68" :src="avatarURL" fit="cover" @error="() => true"/>
         </div>
       </el-form-item>
-      <el-form-item prop="username" :rules="[{required: true, message: '用户名 空', trigger: 'blur'}]">
-        <el-input v-model="form.username" placeholder="用户名" prefix-icon="User" clearable/>
+      <el-form-item prop="username">
+        <el-input v-model="formModel.username" placeholder="用户名" prefix-icon="User" clearable/>
       </el-form-item>
-      <el-form-item prop="password" :rules="[{required: true, message: '密码 空', trigger: 'blur'}]">
-        <el-input v-model="form.password" placeholder="密码" prefix-icon="Key" show-password clearable/>
+      <el-form-item prop="password">
+        <el-input v-model="formModel.password" placeholder="密码" prefix-icon="Key" show-password clearable/>
       </el-form-item>
-      <el-form-item prop="code" :rules="[{required: true, message: '验证码 空', trigger: 'blur'}]">
-        <el-input v-model="form.code" placeholder="验证码" prefix-icon="Promotion" clearable>
+      <el-form-item prop="code">
+        <el-input v-model="formModel.code" placeholder="验证码" prefix-icon="Promotion" clearable>
           <template #suffix>
             <el-avatar class="captcha" :size="20" style="" shape="square" :src="captchaURL" @click="handlerCaptcha"/>
           </template>
@@ -21,8 +21,7 @@
       </el-form-item>
       <el-form-item>
         <div class="form-item-authentication">
-          <el-button icon="Right" circle @click="handlerAuthentication('formRef')"
-                     v-loading.fullscreen.lock="fullscreenLoading"/>
+          <el-button icon="Right" circle @click="handlerAuthentication('formRef')"/>
         </div>
       </el-form-item>
     </el-form>
@@ -37,36 +36,39 @@ export default {
   data() {
     return {
       avatarURL: require('@/assets/avatar.jpeg'),
-      form: {
+      formModel: {
         username: '',
         password: '',
         code: '',
       },
-      captchaURL: '',
-      fullscreenLoading: false,
+      formRules: {
+        username: [{trigger: "blur", required: true, message: '用户名 空'}],
+        password: [{trigger: "blur", required: true, message: '密码 空'}],
+        code: [{trigger: "blur", required: true, message: '验证码 空'}]
+      },
+      captchaURL: ''
     }
   },
   props: {},
   components: {},
   watch: {
-    'form.username'(newUsername, oldUsername) {
+    'formModel.username'(newUsername, oldUsername) {
       if (newUsername && newUsername.length === 11) {
         this.handlerCaptcha();
       } else if (oldUsername && oldUsername.length === 11) {
-        this.form.code = '';
+        this.formModel.code = '';
       }
     }
   },
   methods: {
     handlerCaptcha: async function () {
-      const {data} = await captchaApi.fetchCaptcha(this.form.username);
+      const {data} = await captchaApi.fetchCaptcha(this.formModel.username);
       this.captchaURL = data;
     },
     handlerAuthentication(formName) {
-      this.fullscreenLoading = true;
       this.$refs[formName].validate(async (valid/*, object*/) => {
         if (valid) {
-          const {code, data, message} = await userApi.fetchAuthentication(this.form);
+          const {code, data, message} = await userApi.fetchAuthentication(this.formModel);
           console.info(data);
           if (code === 'Biz_Ok_Response') {
             setTimeout(() => {
@@ -74,11 +76,9 @@ export default {
             }, 1000)
             return true;
           }
-          this.fullscreenLoading = false;
           this.$message.error(message);
           return false;
         } else {
-          this.fullscreenLoading = false;
           return false;
         }
       });
