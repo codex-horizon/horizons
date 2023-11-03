@@ -2,7 +2,7 @@ const {defineConfig} = require('@vue/cli-service');
 module.exports = defineConfig({
     transpileDependencies: true,
     publicPath: process.env.NODE_ENV ? process.env.VUE_APP_CONTEXT_PATH : process.env.VUE_APP_CONTEXT_PATH,
-    outputDir: './',
+    outputDir: './dist',
     assetsDir: 'static',
     // configureWebpack: (config) => {
     //     if (process.env.NODE_ENV === 'production') {
