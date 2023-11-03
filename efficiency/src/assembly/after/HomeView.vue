@@ -1,19 +1,68 @@
 <template>
-  <el-config-provider :size="this.$store.getters.getFormComponentSize">
-    <router-view/>
-  </el-config-provider>
+  <div class="module-container">
+    <TableView v-show="false" :formColumn="formColumn" :tableData="tableData" :tableColumn="tableColumn"/>
+  </div>
 </template>
 
 <script>
+import TableView from '@/components/TableView.vue';
 
 export default {
-  name: 'App',
+  name: "HomeView",
   data() {
-    return {}
+    return {
+      formColumn: [],
+      tableData: [],
+      tableColumn: [
+        {
+          prop: 'data',
+          label: 'Date'
+        }, {
+          prop: 'name',
+          label: 'Name'
+        }, {
+          prop: 'address',
+          label: 'Address'
+        }
+      ]
+    }
   },
   props: {},
-  components: {},
-  methods: {},
+  components: {
+    TableView
+  },
+  methods: {
+    init() {
+      this.formColumn = [{
+        formLabelName: '用户名',
+        formItemName: 'username',
+        formItemPlaceholder: '请输入用户名'
+      }, {
+        formLabelName: '手机号',
+        formItemName: 'phoneNumber',
+        formItemPlaceholder: '请输入手机号'
+      }];
+      for (let i = 0; i <= 100; i++) {
+        this.tableData.push({
+          data: 1,
+          name: '2',
+          address: '1'
+        });
+      }
+      this.tableColumn = [
+        {
+          prop: 'data',
+          label: 'Date'
+        }, {
+          prop: 'name',
+          label: 'Name'
+        }, {
+          prop: 'address',
+          label: 'Address'
+        }
+      ];
+    },
+  },
   beforeCreate() {
     console.log("1.在组件实例初始化完成之后立即调用。");
   },
@@ -25,6 +74,7 @@ export default {
   },
   mounted() {
     console.log("4.在组件被挂载之后调用。");
+    this.init();
   },
   beforeUpdate() {
     console.log("5.在组件即将因为一个响应式状态变更而更新其 DOM 树之前调用。");
@@ -60,13 +110,11 @@ export default {
   serverPrefetch() {
     console.log("14.当组件实例在服务器上被渲染之前要完成的异步函数。");
   }
-}
+};
 </script>
 
-<style>
-html, body, #app, .container {
-  width: 100%;
-  height: 100%;
-  margin: 0;
+<style scoped lang="scss">
+.module-container {
+  padding: 12px;
 }
 </style>

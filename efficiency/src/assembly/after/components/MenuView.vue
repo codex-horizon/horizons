@@ -1,19 +1,45 @@
 <template>
-  <el-config-provider :size="this.$store.getters.getFormComponentSize">
-    <router-view/>
-  </el-config-provider>
+  <template v-for="(item, index) in menus" :key="index">
+    <el-sub-menu v-if="item.children && item.children.length > 0" :key="item.id" :index="item.route">
+      <template #title>
+        <el-icon v-if="item.icon">
+          <component :is="item.icon"/>
+        </el-icon>
+        <span>{{ item.name }}</span>
+      </template>
+      <MenuView :menus="item.children"/>
+    </el-sub-menu>
+    <el-menu-item v-else :key="item.id" :index="item.route" @click="handleMenu">
+      <el-icon v-if="item.icon">
+        <component :is="item.icon"/>
+      </el-icon>
+      <span>{{ item.name }}</span>
+    </el-menu-item>
+  </template>
 </template>
 
 <script>
 
 export default {
-  name: 'App',
+  name: "MenuView",
   data() {
     return {}
   },
-  props: {},
+  props: {
+    menus: {
+      required: true,
+      type: Array,
+      default() {
+        return [];
+      }
+    }
+  },
   components: {},
-  methods: {},
+  methods: {
+    handleMenu(e){
+      console.info(e);
+    }
+  },
   beforeCreate() {
     console.log("1.在组件实例初始化完成之后立即调用。");
   },
@@ -60,13 +86,11 @@ export default {
   serverPrefetch() {
     console.log("14.当组件实例在服务器上被渲染之前要完成的异步函数。");
   }
-}
+};
 </script>
 
-<style>
-html, body, #app, .container {
-  width: 100%;
-  height: 100%;
-  margin: 0;
+<style scoped lang="scss">
+.el-menu-vertical-demo {
+
 }
 </style>
