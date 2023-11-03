@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-public class TraceFilter implements Filter {
+public class TraceCorsFilter implements Filter {
 
     private final CommonConfigurer commonConfigurer;
 
-    public TraceFilter(final CommonConfigurer commonConfigurer) {
+    public TraceCorsFilter(final CommonConfigurer commonConfigurer) {
         this.commonConfigurer = commonConfigurer;
     }
 

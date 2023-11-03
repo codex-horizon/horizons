@@ -52,7 +52,7 @@ public class WebMvcInterceptorRegister implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedHeaders("*")
                 .allowedMethods("*")
-                .allowedOrigins("*")
+                .allowedOriginPatterns("*")
                 .allowCredentials(true);
     }
 
