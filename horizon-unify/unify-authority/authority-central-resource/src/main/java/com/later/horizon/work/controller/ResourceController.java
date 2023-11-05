@@ -17,21 +17,27 @@ import java.security.Principal;
 @RequestMapping("/resource")
 public class ResourceController {
 
-    // 匿名访问
+    /**
+     * 匿名访问
+     */
     @GetMapping("/public/{id}")
     public IResult<String> publicResource(@PathVariable long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication instanceof AnonymousAuthenticationToken ? ApiResult.succeeded("No User：" + "this is public " + id) : ApiResult.succeeded(authentication.getName() + "：" + "this is public " + id);
     }
 
-    // 受限访问
+    /**
+     * 受限访问
+     */
     @GetMapping("/protect/{id}")
     public IResult<String> protectResource(@PathVariable long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication instanceof OAuth2Authentication ? ApiResult.succeeded(authentication.getName() + "：" + "this is protect " + id) : ApiResult.succeeded("No User：" + "this is protect " + id);
     }
 
-    // 受限访问，用户信息
+    /**
+     * 受限访问，用户信息
+     */
     @GetMapping("/protect/user")
     public IResult<Principal> user(Principal principal) {
         return ApiResult.succeeded(principal);

@@ -36,12 +36,12 @@ public class CommonConfigurer implements Serializable {
     @Value("${Authority.ClientId}")
     private String authorityClientId;
 
-    @Value("${RequestWhite.ClientSecret}")
+    @Value("${Authority.ClientSecret}")
     private String authorityClientSecret;
 
     @Value("${Authority.ResourceId}")
     private String authorityResourceId;
 
-    @Value("${RequestWhite.ResourceCheckTokenEndpointUrl}")
+    @Value("${Authority.ResourceCheckTokenEndpointUrl}")
     private String authorityResourceCheckTokenEndpointUrl;
 }
