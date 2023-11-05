@@ -4,8 +4,10 @@ import {notification} from '@/utils';
 
 export const nativeXhr = xhr.create({
     baseURL: process.env.VUE_APP_PROXY_URL,
-    timeout: 1000 * 1000,
-    withCredentials: true
+    withCredentials: true,
+    headers: {
+    },
+    timeout: 1000 * 2,
 });
 nativeXhr.interceptors.request.use(async (config) => {
     return config;
@@ -28,6 +30,7 @@ nativeXhr.interceptors.response.use((response) => {
     });
     return Promise.reject(error);
 });
+
 export const get = (uri, params, data, headers) => {
     return new Promise((resolve, reject) => {
         nativeXhr({

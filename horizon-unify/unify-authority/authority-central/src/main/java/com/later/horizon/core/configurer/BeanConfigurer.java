@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -52,7 +55,9 @@ public class BeanConfigurer {
 
     @Bean
     public AuditorAware<Object> auditorAware() {
-        return () -> Optional.of("currentAuditor");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return () -> Optional.of(userDetails.getUsername());
     }
 
     @Bean
@@ -71,6 +76,7 @@ public class BeanConfigurer {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // return NoOpPasswordEncoder.getInstance();
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 

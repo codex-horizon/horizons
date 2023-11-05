@@ -27,6 +27,7 @@ public class UserDetailsService implements IUserDetailsService {
 
     /**
      * org.springframework.security.authentication.dao.DaoAuthenticationProvider#additionalAuthenticationChecks
+     *
      * @param username
      * @return
      * @throws UsernameNotFoundException
@@ -38,15 +39,10 @@ public class UserDetailsService implements IUserDetailsService {
         Optional<UserDetailsEntity> optionalUserDetailsEntity = iUserDetailsRepository.findOne(Example.of(entity));
         if (optionalUserDetailsEntity.isPresent()) {
             UserDetailsEntity finalEntity = optionalUserDetailsEntity.get();
-
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_SUPER"));
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-
             return new org.springframework.security.core.userdetails.User(
                     username,
                     finalEntity.getPassword(),
-                    /*AuthorityUtils.NO_AUTHORITIES*/authorities
+                    AuthorityUtils.NO_AUTHORITIES
             );
         }
         throw new UsernameNotFoundException(Constants.BizStatus.Sso_User_Not_Found.getMessage());
