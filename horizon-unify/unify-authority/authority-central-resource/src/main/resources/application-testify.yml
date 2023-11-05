@@ -1,5 +1,5 @@
 server:
-  port: 1649
+  port: 1469
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,6 +15,4 @@ spring:
     hibernate:
       ddl-auto: update
   freemarker:
-    suffix: .html
     request-context-attribute: req
-    allow-request-override: false

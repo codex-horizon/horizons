@@ -27,7 +27,21 @@ public class CommonConfigurer implements Serializable {
     @Value("${ApplicationName}")
     private String applicationName;
 
+    @Value("${StaticFile.ignoredUris}")
+    private String[] staticFileIgnoredUris;
+
     @Value("${RequestWhite.ignoredUris}")
     private String[] requestWhiteIgnoredUris;
 
+    @Value("${Authority.ClientId}")
+    private String authorityClientId;
+
+    @Value("${RequestWhite.ClientSecret}")
+    private String authorityClientSecret;
+
+    @Value("${Authority.ResourceId}")
+    private String authorityResourceId;
+
+    @Value("${RequestWhite.ResourceCheckTokenEndpointUrl}")
+    private String authorityResourceCheckTokenEndpointUrl;
 }

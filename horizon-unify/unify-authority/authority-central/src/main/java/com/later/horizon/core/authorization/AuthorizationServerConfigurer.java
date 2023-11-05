@@ -1,4 +1,4 @@
-package com.later.horizon.core.authority;
+package com.later.horizon.core.authorization;
 
 import com.later.horizon.work.service.IUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
