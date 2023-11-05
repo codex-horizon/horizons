@@ -1,3 +1,19 @@
 2023-10-11：
     1.安装数据库，将各模块环境数据配置好，使项目正常运行连接数据库；
     2.初始化Oauth2的Sql脚本；
+
+    {
+        "client_id": "client_id",
+        "resource_ids": "r1,r2",
+        "client_secret": "123456",
+        "scope": "READ,WRITE",
+        "authorized_grant_types": "authorization_code,password,refresh_token,implicit,client_credentials",
+        "redirect_uri": "https://juejin.cn/",
+        "authorities": "ALL,PROVIDED",
+        "access_token_validity": 3600,
+        "refresh_token_validity": 7200,
+        "additionalInformation": {
+            "param1": "value1"
+        },
+        "autoapprove": "true"
+    }
