@@ -34,6 +34,7 @@
         <orika-core.version>1.5.4</orika-core.version>
         <lombok.version>1.18.30</lombok.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
+        <fastjson.version>2.0.41</fastjson.version>
         <unify-common.version>1.0.0</unify-common.version>
         <!-- E 第三方依赖包版本控制（任意第三方依赖包必须表现于此）E -->
     </properties>
@@ -84,6 +85,11 @@
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${easy-captcha.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.later</groupId>

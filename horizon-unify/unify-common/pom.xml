@@ -55,9 +55,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId> com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <scope>provided</scope>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
         </dependency>
     </dependencies>
 

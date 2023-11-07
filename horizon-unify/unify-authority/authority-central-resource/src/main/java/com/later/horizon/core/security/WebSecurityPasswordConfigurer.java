@@ -28,8 +28,8 @@ public class WebSecurityPasswordConfigurer implements BeanFactoryPostProcessor, 
 
     private static final String Encrypt_Regex_Exp = "(?<=ENC\\().+(?=\\))";
 
-    private static void decryptRefreshProperties(PropertySource<?> propertySource, Environment environment, MutablePropertySources propertySources, String publicKey) {
-        @SuppressWarnings("unchecked") Map<String, Object> source = (Map<String, Object>) propertySource.getSource();
+    private static void decryptRefreshProperties(PropertySource<?> propertySources, Environment environment, MutablePropertySources mutablePropertySources, String publicKey) {
+        @SuppressWarnings("unchecked") Map<String, Object> source = (Map<String, Object>) propertySources.getSource();
         Properties properties = new Properties();
         for (String key : source.keySet()) {
             Object value = source.get(key);
@@ -52,10 +52,10 @@ public class WebSecurityPasswordConfigurer implements BeanFactoryPostProcessor, 
         if (!properties.isEmpty()) {
             for (Object key : properties.keySet()) {
                 String finalKey = (String) key;
-                propertySources.remove(finalKey);
+                mutablePropertySources.remove(finalKey);
                 Properties finalProperties = new Properties();
                 finalProperties.setProperty(finalKey, properties.getProperty(finalKey));
-                propertySources.addFirst(new PropertiesPropertySource(finalKey, finalProperties));
+                mutablePropertySources.addFirst(new PropertiesPropertySource(finalKey, finalProperties));
                 BindResult<Properties> bindResult = Binder.get(environment).bind(finalKey, Bindable.of(Properties.class));
                 if (bindResult.isBound()) {
                     if (log.isDebugEnabled()) {
@@ -80,10 +80,10 @@ public class WebSecurityPasswordConfigurer implements BeanFactoryPostProcessor, 
                 // 获取加密公钥
                 String publicKey = RSAHelper.getPublicKey(rsaPasswordSeed);
 
-                MutablePropertySources propertySources = ((ConfigurableEnvironment) environment).getPropertySources();
-                for (PropertySource<?> propertySource : propertySources) {
-                    if (propertySource instanceof MapPropertySource) {
-                        decryptRefreshProperties(propertySource, environment, propertySources, publicKey);
+                MutablePropertySources mutablePropertySources = ((ConfigurableEnvironment) environment).getPropertySources();
+                for (PropertySource<?> propertySources : mutablePropertySources) {
+                    if (propertySources instanceof MapPropertySource) {
+                        decryptRefreshProperties(propertySources, environment, mutablePropertySources, publicKey);
                     }
                 }
 
@@ -93,6 +93,7 @@ public class WebSecurityPasswordConfigurer implements BeanFactoryPostProcessor, 
                 throw new BizException(Constants.BizStatus.Cfg_Decrypt_Obtain_Fail);
             }
         }
+
     }
 
     @Override
