@@ -1,31 +1,30 @@
 package com.later.horizon.filters;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import java.io.IOException;
+
+@Slf4j
 public class HorizonUnifyAuthorityCentralFilter implements Filter {
-    private static final Logger Logger = LoggerFactory.getLogger(HorizonUnifyAuthorityCentralFilter.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        if (Logger.isDebugEnabled()) {
-            Logger.debug("init horizon-unify filter.");
-        }
+        log.info("in HorizonUnifyAuthorityCentralFilter init.");
         Filter.super.init(filterConfig);
     }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        if (Logger.isDebugEnabled()) {
-            Logger.debug("in horizon-unify filter.");
-        }
+        log.info("in HorizonUnifyAuthorityCentralFilter doFilter.");
         filterChain.doFilter(servletRequest, servletResponse);
     }
+
     @Override
     public void destroy() {
-        if (Logger.isDebugEnabled()) {
-            Logger.debug("destroy horizon-unify filter.");
-        }
+        log.info("in HorizonUnifyAuthorityCentralFilter destroy.");
         Filter.super.destroy();
     }
+
 }
