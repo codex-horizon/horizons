@@ -24,10 +24,10 @@ public class CommonConfigurer implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    @Value("${ApplicationName}")
+    @Value("${application.name}")
     private String applicationName;
 
-    @Value("${RequestWhite.ignoredUris}")
+    @Value("${request-white.ignored-uris}")
     private String[] requestWhiteIgnoredUris;
 
 }
