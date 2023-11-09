@@ -24,24 +24,24 @@ public class CommonConfigurer implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    @Value("${ApplicationName}")
+    @Value("${application.name}")
     private String applicationName;
 
-    @Value("${StaticFile.ignoredUris}")
+    @Value("${static-file.ignored-uris}")
     private String[] staticFileIgnoredUris;
 
-    @Value("${RequestWhite.ignoredUris}")
+    @Value("${request-white.ignored-uris}")
     private String[] requestWhiteIgnoredUris;
 
-    @Value("${Authority.ClientId}")
+    @Value("${authority.client-id}")
     private String authorityClientId;
 
-    @Value("${Authority.ClientSecret}")
+    @Value("${authority.client-secret}")
     private String authorityClientSecret;
 
-    @Value("${Authority.ResourceId}")
+    @Value("${authority.resource-id}")
     private String authorityResourceId;
 
-    @Value("${Authority.ResourceCheckTokenEndpointUrl}")
+    @Value("${authority.resource-check-token-endpoint-url}")
     private String authorityResourceCheckTokenEndpointUrl;
 }
