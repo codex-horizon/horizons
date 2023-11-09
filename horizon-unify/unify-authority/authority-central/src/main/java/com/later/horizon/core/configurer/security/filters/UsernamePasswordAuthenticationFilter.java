@@ -1,4 +1,4 @@
-package com.later.horizon.core.security.filters;
+package com.later.horizon.core.configurer.security.filters;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;

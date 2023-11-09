@@ -1,7 +1,7 @@
-package com.later.horizon.core.security;
+package com.later.horizon.core.configurer.security;
 
+import com.later.horizon.core.configurer.security.filters.UsernamePasswordAuthenticationFilter;
 import com.later.horizon.core.configurer.CommonConfigurer;
-import com.later.horizon.core.security.filters.UsernamePasswordAuthenticationFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;

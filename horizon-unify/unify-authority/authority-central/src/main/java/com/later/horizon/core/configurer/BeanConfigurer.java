@@ -3,7 +3,8 @@ package com.later.horizon.core.configurer;
 import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.converter.Converter;
 import com.later.horizon.common.converter.IConverter;
-import com.later.horizon.core.filters.TraceCorsFilter;
+import com.later.horizon.core.filters.CorsFilter;
+import com.later.horizon.core.filters.TraceFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -71,10 +72,19 @@ public class BeanConfigurer {
     }
 
     @Bean
-    public FilterRegistrationBean<TraceCorsFilter> traceCorsFilter() {
-        return new FilterRegistrationBean<TraceCorsFilter>() {{
-            setFilter(new TraceCorsFilter(commonConfigurer));
+    public FilterRegistrationBean<TraceFilter> traceFilter() {
+        return new FilterRegistrationBean<TraceFilter>() {{
+            setFilter(new TraceFilter(commonConfigurer));
             setOrder(Ordered.HIGHEST_PRECEDENCE);
+            setUrlPatterns(Collections.singletonList("/*"));
+        }};
+    }
+
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        return new FilterRegistrationBean<CorsFilter>() {{
+            setFilter(new CorsFilter(commonConfigurer));
+            setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
             setUrlPatterns(Collections.singletonList("/*"));
         }};
     }

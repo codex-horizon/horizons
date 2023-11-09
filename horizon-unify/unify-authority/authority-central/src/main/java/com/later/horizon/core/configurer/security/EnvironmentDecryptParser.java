@@ -1,4 +1,4 @@
-package com.later.horizon.core.security;
+package com.later.horizon.core.configurer.security;
 
 import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.exception.BizException;
