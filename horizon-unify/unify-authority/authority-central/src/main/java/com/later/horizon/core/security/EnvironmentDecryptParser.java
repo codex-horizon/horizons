@@ -56,45 +56,47 @@ public class EnvironmentDecryptParser implements BeanFactoryPostProcessor, Order
         MutablePropertySources mutablePropertySources = ((ConfigurableEnvironment) environment).getPropertySources();
         Properties finalProperties = new Properties();
         for (PropertySource<?> propertySources : mutablePropertySources) {
-            if (propertySources instanceof OriginTrackedMapPropertySource) { // 该处解析容器原生配置文件
-                finalProperties.clear();
+            // ----------------------------- 解析容器原生配置文件 -----------------------------
+            if (propertySources instanceof OriginTrackedMapPropertySource) {
                 finalProperties.putAll(((OriginTrackedMapPropertySource) propertySources).getSource());
-                this.decryptParser(finalProperties, publicKey, mutablePropertySources, environment);
             }
-            if (propertySources instanceof CompositePropertySource) { // 该处解析容器个性配置文件
-                finalProperties.clear();
+            // ----------------------------- 解析容器个性配置文件 -----------------------------
+            if (propertySources instanceof CompositePropertySource) {
                 CompositePropertySource compositePropertySource = (CompositePropertySource) propertySources;
                 compositePropertySource.getPropertySources().forEach(propertySource -> {
                     Properties properties = (Properties) propertySource.getSource();
                     properties.keySet().forEach(key -> finalProperties.put(key, OriginTrackedValue.of(compositePropertySource.getProperty((String) key), PropertySourceOrigin.get(propertySource, (String) key))));
                 });
-                this.decryptParser(finalProperties, publicKey, mutablePropertySources, environment);
             }
         }
+        this.decryptParser(finalProperties, publicKey, mutablePropertySources, environment);
     }
 
     private void decryptParser(Properties properties, String publicKey, MutablePropertySources mutablePropertySources, Environment environment) {
-        Properties finalProperties = new Properties();
         properties.keySet().forEach(key -> {
             OriginTrackedValue originTrackedValue = (OriginTrackedValue) properties.get(key);
             String value = originTrackedValue.toString();
             if (CommonHelper.matchRegex(Encrypt_Regex_Exp, value)) {
-                finalProperties.put(key, RSAHelper.decrypt(CommonHelper.findRegex(Encrypt_Regex_Exp, value), publicKey, false));
-            }
-        });
-        finalProperties.forEach((key, value) -> {
-            String finalKey = (String) key;
-            mutablePropertySources.remove(finalKey);
-            Properties exProperties = new Properties();
-            exProperties.setProperty(finalKey, finalProperties.getProperty(finalKey));
-            mutablePropertySources.addFirst(new PropertiesPropertySource(finalKey, exProperties));
-            BindResult<Properties> bindResult = Binder.get(environment).bind(finalKey, Bindable.of(Properties.class));
-            if (bindResult.isBound()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("in WebSecurityDecryptConfigurer decryptParser key:{} coverage complete.", finalKey);
+                String finalKey = (String) key;
+                String finalValue = RSAHelper.decrypt(CommonHelper.findRegex(Encrypt_Regex_Exp, value), publicKey, false);
+                mutablePropertySources.remove(finalKey);
+                // ----------------------------- 原生配置文件解析容器 -----------------------------
+                // OriginTrackedMapPropertySource originTrackedMapPropertySource = new OriginTrackedMapPropertySource(finalKey, properties, Boolean.TRUE);
+
+                // ----------------------------- 个性配置文件解析容器 -----------------------------
+                // CompositePropertySource compositePropertySource = new CompositePropertySource(finalKey);
+                // PropertySource<?> propertiesPropertySource = new PropertiesPropertySource(finalKey, properties);
+                // compositePropertySource.addPropertySource(propertiesPropertySource);
+                mutablePropertySources.addFirst(new PropertiesPropertySource(finalKey, new Properties() {{
+                    setProperty(finalKey, finalValue);
+                }}));
+                BindResult<Properties> bindResult = Binder.get(environment).bind(finalKey, Bindable.of(Properties.class));
+                if (bindResult.isBound()) {
+                    log.info("in EnvironmentDecryptParser decryptParser key:{} coverage complete.", finalKey);
                 }
             }
         });
+        log.info("in EnvironmentDecryptParser all coverage complete.");
     }
 
 }
