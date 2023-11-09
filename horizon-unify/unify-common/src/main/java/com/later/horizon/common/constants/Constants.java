@@ -29,6 +29,7 @@ public class Constants {
         Request_Header_PublicKey_Non_Exist("Request_Header_PublicKey_Non_Exist", "请求头公钥不存在"),
         Request_Obtain_Fail("Request_Obtain_Fail", "Request获取失败"),
         Response_Obtain_Fail("Response_Obtain_Fail", "Response获取失败"),
+        Session_Obtain_Fail("Session_Obtain_Fail", "Session获取失败"),
         ServletRequestAttributes_Obtain_Fail("ServletRequestAttributes_Obtain_Fail", "ServletRequestAttributes获取失败"),
         Rsa_PublicKey_Expire("Rsa_PublicKey_Expire", "公钥失效"),
         Rsa_SecretKey_Initialize_Failed("Rsa_PublicKey_Expire", "密钥初始化失败"),

@@ -8,6 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,20 +24,20 @@ public class RequestHelper {
         return Optional.ofNullable(getHttpServletResponse().getHeader(Constants.Header_Key_Application_Name)).orElse(Constants.Header_Application_Name_None);
     }
 
-    public static String getApplicationNameByResponse(HttpServletResponse response) {
-        return Optional.ofNullable(response.getHeader(Constants.Header_Key_Application_Name)).orElse(Constants.Header_Application_Name_None);
-    }
-
     public static String getTraceIdByRequest() {
         return Optional.ofNullable(getHttpServletResponse().getHeader(Constants.Header_Trace_Id)).orElse(Constants.Header_Trace_Id_None);
     }
 
-    public static String getTraceIdByResponse(HttpServletResponse response) {
-        return Optional.ofNullable(response.getHeader(Constants.Header_Trace_Id)).orElse(Constants.Header_Trace_Id_None);
-    }
-
     public static String getPublicKeyByRequest() {
         return Optional.ofNullable(getHttpServletRequest().getHeader(Constants.Header_Key_Rsa_Public_Key)).orElseThrow(() -> new BizException(Constants.BizStatus.Request_Header_PublicKey_Non_Exist));
+    }
+
+    public static HttpSession getHttpSession(boolean create) {
+//        getSession()相当于getSession(true);
+//        参数为true时，若存在会话，则返回该会话，否则新建一个会话;
+//        getSession(false);
+//        参数为false时，如存在会话，则返回该会话，否则返回NULL;
+        return Optional.ofNullable(getHttpServletRequest().getSession(create)).orElseThrow(() -> new BizException(Constants.BizStatus.Session_Obtain_Fail));
     }
 
     public static HttpServletRequest getHttpServletRequest() {
@@ -49,10 +50,6 @@ public class RequestHelper {
 
     private static ServletRequestAttributes getServletRequestAttributes() {
         return Optional.ofNullable((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).orElseThrow(() -> new BizException(Constants.BizStatus.ServletRequestAttributes_Obtain_Fail));
-    }
-
-    public static String getValueByParameterName(String parameterName) {
-        return getHttpServletRequest().getParameter(parameterName);
     }
 
 }
