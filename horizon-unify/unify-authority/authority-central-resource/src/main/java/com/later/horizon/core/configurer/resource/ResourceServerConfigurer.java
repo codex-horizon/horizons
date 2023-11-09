@@ -1,4 +1,4 @@
-package com.later.horizon.core.resource;
+package com.later.horizon.core.configurer.resource;
 
 import com.later.horizon.core.configurer.CommonConfigurer;
 import lombok.extern.slf4j.Slf4j;
