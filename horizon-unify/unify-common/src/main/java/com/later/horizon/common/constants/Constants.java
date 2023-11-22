@@ -42,6 +42,9 @@ public class Constants {
 
         Sso_User_Not_Found("Sso_User_Not_Found","Sso用户未找到"),
 
+
+        Sso_Client_Details_Not_Found("Sso_Client_Details_Not_Found","Sso客户端未找到"),
+
         ;
 
         private final String code;

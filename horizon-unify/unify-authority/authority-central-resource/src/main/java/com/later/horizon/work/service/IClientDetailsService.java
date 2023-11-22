@@ -1,16 +1,22 @@
 package com.later.horizon.work.service;
 
-import org.springframework.security.oauth2.provider.ClientDetails;
+import com.later.horizon.common.restful.IPageable;
+import com.later.horizon.work.bo.ClientDetailsBo;
+import com.later.horizon.work.qry.ClientDetailsQry;
+import com.later.horizon.work.vo.ClientDetailsVo;
+
+import java.util.List;
 
 public interface IClientDetailsService {
 
-    void add(ClientDetails clientDetails);
+    Long add(ClientDetailsBo clientDetailsBo);
 
-    void remove(String clientId);
+    void delete(Long id);
 
-    void update(ClientDetails clientDetails);
+    Long update(ClientDetailsBo clientDetailsBo);
 
-    ClientDetails load(String clientId);
+    ClientDetailsBo detail(Long id);
 
+    IPageable<List<ClientDetailsVo>> list(ClientDetailsQry clientDetailsQry);
 
 }

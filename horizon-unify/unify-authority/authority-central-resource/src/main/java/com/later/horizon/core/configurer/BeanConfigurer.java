@@ -9,7 +9,6 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,13 +20,13 @@ import java.util.Optional;
 public class BeanConfigurer {
 
     @Bean
-    public AuditorAware<UserDetails> auditorAware() {
+    public AuditorAware<String> auditorProvider() {
         return () -> Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
                 .map(Authentication::getPrincipal)
-                .map(User.class::cast)
-                /*.map(User::getUsername)*/;
+                .map(UserDetails.class::cast)
+                .map(UserDetails::getUsername);
     }
 
     @Bean

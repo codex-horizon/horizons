@@ -9,15 +9,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.time.Instant;
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 public class RequestHelper {
 
     public static String createTraceId() {
-        return UUID.randomUUID() + "-" + Instant.now().getEpochSecond();
+        return CommonHelper.createUUID();
     }
 
     public static String getApplicationNameByResponse() {

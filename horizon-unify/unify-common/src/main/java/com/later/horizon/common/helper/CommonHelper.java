@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 
+import java.time.Instant;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,4 +45,7 @@ public class CommonHelper {
         return StringUtils.hasText(str) && Pattern.compile("[0-9]*").matcher(str.trim()).matches();
     }
 
+    public static String createUUID() {
+        return UUID.randomUUID() + "-" + Instant.now().getEpochSecond();
+    }
 }
