@@ -27,14 +27,14 @@ public class GlobalExceptionAdvice {
     @ResponseStatus(HttpStatus.OK)
     public IResult<String> handle(HttpServletRequest request, Exception e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.ApiResult.failed(e.getMessage());
+        return IResult.Result.failed(e.getMessage());
     }
 
     @ExceptionHandler(BizException.class)
     @ResponseStatus(HttpStatus.OK)
     public IResult<String> handle(HttpServletRequest request, BizException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.ApiResult.failed(e.getMessage());
+        return IResult.Result.failed(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -45,7 +45,7 @@ public class GlobalExceptionAdvice {
         FieldError fieldError = e.getBindingResult().getFieldError();
         String field = fieldError.getField();
         String fieldMessage = fieldError.getDefaultMessage();
-        return IResult.ApiResult.failed(fieldMessage);
+        return IResult.Result.failed(fieldMessage);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -55,16 +55,16 @@ public class GlobalExceptionAdvice {
         Matcher matcher = Pattern.compile("(?<=Duplicate entry ').*(?=' for key)").matcher(e.getRootCause().getMessage());
         if (matcher.find()) {
             String filedName = matcher.group();
-            return IResult.ApiResult.failed(String.format("事务错误，某字段值【%s】，违反了惟一性限制", filedName));
+            return IResult.Result.failed(String.format("事务错误，某字段值【%s】，违反了惟一性限制", filedName));
         }
-        return IResult.ApiResult.failed("事务错误");
+        return IResult.Result.failed("事务错误");
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.OK)
     public IResult<String> handle(HttpServletRequest request, EntityNotFoundException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.ApiResult.failed(e.getMessage());
+        return IResult.Result.failed(e.getMessage());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
@@ -72,20 +72,20 @@ public class GlobalExceptionAdvice {
     public IResult<String> handle(HttpServletRequest request, MissingServletRequestParameterException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
         String message = String.format("参数[%s],类型[%s] 有误", e.getParameterName(), e.getParameterType());
-        return IResult.ApiResult.failed(message);
+        return IResult.Result.failed(message);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.OK)
     public IResult<String> handle(HttpServletRequest request, HttpRequestMethodNotSupportedException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.ApiResult.failed(e.getMessage());
+        return IResult.Result.failed(e.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.OK)
     public IResult<String> handle(HttpServletRequest request, HttpMessageNotReadableException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.ApiResult.failed("JSON解析错误");
+        return IResult.Result.failed("JSON解析错误");
     }
 }

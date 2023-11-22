@@ -14,7 +14,7 @@ public interface IResult<T> {
     T getData();
 
     @Data
-    class ApiResult<T> implements IResult<T>, Serializable {
+    class Result<T> implements IResult<T>, Serializable {
 
         private String code;
 
@@ -22,32 +22,32 @@ public interface IResult<T> {
 
         private T data;
 
-        private ApiResult(final Constants.BizResponseStatus responseStatus) {
+        private Result(final Constants.BizResponseStatus responseStatus) {
             this.code = responseStatus.getCode();
             this.message = responseStatus.getMessage();
         }
 
-        private ApiResult(final Constants.BizResponseStatus responseStatus, final String message) {
+        private Result(final Constants.BizResponseStatus responseStatus, final String message) {
             this.code = responseStatus.getCode();
             this.message = message;
         }
 
-        private ApiResult(final Constants.BizResponseStatus responseStatus, final String message, final T data) {
+        private Result(final Constants.BizResponseStatus responseStatus, final String message, final T data) {
             this.code = responseStatus.getCode();
             this.message = message;
             this.data = data;
         }
 
         private static <T> IResult<T> restful(final Constants.BizResponseStatus responseStatus) {
-            return new ApiResult<>(responseStatus);
+            return new Result<>(responseStatus);
         }
 
         private static <T> IResult<T> restful(final Constants.BizResponseStatus responseStatus, final String message) {
-            return new ApiResult<>(responseStatus, message);
+            return new Result<>(responseStatus, message);
         }
 
         private static <T> IResult<T> restful(final Constants.BizResponseStatus responseStatus, final String message, final T data) {
-            return new ApiResult<>(responseStatus, message, data);
+            return new Result<>(responseStatus, message, data);
         }
 
         public static <T> IResult<T> failed() {

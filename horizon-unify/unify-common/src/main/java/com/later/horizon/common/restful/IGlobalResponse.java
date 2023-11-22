@@ -20,7 +20,7 @@ public interface IGlobalResponse {
 
 
     @Data
-    class ApiGlobalResult implements IGlobalResponse, Serializable {
+    class GlobalResult implements IGlobalResponse, Serializable {
 
         private String applicationName;
 
@@ -28,14 +28,14 @@ public interface IGlobalResponse {
 
         private Object body;
 
-        protected ApiGlobalResult(final String applicationName, final String traceId, final Object body) {
+        protected GlobalResult(final String applicationName, final String traceId, final Object body) {
             this.applicationName = applicationName;
             this.traceId = traceId;
             this.body = body;
         }
 
-        public static ApiGlobalResult restful(final String applicationName, final String traceId, final Object body) {
-            return new ApiGlobalResult(applicationName, traceId, body);
+        public static GlobalResult restful(final String applicationName, final String traceId, final Object body) {
+            return new GlobalResult(applicationName, traceId, body);
         }
 
     }

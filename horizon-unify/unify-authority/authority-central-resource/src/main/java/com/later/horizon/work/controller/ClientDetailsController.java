@@ -31,30 +31,30 @@ public class ClientDetailsController {
     @RequestMapping(name = "新增客户端", path = "/add", method = RequestMethod.POST)
     IResult<Long> add(@RequestBody @Validated(GroupValidator.Create.class) ClientDetailsDto clientDetailsDto) {
         ClientDetailsBo clientDetailsBo = iConverter.convert(clientDetailsDto, ClientDetailsBo.class);
-        return IResult.ApiResult.succeeded(iClientDetailsService.add(clientDetailsBo));
+        return IResult.Result.succeeded(iClientDetailsService.add(clientDetailsBo));
     }
 
     @RequestMapping(name = "删除客户端", path = "/delete/{id:\\d+}", method = RequestMethod.POST)
     IResult<String> delete(@PathVariable("id") Long id) {
         iClientDetailsService.delete(id);
-        return IResult.ApiResult.succeeded();
+        return IResult.Result.succeeded();
     }
 
     @RequestMapping(name = "修改客户端", path = "/update", method = RequestMethod.POST)
     IResult<Long> update(@RequestBody @Validated(GroupValidator.Modify.class) ClientDetailsDto clientDetailsDto) {
         ClientDetailsBo clientDetailsBo = iConverter.convert(clientDetailsDto, ClientDetailsBo.class);
-        return IResult.ApiResult.succeeded(iClientDetailsService.update(clientDetailsBo));
+        return IResult.Result.succeeded(iClientDetailsService.update(clientDetailsBo));
     }
 
     @RequestMapping(name = "详情客户端", path = "/detail/{id:\\d+}", method = RequestMethod.POST)
     IResult<ClientDetailsVo> detail(@PathVariable("id") Long id) {
         ClientDetailsBo clientDetailsBo = iClientDetailsService.detail(id);
-        return IResult.ApiResult.succeeded(iConverter.convert(clientDetailsBo, ClientDetailsVo.class));
+        return IResult.Result.succeeded(iConverter.convert(clientDetailsBo, ClientDetailsVo.class));
     }
 
     @RequestMapping(name = "列表客户端", path = "/list", method = RequestMethod.POST)
     IResult<IPageable<List<ClientDetailsVo>>> list(@RequestBody ClientDetailsQry clientDetailsQry) {
-        return IResult.ApiResult.succeeded(iClientDetailsService.list(clientDetailsQry));
+        return IResult.Result.succeeded(iClientDetailsService.list(clientDetailsQry));
     }
 
 }

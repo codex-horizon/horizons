@@ -89,7 +89,7 @@ public class ClientDetailsService implements IClientDetailsService {
                 StringUtils.hasText(clientDetailsQry.getDirection()) ? Sort.Direction.fromString(clientDetailsQry.getDirection()) : Sort.Direction.DESC,
                 CollectionUtils.isEmpty(clientDetailsQry.getProperties()) ? String.join(",", clientDetailsQry.getProperties()) : "lastModifiedDate"
         ));
-        return IPageable.ApiPageable.response(accountEntities.getTotalElements(), iConverter.convert(accountEntities, ClientDetailsVo.class));
+        return IPageable.Pageable.response(accountEntities.getTotalElements(), iConverter.convert(accountEntities, ClientDetailsVo.class));
     }
 
     private Long save(ClientDetailsEntity clientDetailsEntity, ClientDetailsBo clientDetailsBo) {

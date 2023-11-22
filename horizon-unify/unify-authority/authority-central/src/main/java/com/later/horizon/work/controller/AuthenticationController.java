@@ -63,7 +63,7 @@ public class AuthenticationController {
     @RequestMapping(name = "获取验证码", path = "/fetchCaptcha", method = RequestMethod.POST)
     @ResponseBody
     IResult<String> fetchCaptcha() {
-        return IResult.ApiResult.succeeded(CaptchaHelper.create(RequestHelper.getHttpSession(Boolean.TRUE).getId()));
+        return IResult.Result.succeeded(CaptchaHelper.create(RequestHelper.getHttpSession(Boolean.TRUE).getId()));
     }
 
 }

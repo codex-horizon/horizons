@@ -26,6 +26,6 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        return IGlobalResponse.ApiGlobalResult.restful(applicationName, RequestHelper.getTraceIdByRequest(), body);
+        return IGlobalResponse.GlobalResult.restful(applicationName, RequestHelper.getTraceIdByRequest(), body);
     }
 }

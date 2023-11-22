@@ -22,7 +22,7 @@ public class ResourceController {
     @GetMapping("/public/{id}")
     IResult<String> publicResource(@PathVariable long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication instanceof AnonymousAuthenticationToken ? IResult.ApiResult.succeeded("No User：" + "this is public " + id) : IResult.ApiResult.succeeded(authentication.getName() + "：" + "this is public " + id);
+        return authentication instanceof AnonymousAuthenticationToken ? IResult.Result.succeeded("No User：" + "this is public " + id) : IResult.Result.succeeded(authentication.getName() + "：" + "this is public " + id);
     }
 
     /**
@@ -31,7 +31,7 @@ public class ResourceController {
     @GetMapping("/protect/{id}")
     IResult<String> protectResource(@PathVariable long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication instanceof OAuth2Authentication ? IResult.ApiResult.succeeded(authentication.getName() + "：" + "this is protect " + id) : IResult.ApiResult.succeeded("No User：" + "this is protect " + id);
+        return authentication instanceof OAuth2Authentication ? IResult.Result.succeeded(authentication.getName() + "：" + "this is protect " + id) : IResult.Result.succeeded("No User：" + "this is protect " + id);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ResourceController {
      */
     @GetMapping("/protect/user")
     IResult<Principal> user(Principal principal) {
-        return IResult.ApiResult.succeeded(principal);
+        return IResult.Result.succeeded(principal);
     }
 
 }
