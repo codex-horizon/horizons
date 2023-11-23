@@ -16,6 +16,8 @@ public interface IResult<T> {
     @Data
     class Result<T> implements IResult<T>, Serializable {
 
+        private static final long serialVersionUUID = 1L;
+
         private String code;
 
         private String message;

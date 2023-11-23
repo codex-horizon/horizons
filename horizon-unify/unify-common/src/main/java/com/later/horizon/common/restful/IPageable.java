@@ -13,6 +13,8 @@ public interface IPageable<T> {
     @Data
     class Pageable<T> implements IPageable<T>, Serializable {
 
+        private static final long serialVersionUUID = 1L;
+
         private long total;
 
         private T list;

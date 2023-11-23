@@ -22,6 +22,8 @@ public interface IGlobalResponse {
     @Data
     class GlobalResult implements IGlobalResponse, Serializable {
 
+        private static final long serialVersionUUID = 1L;
+
         private String applicationName;
 
         private String traceId;
