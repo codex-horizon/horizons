@@ -11,6 +11,7 @@ import com.later.horizon.work.qry.UserDetailsQry;
 import com.later.horizon.work.repository.IUserDetailsRepository;
 import com.later.horizon.work.service.IUserDetailsService;
 import com.later.horizon.work.vo.UserDetailsVo;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -41,7 +42,13 @@ public class UserDetailsService implements IUserDetailsService {
 
     @Override
     public Long add(UserDetailsBo userDetailsBo) {
-        UserDetailsEntity userDetailsEntity = iConverter.convert(userDetailsBo, UserDetailsEntity.class);
+        UserDetailsEntity userDetailsEntity = new UserDetailsEntity();
+        userDetailsEntity.setUsername(userDetailsBo.getUsername());
+        if (iUserDetailsRepository.exists(Example.of(userDetailsEntity))) {
+            throw new BizException(Constants.BizStatus.Sso_User_Exists);
+        }
+
+        userDetailsEntity = iConverter.convert(userDetailsBo, UserDetailsEntity.class);
         userDetailsEntity.setPassword(passwordEncoder.encode(userDetailsBo.getPassword()));
         return iUserDetailsRepository.save(userDetailsEntity).getId();
     }

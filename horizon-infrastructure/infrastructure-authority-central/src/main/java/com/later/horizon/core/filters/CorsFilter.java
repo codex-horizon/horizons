@@ -21,7 +21,7 @@ public class CorsFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.info("in CorsFilter init");
+        log.trace("in CorsFilter init");
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CorsFilter implements Filter {
 
     @Override
     public void destroy() {
-        log.info("in CorsFilter destroy");
+        log.trace("in CorsFilter destroy");
     }
 
 }

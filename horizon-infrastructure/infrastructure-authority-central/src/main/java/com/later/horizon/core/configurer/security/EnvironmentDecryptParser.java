@@ -92,11 +92,11 @@ public class EnvironmentDecryptParser implements BeanFactoryPostProcessor, Order
                 }}));
                 BindResult<Properties> bindResult = Binder.get(environment).bind(finalKey, Bindable.of(Properties.class));
                 if (bindResult.isBound()) {
-                    log.info("in EnvironmentDecryptParser decryptParser key:{} coverage complete.", finalKey);
+                    log.trace("in EnvironmentDecryptParser decryptParser key:{} coverage complete.", finalKey);
                 }
             }
         });
-        log.info("in EnvironmentDecryptParser all coverage complete.");
+        log.trace("in EnvironmentDecryptParser all coverage complete.");
     }
 
 }

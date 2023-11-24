@@ -11,9 +11,7 @@ public class LogoutHandler implements org.springframework.security.web.authentic
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        if (log.isDebugEnabled()) {
-            log.debug("in LogoutHandler logout.");
-        }
+        log.trace("in LogoutHandler logout.");
     }
 
 }

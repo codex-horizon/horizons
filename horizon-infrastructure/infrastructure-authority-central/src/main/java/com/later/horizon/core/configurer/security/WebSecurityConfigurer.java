@@ -37,9 +37,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(final HttpSecurity httpSecurity) throws Exception {
-        if (log.isDebugEnabled()) {
-            log.debug("in WebSecurityConfigurer configure.");
-        }
+        log.trace("in WebSecurityConfigurer configure.");
         httpSecurity
                 .addFilterBefore(new UsernamePasswordAuthenticationFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())

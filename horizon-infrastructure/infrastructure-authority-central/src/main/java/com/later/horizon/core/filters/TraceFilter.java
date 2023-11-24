@@ -21,7 +21,7 @@ public class TraceFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        log.info("in TraceFilter init");
+        log.trace("in TraceFilter init");
     }
 
     @Override
@@ -35,7 +35,7 @@ public class TraceFilter implements Filter {
 
     @Override
     public void destroy() {
-        log.info("in TraceFilter destroy");
+        log.trace("in TraceFilter destroy");
     }
 
 }

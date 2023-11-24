@@ -46,7 +46,7 @@ public class UserDetailsService implements IUserDetailsService {
         // 预判用户是否存在
         UserDetailsEntity userDetailsEntity = new UserDetailsEntity();
         userDetailsEntity.setUsername(username);
-        userDetailsEntity = iUserDetailsRepository.findOne(Example.of(userDetailsEntity)).orElseThrow(() -> new UsernameNotFoundException(Constants.BizStatus.Sso_User_Not_Found.getMessage()));
+        userDetailsEntity = iUserDetailsRepository.findOne(Example.of(userDetailsEntity)).orElseThrow(() -> new UsernameNotFoundException(Constants.BizStatus.Sso_User_Not_Exists.getMessage()));
 
         // 预判系统是否授权
 

@@ -1,8 +1,6 @@
 package com.later.horizon.work.controller;
 
-import com.later.horizon.common.helper.CaptchaHelper;
 import com.later.horizon.common.helper.RequestHelper;
-import com.later.horizon.common.restful.IResult;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +38,7 @@ public class AuthenticationController {
         return "login_failed_view";
     }
 
-    @RequestMapping(name = "主页", path = "/index_view", method = RequestMethod.GET)
+    @RequestMapping(name = "主页", path = {"/", "/index_view"}, method = RequestMethod.GET)
     String indexView() {
         return "index_view";
     }
@@ -58,12 +56,6 @@ public class AuthenticationController {
             SecurityContextHolder.clearContext();
         }
         return "redirect:login_view";
-    }
-
-    @RequestMapping(name = "获取验证码", path = "/fetchCaptcha", method = RequestMethod.POST)
-    @ResponseBody
-    IResult<String> fetchCaptcha() {
-        return IResult.Result.succeeded(CaptchaHelper.create(RequestHelper.getHttpSession(Boolean.TRUE).getId()));
     }
 
 }

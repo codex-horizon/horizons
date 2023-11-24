@@ -11,9 +11,7 @@ public class AuthenticationFailureHandler implements org.springframework.securit
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
-        if (log.isDebugEnabled()) {
-            log.debug("in AuthenticationFailureHandler onAuthenticationFailure.");
-        }
+        log.trace("in AuthenticationFailureHandler onAuthenticationFailure.");
     }
 
 }

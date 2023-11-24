@@ -23,11 +23,11 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources
-                .resourceId(commonConfigurer.getAuthorityResourceId())
+                .resourceId(commonConfigurer.getAuthorityCentralResourceId())
                 .tokenServices(new RemoteTokenServices() {{
-                    setClientId(commonConfigurer.getAuthorityClientId());
-                    setClientSecret(commonConfigurer.getAuthorityClientSecret());
-                    setCheckTokenEndpointUrl(commonConfigurer.getAuthorityResourceCheckTokenEndpointUrl());
+                    setClientId(commonConfigurer.getAuthorityCentralClientId());
+                    setClientSecret(commonConfigurer.getAuthorityCentralClientSecret());
+                    setCheckTokenEndpointUrl(commonConfigurer.getAuthorityCentralResourceCheckTokenEndpointUrl());
                 }});
     }
 

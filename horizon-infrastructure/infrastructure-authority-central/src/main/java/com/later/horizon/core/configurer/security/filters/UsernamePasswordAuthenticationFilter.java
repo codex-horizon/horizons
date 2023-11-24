@@ -15,11 +15,9 @@ public class UsernamePasswordAuthenticationFilter extends org.springframework.se
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        if (log.isDebugEnabled()) {
-            String username = servletRequest.getParameter(super.getUsernameParameter());
-            String password = servletRequest.getParameter(super.getPasswordParameter());
-            log.debug("in UsernamePasswordAuthenticationFilter doFilter:{},{}.", username, password);
-        }
+        String username = servletRequest.getParameter(super.getUsernameParameter());
+        String password = servletRequest.getParameter(super.getPasswordParameter());
+        log.trace("in UsernamePasswordAuthenticationFilter doFilter:{},{}.", username, password);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
