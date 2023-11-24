@@ -1,0 +1,18 @@
+server:
+  port: 1649
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    name: infrastructure-authority-central-${spring.profiles.active}
+    url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.name}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: 'ENC(Vj7OuffRI1jWB/QSVS2flNEUi9X4rAACG5tanfyOM8iAMs3sZl8FAB37aSjUatAim/MgkcvbnNu9wc278LqLQBdOi4sdtiGeAB3CHtaLzA42h/TLWC6rzrm7PjJQYCRcvzLx/lrFK977s//WjiluNBw1soXevdJ2UTvlgAGWRaM=)'
+    password: 'ENC(kTdGf99ULDNCEBy6l0XAPWC547gXavE+Bp7JJoCLCSN+WGGtY81K/LS1B4cNaX+OSJyUFSLNE9P3BuflxGs6JLuQSuLCeEZWrK8ot6rjN/rO+uR7QqBOsRhZED6UuFrzXqmzQlXbhkQw/OQMsukI15rTCl1RlQ1x1unevUDIfkM=)'
+  jpa:
+    database: mysql
+    show-sql: true
+    generate-ddl: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+  freemarker:
+    request-context-attribute: req

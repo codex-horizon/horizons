@@ -39,7 +39,6 @@
         <!-- E 第三方依赖包版本控制（任意第三方依赖包必须表现于此）E -->
     </properties>
     <dependencies>
-
     </dependencies>
     <dependencyManagement>
         <dependencies>

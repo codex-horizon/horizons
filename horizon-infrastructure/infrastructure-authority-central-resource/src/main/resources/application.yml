@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: native
+  application:
+    name: InfrastructureAuthorityCentralResourceApplication
+server:
+  shutdown: graceful
+  servlet:
+    context-path: /infrastructureAuthorityCentralResource
+  port: 1649
