@@ -1,12 +1,13 @@
 package com.later.horizon.core.repository.entity;
 
+import com.later.horizon.common.constants.Constants;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,19 +23,19 @@ public abstract class AbstractPoEntity implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    @Id
+    // @Id
     // JPA标准-主键标识
-    @GeneratedValue(generator = "uuid2")
+    // @GeneratedValue(generator = "uuid2")
     // JPA标准-通用策略生成器
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    //自定义主键生成策略
-//    @Column(name = "id", unique = true, nullable = false, length = 36, columnDefinition = "varchar(36) comment '主键|无业务属性'")
-    private String id;
+    // @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    // 自定义主键生成策略
+    // @Column(name = "id", unique = true, nullable = false, length = 36, columnDefinition = "varchar(36) comment '主键|无业务属性'")
+    // private String id;
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false, columnDefinition = "bigint(20) comment '主键'")
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, columnDefinition = "bigint(20) comment '主键'")
+    private Long id;
 
     @CreatedBy
     @Column(name = "created_by", nullable = false, columnDefinition = "varchar(50) comment '创建人'")
@@ -52,7 +53,10 @@ public abstract class AbstractPoEntity implements Serializable {
     @Column(name = "last_modified_date", nullable = false, columnDefinition = "datetime comment '最后修改时间'")
     private Timestamp lastModifiedDate;
 
-    @Column(name = "status", nullable = false, columnDefinition = "tinyint(1) default 2 comment '数据状态'")
+    @Column(name = "status", nullable = false, columnDefinition = "tinyint(1) comment '数据状态'")
     private Integer status;
 
+    public void setStatus(Integer status) {
+        this.status = ObjectUtils.isEmpty(status) ? Constants.DataStatus.Disabled.getStatus() : status;
+    }
 }

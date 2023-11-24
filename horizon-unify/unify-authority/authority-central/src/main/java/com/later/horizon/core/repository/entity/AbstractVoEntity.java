@@ -16,12 +16,15 @@ public abstract class AbstractVoEntity implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    private String id;
+    // private String id;
+    private Long id;
 
     private String createdBy;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createdDate;
+
+    private String lastModifiedBy;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp lastModifiedDate;

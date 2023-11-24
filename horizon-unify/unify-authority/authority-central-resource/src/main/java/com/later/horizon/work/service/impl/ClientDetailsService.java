@@ -83,13 +83,13 @@ public class ClientDetailsService implements IClientDetailsService {
             }
             return criteriaBuilder.conjunction();
         };
-        Page<ClientDetailsEntity> accountEntities = iClientDetailsRepository.findAll(specification, PageRequest.of(
+        Page<ClientDetailsEntity> clientDetailsEntities = iClientDetailsRepository.findAll(specification, PageRequest.of(
                 clientDetailsQry.getCurrentIndex(),
                 clientDetailsQry.getPageableSize(),
                 StringUtils.hasText(clientDetailsQry.getDirection()) ? Sort.Direction.fromString(clientDetailsQry.getDirection()) : Sort.Direction.DESC,
                 CollectionUtils.isEmpty(clientDetailsQry.getProperties()) ? String.join(",", clientDetailsQry.getProperties()) : "lastModifiedDate"
         ));
-        return IPageable.Pageable.response(accountEntities.getTotalElements(), iConverter.convert(accountEntities, ClientDetailsVo.class));
+        return IPageable.Pageable.response(clientDetailsEntities.getTotalElements(), iConverter.convert(clientDetailsEntities, ClientDetailsVo.class));
     }
 
     private Long save(ClientDetailsEntity clientDetailsEntity, ClientDetailsBo clientDetailsBo) {

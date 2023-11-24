@@ -15,11 +15,14 @@ public abstract class AbstractBoEntity implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    private String id;
+    // private String id;
+    private Long id;
 
     private String createdBy;
 
     private Timestamp createdDate;
+
+    private String lastModifiedBy;
 
     private Timestamp lastModifiedDate;
 
