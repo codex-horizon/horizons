@@ -18,10 +18,10 @@ public class Oauth2UserDetailsEntity extends AbstractPoEntity implements Seriali
 
     private static final long serialVersionUUID = 1L;
 
-    @Column(name = "username", nullable = false, columnDefinition = "varchar(255) comment '用户名'")
+    @Column(name = "username", nullable = false, columnDefinition = "varchar(256) comment '用户名'")
     private String username;
 
-    @Column(name = "password", nullable = false, columnDefinition = "varchar(255) comment '密码'")
+    @Column(name = "password", nullable = false, columnDefinition = "varchar(256) comment '密码'")
     private String password;
 
 }

@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserDetailsBo extends AbstractBoEntity implements Serializable {
+public class Oauth2UserDetailsBo extends AbstractBoEntity implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 

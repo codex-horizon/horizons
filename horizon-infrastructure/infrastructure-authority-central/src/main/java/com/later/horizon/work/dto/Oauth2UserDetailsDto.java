@@ -5,27 +5,22 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+
 @Data
-public class UserDetailsDto implements Serializable {
+public class Oauth2UserDetailsDto implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    @NotBlank(message = "ID 空", groups = GroupValidator.Modify.class)
-    private String id;
-
-    @NotBlank(message = "用户名 空", groups = {
-            GroupValidator.Login.class,
+    @NotBlank(message = "username 空", groups = {
             GroupValidator.Create.class,
             GroupValidator.Modify.class
     })
     private String username;
 
-    @NotBlank(message = "密码 空", groups = {
-            GroupValidator.Login.class,
+    @NotBlank(message = "password 空", groups = {
             GroupValidator.Create.class,
             GroupValidator.Modify.class
     })
     private String password;
 
 }
-
