@@ -18,5 +18,4 @@ public class Oauth2ApprovalsService implements IOauth2ApprovalsService {
     }
 
 
-
 }

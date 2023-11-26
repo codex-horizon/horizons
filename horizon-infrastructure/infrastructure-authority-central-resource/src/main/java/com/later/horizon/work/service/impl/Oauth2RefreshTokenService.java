@@ -9,7 +9,7 @@ public class Oauth2RefreshTokenService implements IOauth2RefreshTokenService {
 
     private final IOauth2RefreshTokenRepository iOauth2RefreshTokenRepository;
 
-    Oauth2RefreshTokenService(final IOauth2RefreshTokenRepository iOauth2RefreshTokenRepository){
+    Oauth2RefreshTokenService(final IOauth2RefreshTokenRepository iOauth2RefreshTokenRepository) {
         this.iOauth2RefreshTokenRepository = iOauth2RefreshTokenRepository;
     }
 }

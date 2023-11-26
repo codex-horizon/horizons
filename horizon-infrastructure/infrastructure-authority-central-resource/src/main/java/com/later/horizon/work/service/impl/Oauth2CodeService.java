@@ -9,7 +9,7 @@ public class Oauth2CodeService implements IOauth2CodeService {
 
     private final IOauth2CodeRepository iOauth2CodeRepository;
 
-    Oauth2CodeService(final IOauth2CodeRepository iOauth2CodeRepository){
+    Oauth2CodeService(final IOauth2CodeRepository iOauth2CodeRepository) {
         this.iOauth2CodeRepository = iOauth2CodeRepository;
     }
 }

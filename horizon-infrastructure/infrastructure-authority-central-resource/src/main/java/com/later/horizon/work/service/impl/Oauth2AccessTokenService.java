@@ -9,7 +9,7 @@ public class Oauth2AccessTokenService implements IOauth2AccessTokenService {
 
     private final IOauth2AccessTokenRepository iOauth2AccessTokenRepository;
 
-    Oauth2AccessTokenService(final IOauth2AccessTokenRepository iOauth2AccessTokenRepository){
+    Oauth2AccessTokenService(final IOauth2AccessTokenRepository iOauth2AccessTokenRepository) {
         this.iOauth2AccessTokenRepository = iOauth2AccessTokenRepository;
     }
 
