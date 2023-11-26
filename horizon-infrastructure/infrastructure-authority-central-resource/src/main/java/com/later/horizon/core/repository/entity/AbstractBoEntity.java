@@ -26,6 +26,6 @@ public abstract class AbstractBoEntity implements Serializable {
 
     private Timestamp lastModifiedDate;
 
-    private Integer status;
+    private Integer state;
 
 }

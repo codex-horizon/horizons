@@ -53,10 +53,10 @@ public abstract class AbstractPoEntity implements Serializable {
     @Column(name = "last_modified_date", nullable = false, columnDefinition = "datetime comment '最后修改时间'")
     private Timestamp lastModifiedDate;
 
-    @Column(name = "status", nullable = false, columnDefinition = "tinyint(1) comment '数据状态'")
-    private Integer status;
+    @Column(name = "state", nullable = false, columnDefinition = "tinyint(1) comment '数据状态'")
+    private Integer state;
 
-    public void setStatus(Integer status) {
-        this.status = ObjectUtils.isEmpty(status) ? Constants.DataStatus.Disabled.getStatus() : status;
+    public void setState(Integer state) {
+        this.state = ObjectUtils.isEmpty(state) ? Constants.DataStatus.Disabled.getState() : state;
     }
 }

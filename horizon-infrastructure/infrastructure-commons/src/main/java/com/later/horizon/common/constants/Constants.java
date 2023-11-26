@@ -16,6 +16,7 @@ public class Constants {
     public static final String Header_Key_Rsa_Public_Key = "Rsa-Public-Key";
     public static final String Form_Parameter_Username_Lowercase = "username";
     public static final String Form_Parameter_Password_Lowercase = "password";
+    public static final String Form_Parameter_Code_Lowercase = "code";
     public static final String Session_Captcha = "SessionCaptcha:";
     public static final String Username = "super";
     public static final String Env_Cfg_PlaintextDecrypt = "Cfg.PlaintextDecrypt";
@@ -40,12 +41,13 @@ public class Constants {
         Jpa_Query_Service_Failed("Jpa_Query_Service_Failed", "查询服务失败"),
         Cfg_Decrypt_Obtain_Fail("Cfg_Decrypt_Obtain_Fail", "配置解密密码获取失败"),
 
-        Sso_User_Not_Exists("Sso_User_Not_Exists","Sso用户未找到"),
+        Sso_Captcha_Not_Exists("Sso_Captcha_Not_Exists","Sso验证码不存在"),
+        Sso_User_Not_Exists("Sso_User_Not_Exists","Sso用户不存在"),
         Sso_User_Exists("Sso_User_Exists","Sso用户已存在"),
         Sso_User_Password_Incorrect("Sso_User_Password_Incorrect","Sso用户密码不正确"),
 
-        Sso_Client_Details_Not_Found("Sso_Client_Details_Not_Found","Sso客户端详情未找到"),
-        Sso_User_Details_Not_Found("Sso_User_Details_Not_Found","Sso用户详情未找到"),
+        Sso_Client_Details_Not_Exists("Sso_Client_Details_Not_Found","Sso客户端详情不存在"),
+        Sso_User_Details_Not_Exists("Sso_User_Details_Not_Found","Sso用户详情不存在"),
 
         ;
 
@@ -92,14 +94,14 @@ public class Constants {
         Unlocked(5, "Unlocked", "未锁定"),
         ;
 
-        private final Integer status;
+        private final Integer state;
 
         private final String code;
 
         private final String message;
 
-        DataStatus(Integer status, String code, String message) {
-            this.status = status;
+        DataStatus(Integer state, String code, String message) {
+            this.state = state;
             this.code = code;
             this.message = message;
         }

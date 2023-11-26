@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,15 +48,20 @@ public class UserDetailsService implements IUserDetailsService {
         UserDetailsEntity userDetailsEntity = new UserDetailsEntity();
         userDetailsEntity.setUsername(username);
         userDetailsEntity = iUserDetailsRepository.findOne(Example.of(userDetailsEntity)).orElseThrow(() -> new UsernameNotFoundException(Constants.BizStatus.Sso_User_Not_Exists.getMessage()));
-
+        UserDetailsBo userDetailsBo = iConverter.convert(userDetailsEntity, UserDetailsBo.class);
+        HttpServletRequest request = RequestHelper.getHttpServletRequest();
         // 预判系统是否授权
 
         // 预判用户是否授权
 
+        // 预判验码是否命中
+        String code = request.getParameter(Constants.Form_Parameter_Code_Lowercase);
+        if(!StringUtils.hasText(code)) {
+            throw new BizException(Constants.BizStatus.Sso_User_Password_Incorrect);
+        }
+
         // 预判密码是否正确
-        UserDetailsBo userDetailsBo = iConverter.convert(userDetailsEntity, UserDetailsBo.class);
         String encryptPassword = userDetailsBo.getPassword();
-        HttpServletRequest request = RequestHelper.getHttpServletRequest();
         String password = request.getParameter(Constants.Form_Parameter_Password_Lowercase);
         if (!passwordEncoder.matches(password, encryptPassword)) {
             throw new BizException(Constants.BizStatus.Sso_User_Password_Incorrect);
