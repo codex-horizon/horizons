@@ -34,7 +34,7 @@ public abstract class AbstractPoEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, columnDefinition = "bigint(20) comment '主键'")
+    @Column(name = "id", unique = true, nullable = false, columnDefinition = "bigint(20) comment '主键'")
     private Long id;
 
     @CreatedBy
