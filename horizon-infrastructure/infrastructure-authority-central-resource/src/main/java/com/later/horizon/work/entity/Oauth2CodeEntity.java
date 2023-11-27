@@ -18,10 +18,10 @@ public class Oauth2CodeEntity extends AbstractPoEntity implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    @Column(name = "code", unique = true, nullable = false, columnDefinition = "varchar(256) comment '授权码(未加密)'")
+    @Column(name = "code", columnDefinition = "varchar(256) comment '授权码(未加密)'")
     private String code;
 
-    @Column(name = "authentication", unique = true, nullable = false, columnDefinition = "blob comment 'AuthorizationRequestHolder.java对象序列化后的二进制数据'")
+    @Column(name = "authentication", columnDefinition = "blob comment 'AuthorizationRequestHolder.java对象序列化后的二进制数据'")
     private byte[] authentication;
 
 }

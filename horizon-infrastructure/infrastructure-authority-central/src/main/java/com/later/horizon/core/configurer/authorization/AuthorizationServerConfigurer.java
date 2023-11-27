@@ -1,5 +1,6 @@
 package com.later.horizon.core.configurer.authorization;
 
+import com.later.horizon.work.service.IOauth2UserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +36,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
 
     private final DefaultTokenServices defaultTokenServices;
 
-    private final IUserDetailsService iUserDetailsService;
+    private final IOauth2UserDetailsService iOauth2UserDetailsService;
 
     AuthorizationServerConfigurer(final DataSource dataSource,
                                   final JdbcApprovalStore jdbcApprovalStore,
@@ -44,7 +45,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
                                   final JdbcClientDetailsService jdbcClientDetailsService,
                                   final AuthenticationManager authenticationManager,
                                   final DefaultTokenServices defaultTokenServices,
-                                  final IUserDetailsService iUserDetailsService) {
+                                  final IOauth2UserDetailsService iOauth2UserDetailsService) {
         this.dataSource = dataSource;
         this.jdbcApprovalStore = jdbcApprovalStore;
         this.jdbcTokenStore = jdbcTokenStore;
@@ -52,7 +53,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         this.jdbcClientDetailsService = jdbcClientDetailsService;
         this.authenticationManager = authenticationManager;
         this.defaultTokenServices = defaultTokenServices;
-        this.iUserDetailsService = iUserDetailsService;
+        this.iOauth2UserDetailsService = iOauth2UserDetailsService;
     }
 
     @Override
@@ -78,7 +79,7 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
         endpoints
                 .tokenServices(defaultTokenServices)
                 // oauth_user_details
-                .userDetailsService(iUserDetailsService)
+                .userDetailsService(iOauth2UserDetailsService)
                 // oauth_approvals
                 .approvalStore(jdbcApprovalStore)
                 // oauth_access_token、oauth_refresh_token

@@ -18,19 +18,19 @@ public class Oauth2ClientTokenEntity extends AbstractPoEntity implements Seriali
 
     private static final long serialVersionUUID = 1L;
 
-    @Column(name = "token_id", unique = true, nullable = false, columnDefinition = "varchar(256) comment 'MD5加密的access_token的值'")
+    @Column(name = "token_id", columnDefinition = "varchar(256) comment 'MD5加密的access_token的值'")
     private String tokenId;
 
-    @Column(name = "token", unique = true, nullable = false, columnDefinition = "blob comment 'OAuth2AccessToken.java对象序列化后的二进制数据'")
+    @Column(name = "token", columnDefinition = "blob comment 'OAuth2AccessToken.java对象序列化后的二进制数据'")
     private byte[] token;
 
-    @Column(name = "authentication_id", unique = true, nullable = false, columnDefinition = "varchar(256) comment 'MD5加密过的username,client_id,scope'")
+    @Column(name = "authentication_id", columnDefinition = "varchar(256) comment 'MD5加密过的username,client_id,scope'")
     private String authenticationId;
 
-    @Column(name = "user_name", unique = true, nullable = false, columnDefinition = "varchar(256) comment '登录的用户名'")
+    @Column(name = "user_name", columnDefinition = "varchar(256) comment '登录的用户名'")
     private String username;
 
-    @Column(name = "client_id", unique = true, nullable = false, columnDefinition = "varchar(256) comment '客户端ID'")
+    @Column(name = "client_id", columnDefinition = "varchar(256) comment '客户端ID'")
     private String clientId;
 
 }
