@@ -85,7 +85,7 @@ public class AuthorityCentralController {
      * @return 返回页面
      */
     @RequestMapping(name = "确认授权访问", path = "/oauth/confirm_access", method = RequestMethod.GET)
-    public String loginGrantView(Model model, HttpServletRequest request, @SessionAttribute("authorizationRequest") AuthorizationRequest authorizationRequest) {
+    String loginGrantView(Model model, HttpServletRequest request, @SessionAttribute("authorizationRequest") AuthorizationRequest authorizationRequest) {
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         model.addAttribute(csrfToken.getParameterName(), csrfToken.getToken());
         model.addAttribute("clientId", authorizationRequest.getClientId());
