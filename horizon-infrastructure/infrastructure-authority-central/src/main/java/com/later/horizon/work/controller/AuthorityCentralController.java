@@ -1,12 +1,15 @@
 package com.later.horizon.work.controller;
 
+import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.helper.RequestHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +33,14 @@ public class AuthorityCentralController {
      */
     @RequestMapping(name = "成功页", path = "/login_succeed_view", method = {RequestMethod.GET, RequestMethod.POST})
     String loginSucceedView() {
-        return "redirect:index_view";
+        Object attribute = RequestHelper.getHttpSession(Boolean.TRUE).getAttribute(Constants.Session_SAVED_REQUEST);
+        if (ObjectUtils.isEmpty(attribute)) {
+            return "redirect:index_view";
+        } else {
+            DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) attribute;
+            return "redirect:" + defaultSavedRequest.getRedirectUrl();
+        }
+
     }
 
     /**
@@ -46,6 +56,12 @@ public class AuthorityCentralController {
 
     @RequestMapping(name = "主页", path = {"/", "/index_view"}, method = RequestMethod.GET)
     String indexView() {
+        String code = RequestHelper.getHttpServletRequest().getParameter("code");
+        log.info("------------------ in AuthorityCentralController#indexView 参数：{} ------------------", code);
+        log.info("------------------ in AuthorityCentralController#indexView 参数：{} ------------------", code);
+        log.info("------------------ in AuthorityCentralController#indexView 参数：{} ------------------", code);
+        log.info("------------------ in AuthorityCentralController#indexView 参数：{} ------------------", code);
+        log.info("------------------ in AuthorityCentralController#indexView 参数：{} ------------------ \n", code);
         return "index_view";
     }
 

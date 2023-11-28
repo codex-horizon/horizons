@@ -18,6 +18,7 @@ public class Constants {
     public static final String Form_Parameter_Password_Lowercase = "password";
     public static final String Form_Parameter_Code_Lowercase = "code";
     public static final String Session_Captcha = "SessionCaptcha:";
+    public static final String Session_SAVED_REQUEST = "SPRING_SECURITY_SAVED_REQUEST";
     public static final String Username = "super";
     public static final String Env_Cfg_PlaintextDecrypt = "Cfg.PlaintextDecrypt";
     public static final String Env_RSA_PasswordSeed = "RSA.PasswordSeed";
