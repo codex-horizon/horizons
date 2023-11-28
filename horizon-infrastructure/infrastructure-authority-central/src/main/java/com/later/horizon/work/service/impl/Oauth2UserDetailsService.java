@@ -65,10 +65,10 @@ public class Oauth2UserDetailsService implements IOauth2UserDetailsService {
         // 预判用户是否授权
 
         // 预判验码是否命中
-        String code = request.getParameter(Constants.Form_Parameter_Code_Lowercase);
-        if(!StringUtils.hasText(code)) {
-            throw new BizException(Constants.BizStatus.Sso_User_Password_Incorrect);
-        }
+//        String code = request.getParameter(Constants.Form_Parameter_Code_Lowercase);
+//        if(!StringUtils.hasText(code)) {
+//            throw new BizException(Constants.BizStatus.Sso_User_Password_Incorrect);
+//        }
 
         // 预判密码是否正确
         String encryptPassword = oauth2UserDetailsBo.getPassword();

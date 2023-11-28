@@ -43,6 +43,7 @@
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
         </dependency>
         <dependency>
+            <!-- 基础设施封装 -->
             <groupId>com.later.horizon</groupId>
             <artifactId>infrastructure-commons</artifactId>
         </dependency>

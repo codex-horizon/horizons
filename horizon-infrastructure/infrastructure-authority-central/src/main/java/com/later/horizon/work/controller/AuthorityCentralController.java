@@ -1,14 +1,20 @@
 package com.later.horizon.work.controller;
 
 import com.later.horizon.common.helper.RequestHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.AuthorizationRequest;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+@Slf4j
 @Controller
-public class AuthenticationController {
+public class AuthorityCentralController {
 
     @RequestMapping(name = "登录页", path = "/login_view", method = RequestMethod.GET)
     String loginView() {
@@ -56,6 +62,23 @@ public class AuthenticationController {
             SecurityContextHolder.clearContext();
         }
         return "redirect:login_view";
+    }
+
+    /**
+     * org.springframework.security.oauth2.provider.endpoint.WhitelabelApprovalEndpoint#getAccessConfirmation
+     *
+     * @param model                数据
+     * @param request              请求
+     * @param authorizationRequest 授权请求
+     * @return 返回页面
+     */
+    @RequestMapping(name = "确认授权访问", path = "/oauth/confirm_access", method = RequestMethod.GET)
+    public String loginGrantView(Model model, HttpServletRequest request, @SessionAttribute("authorizationRequest") AuthorizationRequest authorizationRequest) {
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        model.addAttribute(csrfToken.getParameterName(), csrfToken.getToken());
+        model.addAttribute("clientId", authorizationRequest.getClientId());
+        model.addAttribute("scopes", authorizationRequest.getScope());
+        return "login_grant_view";
     }
 
 }
