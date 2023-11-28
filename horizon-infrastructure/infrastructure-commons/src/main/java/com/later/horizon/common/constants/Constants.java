@@ -3,10 +3,6 @@ package com.later.horizon.common.constants;
 import lombok.Getter;
 
 public class Constants {
-    public static final String Filter_Configurer_Authority_Key_Application_message = "Authority.ApplicationName";
-    public static final String Filter_Configurer_Authority_Key_Ignore_Uris = "Authority.IgnoreUris";
-    public static final String Filter_Configurer_Authority_Key_Origin = "Authority.Origin";
-    public static final String Filter_Configurer_Authority_Key_Open_Csrf = "Authority.Open.Csrf";
     public static final String Header_Key_Application_Name = "Application-Name";
     public static final String Header_Application_Name_None = "Application_Name_None";
     public static final String Header_Trace_Id = "Trace-Id";
@@ -18,12 +14,12 @@ public class Constants {
     public static final String Form_Parameter_Password_Lowercase = "password";
     public static final String Form_Parameter_Code_Lowercase = "code";
     public static final String Session_Captcha = "SessionCaptcha:";
-    public static final String Session_SAVED_REQUEST = "SPRING_SECURITY_SAVED_REQUEST";
-    public static final String Username = "super";
+    public static final String Session_Saved_Request = "SPRING_SECURITY_SAVED_REQUEST";
+    public static final String Session_Context = "SPRING_SECURITY_CONTEXT";
     public static final String Env_Cfg_PlaintextDecrypt = "Cfg.PlaintextDecrypt";
     public static final String Env_RSA_PasswordSeed = "RSA.PasswordSeed";
-    public static final String Default_Administrator_Login_Username = "administrator";
-    public static final String Default_Login_Password = "123456";
+    public static final String Default_Username = "super";
+    public static final String Default_Password = "123456";
 
     @Getter
     public enum BizStatus implements IEnum<String> {
@@ -42,13 +38,13 @@ public class Constants {
         Jpa_Query_Service_Failed("Jpa_Query_Service_Failed", "查询服务失败"),
         Cfg_Decrypt_Obtain_Fail("Cfg_Decrypt_Obtain_Fail", "配置解密密码获取失败"),
 
-        Sso_Captcha_Not_Exists("Sso_Captcha_Not_Exists","Sso验证码不存在"),
-        Sso_User_Not_Exists("Sso_User_Not_Exists","Sso用户不存在"),
-        Sso_User_Exists("Sso_User_Exists","Sso用户已存在"),
-        Sso_User_Password_Incorrect("Sso_User_Password_Incorrect","Sso用户密码不正确"),
+        Sso_Captcha_Not_Exists("Sso_Captcha_Not_Exists", "Sso验证码不存在"),
+        Sso_User_Not_Exists("Sso_User_Not_Exists", "Sso用户不存在"),
+        Sso_User_Exists("Sso_User_Exists", "Sso用户已存在"),
+        Sso_User_Password_Incorrect("Sso_User_Password_Incorrect", "Sso用户密码不正确"),
 
-        Sso_Client_Details_Not_Exists("Sso_Client_Details_Not_Found","Sso客户端详情不存在"),
-        Sso_User_Details_Not_Exists("Sso_User_Details_Not_Found","Sso用户详情不存在"),
+        Sso_Client_Details_Not_Exists("Sso_Client_Details_Not_Found", "Sso客户端详情不存在"),
+        Sso_User_Details_Not_Exists("Sso_User_Details_Not_Found", "Sso用户详情不存在"),
 
         ;
 

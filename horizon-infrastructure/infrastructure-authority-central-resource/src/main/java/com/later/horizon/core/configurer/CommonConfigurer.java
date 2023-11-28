@@ -33,15 +33,27 @@ public class CommonConfigurer implements Serializable {
     @Value("${request-white.ignored-uris}")
     private String[] requestWhiteIgnoredUris;
 
+    @Value("${authority-central.url}")
+    private String authorityCentralUrl;
+
+    @Value("${authority-central.client.authorized-grant-types}")
+    private String[] authorityCentralClientAuthorizedGrantTypes;
+
     @Value("${authority-central.client-id}")
     private String authorityCentralClientId;
 
     @Value("${authority-central.client-secret}")
     private String authorityCentralClientSecret;
 
+    @Value("${authority-central.client.redirect-url}")
+    private String authorityCentralClientRedirectUrl;
+
+    @Value("${authority-central.client.scope}")
+    private String authorityCentralClientScope;
+
     @Value("${authority-central.resource-id}")
     private String authorityCentralResourceId;
 
-    @Value("${authority-central.resource-check-token-endpoint-url}")
+    @Value("${authority-central.url}/oauth/check_token")
     private String authorityCentralResourceCheckTokenEndpointUrl;
 }

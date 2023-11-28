@@ -33,7 +33,7 @@ public class AuthorityCentralController {
      */
     @RequestMapping(name = "成功页", path = "/login_succeed_view", method = {RequestMethod.GET, RequestMethod.POST})
     String loginSucceedView() {
-        Object attribute = RequestHelper.getHttpSession().getAttribute(Constants.Session_SAVED_REQUEST);
+        Object attribute = RequestHelper.getHttpSession().getAttribute(Constants.Session_Saved_Request);
         if (ObjectUtils.isEmpty(attribute)) {
             return "redirect:index_view";
         } else {

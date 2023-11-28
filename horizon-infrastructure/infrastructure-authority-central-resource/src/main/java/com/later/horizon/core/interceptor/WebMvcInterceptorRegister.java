@@ -1,5 +1,6 @@
 package com.later.horizon.core.interceptor;
 
+import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.helper.RequestHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -37,13 +38,13 @@ public class WebMvcInterceptorRegister implements WebMvcConfigurer {
 
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-            HttpSession httpSession = RequestHelper.getHttpSession(Boolean.TRUE);
-            User user = new User("test", "test", AuthorityUtils.NO_AUTHORITIES);
-            TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user, httpSession.getId());
-            testingAuthenticationToken.setAuthenticated(Boolean.TRUE);
-            SecurityContext securityContext = new SecurityContextImpl(testingAuthenticationToken);
-            httpSession.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-            SecurityContextHolder.setContext(securityContext);
+            // HttpSession httpSession = RequestHelper.getHttpSession();
+            // User user = new User(Constants.Default_Username, Constants.Default_Password, AuthorityUtils.NO_AUTHORITIES);
+            // TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user, httpSession.getId());
+            // testingAuthenticationToken.setAuthenticated(Boolean.TRUE);
+            // SecurityContext securityContext = new SecurityContextImpl(testingAuthenticationToken);
+            // httpSession.setAttribute(Constants.Session_Context, securityContext);
+            // SecurityContextHolder.setContext(securityContext);
             return Boolean.TRUE;
         }
 
