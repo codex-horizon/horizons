@@ -18,11 +18,6 @@ public class AuthorityCentralResourceController {
 
     @RequestMapping(name = "授权服务器间接通过资源服务的重定向获取授权码", path = "/indirect", method = RequestMethod.GET)
     String redirectView(@RequestParam("code") String code, RedirectAttributes redirectAttributes) {
-        log.info("------------------ in AuthorityCentralResourceController#redirectView 参数：{} ------------------", code);
-        log.info("------------------ in AuthorityCentralResourceController#redirectView 参数：{} ------------------", code);
-        log.info("------------------ in AuthorityCentralResourceController#redirectView 参数：{} ------------------", code);
-        log.info("------------------ in AuthorityCentralResourceController#redirectView 参数：{} ------------------", code);
-        log.info("------------------ in AuthorityCentralResourceController#redirectView 参数：{} ------------------ \n", code);
         redirectAttributes.addAttribute("code", code);
         return "redirect:http://127.0.0.1:1469/infrastructureAuthorityCentral/";
     }

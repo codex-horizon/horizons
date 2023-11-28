@@ -38,6 +38,10 @@ public class RequestHelper {
         return Optional.ofNullable(getHttpServletRequest().getSession(create)).orElseThrow(() -> new BizException(Constants.BizStatus.Session_Obtain_Fail));
     }
 
+    public static HttpSession getHttpSession() {
+        return getHttpSession(Boolean.TRUE);
+    }
+
     public static HttpServletRequest getHttpServletRequest() {
         return Optional.of(getServletRequestAttributes().getRequest()).orElseThrow(() -> new BizException(Constants.BizStatus.Request_Obtain_Fail));
     }
