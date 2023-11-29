@@ -6,10 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.SecureRandom;
+import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -39,7 +36,7 @@ public class RSAHelper {
     private final static Map<String, String> SecretKeyCaches = new HashMap<>();
 
     public static String getPublicKey(String passwordSeed) {
-        return initSecretKey(passwordSeed);
+        return RSAHelper.initSecretKey(passwordSeed);
     }
 
     public static String getPrivateKey(String publicKey) {
@@ -55,11 +52,7 @@ public class RSAHelper {
 
     private static String initSecretKey(String passwordSeed) {
         try {
-            KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
-            SecureRandom random = new SecureRandom();
-            random.setSeed(passwordSeed.getBytes(StandardCharsets.UTF_8));
-            keyPairGen.initialize(1024, random);
-            KeyPair keyPair = keyPairGen.generateKeyPair();
+            KeyPair keyPair = RSAHelper.generatorKeyPair(passwordSeed);
             RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
             RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
             String publicKeyStr = new String(Base64.getEncoder().encode(publicKey.getEncoded()), StandardCharsets.UTF_8);
@@ -68,6 +61,14 @@ public class RSAHelper {
         } catch (Exception ignore) {
             throw new BizException(Constants.BizStatus.Rsa_SecretKey_Initialize_Failed);
         }
+    }
+
+    public static KeyPair generatorKeyPair(String passwordSeed) throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        SecureRandom random = new SecureRandom();
+        random.setSeed(passwordSeed.getBytes(StandardCharsets.UTF_8));
+        keyPairGenerator.initialize(1024, random);
+        return keyPairGenerator.generateKeyPair();
     }
 
     public static String encrypt(String str, String publicKey) {
@@ -90,7 +91,7 @@ public class RSAHelper {
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.DECRYPT_MODE, rsaPrivateKey);
             if (removeKeyPair) {
-                removeKey(publicKey);
+                RSAHelper.removeKey(publicKey);
             }
             return new String(cipher.doFinal(Base64.getDecoder().decode(str.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
         } catch (Exception ignore) {

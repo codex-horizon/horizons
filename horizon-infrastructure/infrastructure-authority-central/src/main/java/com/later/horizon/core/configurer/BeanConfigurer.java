@@ -3,6 +3,7 @@ package com.later.horizon.core.configurer;
 import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.converter.Converter;
 import com.later.horizon.common.converter.IConverter;
+import com.later.horizon.common.helper.RSAHelper;
 import com.later.horizon.core.filters.CorsFilter;
 import com.later.horizon.core.filters.TraceFilter;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +32,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -97,29 +95,23 @@ public class BeanConfigurer {
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter() {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter() {
             @Override
             public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
-                // converter.setSigningKey(this.getClass().getName());
-                // converter.setVerifierKey(this.getClass().getName());
                 return super.enhance(oAuth2AccessToken, oAuth2Authentication);
             }
         };
         String cfgPlaintextDecrypt = environment.getProperty(Constants.Env_Cfg_PlaintextDecrypt);
         if (StringUtils.hasText(cfgPlaintextDecrypt) && Boolean.parseBoolean(cfgPlaintextDecrypt)) {
-            String rsaPasswordSeed = environment.getProperty(Constants.Env_RSA_PasswordSeed);
-            if (StringUtils.hasText(rsaPasswordSeed)) {
+            String passwordSeed = environment.getProperty(Constants.Env_RSA_PasswordSeed);
+            if (StringUtils.hasText(passwordSeed)) {
                 try {
-                    KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
-                    SecureRandom secureRandom = new SecureRandom();
-                    secureRandom.setSeed(rsaPasswordSeed.getBytes(StandardCharsets.UTF_8));
-                    keyPairGen.initialize(1024, secureRandom);
-                    converter.setKeyPair(keyPairGen.generateKeyPair());
+                    jwtAccessTokenConverter.setKeyPair(RSAHelper.generatorKeyPair(passwordSeed));
                 } catch (NoSuchAlgorithmException ignored) {
                 }
             }
         }
-        return converter;
+        return jwtAccessTokenConverter;
     }
 
     @Bean
@@ -149,7 +141,6 @@ public class BeanConfigurer {
         defaultTokenServices.setTokenStore(jdbcTokenStore());
         defaultTokenServices.setSupportRefreshToken(Boolean.TRUE);
         defaultTokenServices.setReuseRefreshToken(Boolean.FALSE);
-        defaultTokenServices.setClientDetailsService(jdbcClientDetailsService());
 
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Collections.singletonList(jwtAccessTokenConverter()));
