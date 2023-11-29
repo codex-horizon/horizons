@@ -148,7 +148,7 @@ public class BeanConfigurer {
 
         defaultTokenServices.setTokenStore(jdbcTokenStore());
         defaultTokenServices.setSupportRefreshToken(Boolean.TRUE);
-        defaultTokenServices.setReuseRefreshToken(Boolean.TRUE);
+        defaultTokenServices.setReuseRefreshToken(Boolean.FALSE);
         defaultTokenServices.setClientDetailsService(jdbcClientDetailsService());
 
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();

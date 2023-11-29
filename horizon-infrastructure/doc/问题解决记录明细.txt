@@ -5,10 +5,12 @@ ALTER TABLE oauth_approvals ADD expiresAt varchar(256) NULL COMMENT '到期时�
 ALTER TABLE oauth_approvals ADD lastModifiedAt varchar(256) NULL COMMENT '上次修改时间';
 
 
-oauth_approvals、oauth_code表字段created_by、created_date、last_modified_by、last_modified_date、state必须设置插入可为null。
+oauth_approvals、oauth_code、oauth_access_token、oauth_refresh_token：表字段created_by、created_date、last_modified_by、last_modified_date、state必须设置插入可为null。
 
 
 http://127.0.0.1:1469/infrastructureAuthorityCentral/oauth/authorize?response_type=code&client_id=0d55e4c5-aeb2-4e00-9b67-80c8f31918d8&redirect_uri=http://127.0.0.1:1649/infrastructureAuthorityCentralResource/indirect&scope=read&state=123456
 
 http://127.0.0.1:1649/infrastructureAuthorityCentralResource
+
+http://127.0.0.1:1469/infrastructureAuthorityCentral/oauth/token?grant_type=authorization_code&code=KtvVrv&client_id=0d55e4c5-aeb2-4e00-9b67-80c8f31918d8&client_secret=123456&redirect_uri=http://127.0.0.1:1649/infrastructureAuthorityCentralResource/indirect
 

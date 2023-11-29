@@ -27,9 +27,6 @@ public class CommonConfigurer implements Serializable {
     @Value("${application.name}")
     private String applicationName;
 
-    @Value("${static-file.ignored-uris}")
-    private String[] staticFileIgnoredUris;
-
     @Value("${request-white.ignored-uris}")
     private String[] requestWhiteIgnoredUris;
 

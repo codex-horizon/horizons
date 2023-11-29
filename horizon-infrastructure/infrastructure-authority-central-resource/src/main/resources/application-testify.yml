@@ -14,5 +14,3 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
-  freemarker:
-    request-context-attribute: req

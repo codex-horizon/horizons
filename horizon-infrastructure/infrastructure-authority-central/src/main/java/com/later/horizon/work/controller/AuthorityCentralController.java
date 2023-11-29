@@ -5,6 +5,7 @@ import com.later.horizon.common.helper.RequestHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,12 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Controller
 public class AuthorityCentralController {
+
+    private final ConsumerTokenServices consumerTokenServices;
+
+    AuthorityCentralController(final ConsumerTokenServices consumerTokenServices) {
+        this.consumerTokenServices = consumerTokenServices;
+    }
 
     @RequestMapping(name = "登录页", path = "/login_view", method = RequestMethod.GET)
     String loginView() {
@@ -40,7 +47,6 @@ public class AuthorityCentralController {
             DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) attribute;
             return "redirect:" + defaultSavedRequest.getRedirectUrl();
         }
-
     }
 
     /**
@@ -60,23 +66,6 @@ public class AuthorityCentralController {
     }
 
     /**
-     * 同时支持GET，POST。当手动调用清除认证时，推荐采用重定向可直观改变浏览器URL，较美观；
-     *
-     * @return 重定向登录页
-     */
-    @RequestMapping(name = "清除认证", path = "/do_logout", method = {RequestMethod.GET, RequestMethod.POST})
-    String doLogout() {
-        HttpSession httpSession = RequestHelper.getHttpSession(Boolean.FALSE);
-        if (!ObjectUtils.isEmpty(httpSession)) {
-            httpSession.invalidate();
-        }
-        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            SecurityContextHolder.clearContext();
-        }
-        return "redirect:login_view";
-    }
-
-    /**
      * org.springframework.security.oauth2.provider.endpoint.WhitelabelApprovalEndpoint#getAccessConfirmation
      *
      * @param model                数据
@@ -93,4 +82,28 @@ public class AuthorityCentralController {
         return "login_grant_view";
     }
 
+    /**
+     * 同时支持GET，POST。当手动调用清除认证时，推荐采用重定向可直观改变浏览器URL，较美观；
+     *
+     * @return 重定向登录页
+     */
+    @RequestMapping(name = "后清除认证", path = "/do_logout", method = {RequestMethod.GET, RequestMethod.POST})
+    String doLogout() {
+        HttpSession httpSession = RequestHelper.getHttpSession(Boolean.FALSE);
+        if (!ObjectUtils.isEmpty(httpSession)) {
+            httpSession.invalidate();
+        }
+        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            SecurityContextHolder.clearContext();
+        }
+        return "redirect:login_view";
+    }
+
+    /**
+     * 吊销令牌
+     */
+    @RequestMapping(name = "先吊销令牌", path = "/do_revoke_token", method = RequestMethod.POST)
+    void doRevokeToken(@RequestHeader(Constants.Header_Key_Access_Token) String token) {
+        consumerTokenServices.revokeToken(token);
+    }
 }
