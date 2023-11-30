@@ -103,7 +103,8 @@ public class AuthorityCentralController {
      * 吊销令牌
      */
     @RequestMapping(name = "先吊销令牌", path = "/do_revoke_token", method = RequestMethod.POST)
-    void doRevokeToken(@RequestHeader(Constants.Header_Key_Access_Token) String token) {
+    String doRevokeToken(@RequestParam(Constants.Header_Key_Access_Token) String token) {
         consumerTokenServices.revokeToken(token);
+        return "redirect:login_view";
     }
 }
