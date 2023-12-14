@@ -1,40 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>登录页</title>
-    <link rel="shortcut icon" href="${req.contextPath}/favicon.ico" type="image/x-icon">
-</head>
-<body>
-<#if RequestParameters["error"]??>
-    <h1>用户登录失败！</h1>
-    <p>请检查用户名、密码是否正确！</p>
-<#else>
-    <h1>用户登录：</h1>
-    <form id="form" method="post" action="${req.contextPath}/do_login">
-        <input type="hidden" name="_csrf" value="${(_csrf)!}" id="_csrf">
-        <br>
-        <input type="text" name="username" placeholder="用户名" value="super"/>
-        <br>
-        <input type="password" name="password" placeholder="密码" value="123456"/>
-        <br>
-        <button type="submit" id="submit">登录</button>
-    </form>
-</#if>
-<script type="text/javascript" src="${req.contextPath}/jquery-3.7.1.js"></script>
-<script type="text/javascript">
-    $(function () {
-        $("#_csrf").val(decodeURIComponent(
-            document.cookie.replace(
-                new RegExp(
-                    "(?:(?:^|.*;)\\s*" +
-                    encodeURIComponent('XSRF-TOKEN').replace(/[-.+*]/g, "\\$&") +
-                    "\\s*\\=\\s*([^;]*).*$)|^.*$",
-                ),
-                "$1",
-            ),
-        ) || '');
-    });
-</script>
-</body>
-</html>
+<#include "base_view.ftlh">
+<#macro MacroViewHook>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="title">用户登录</h1>
+                <div class="stack">
+                    <div class="paper" id="paper1"></div>
+                    <div class="paper" id="paper2"></div>
+                    <div class="paper" id="paper3">
+                        <form method="post" action="${req.contextPath}/do_login">
+                            <div class="form-group">
+                                <label>用户名</label>
+                                <input type="hidden" name="_csrf" class="form-control" value="${_csrf!''}">
+                                <input type="text" name="username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>密&nbsp;码</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">登&nbsp;录</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</#macro>
+<#macro MacroScriptHook>
+</#macro>
+<#macro MacroStyleHook>
+    <style>
+        .title{
+            padding-top: 4%;
+        }
+        .stack {
+            display: flex;
+        }
+
+        .paper {
+            position: relative;
+            flex-shrink: 0;
+            width: 100%;
+            background: white;
+            border-radius: 3px;
+            box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, .15);
+            padding: 100px;
+        }
+
+        #paper1 {
+            top: 45px;
+            left: 50px;
+        }
+
+        #paper2 {
+            top: 20px;
+            left: -100%;
+        }
+
+        #paper3 {
+            top: 25px;
+            transform: rotate(-4deg);
+            left: -200%;
+        }
+    </style>
+</#macro>

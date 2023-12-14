@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>失败</title>
-</head>
-<body>
-失败
-</body>
-</html>
+<#include "base_view.ftlh">
+<#macro MacroViewHook>
+    <div>
+        失败
+    </div>
+</#macro>

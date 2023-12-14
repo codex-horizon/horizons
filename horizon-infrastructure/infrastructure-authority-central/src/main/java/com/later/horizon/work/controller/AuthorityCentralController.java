@@ -1,16 +1,17 @@
 package com.later.horizon.work.controller;
 
 import com.later.horizon.common.constants.Constants;
-import com.later.horizon.common.helper.RequestHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.savedrequest.DefaultSavedRequest;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +21,21 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class AuthorityCentralController {
 
+    @SuppressWarnings(Constants.Suppress_Warnings_Deprecation)
     private final ConsumerTokenServices consumerTokenServices;
 
-    AuthorityCentralController(final ConsumerTokenServices consumerTokenServices) {
+    AuthorityCentralController(@SuppressWarnings(Constants.Suppress_Warnings_Deprecation) final ConsumerTokenServices consumerTokenServices) {
         this.consumerTokenServices = consumerTokenServices;
     }
 
     @RequestMapping(name = "登录页", path = "/login_view", method = RequestMethod.GET)
-    String loginView() {
+    String loginView(HttpServletRequest request, Model model) {
+        CsrfToken csrfToken = CookieCsrfTokenRepository.withHttpOnlyFalse().loadToken(request);
+        if (ObjectUtils.isEmpty(csrfToken)) {
+            // 为何进入这一步，是因为 WebSecurityConfigurer 中配置的登出URL与请求类型一致的情况下，是无法进入本类的登出接口的；
+            csrfToken = CookieCsrfTokenRepository.withHttpOnlyFalse().generateToken(request);
+        }
+        model.addAttribute(csrfToken.getParameterName(), csrfToken.getToken());
         return "login_view";
     }
 
@@ -39,14 +47,13 @@ public class AuthorityCentralController {
      * @return 重定向主页或其他页
      */
     @RequestMapping(name = "成功页", path = "/login_succeed_view", method = {RequestMethod.GET, RequestMethod.POST})
-    String loginSucceedView() {
-        Object attribute = RequestHelper.getHttpSession().getAttribute(Constants.Session_Saved_Request);
-        if (ObjectUtils.isEmpty(attribute)) {
+    String loginSucceedView(HttpSession session) {
+        Object sessionSavedRequest = session.getAttribute(Constants.Session_Spring_Security_Saved_Request);
+        if (ObjectUtils.isEmpty(sessionSavedRequest)) {
             return "redirect:index_view";
-        } else {
-            DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) attribute;
-            return "redirect:" + defaultSavedRequest.getRedirectUrl();
         }
+        SavedRequest savedRequest = (SavedRequest) sessionSavedRequest;
+        return "redirect:" + savedRequest.getRedirectUrl();
     }
 
     /**
@@ -61,7 +68,9 @@ public class AuthorityCentralController {
     }
 
     @RequestMapping(name = "主页", path = {"/", "/index_view"}, method = RequestMethod.GET)
-    String indexView() {
+    String indexView(HttpServletRequest request, Model model) {
+        CsrfToken csrfToken = CookieCsrfTokenRepository.withHttpOnlyFalse().loadToken(request);
+        model.addAttribute(csrfToken.getParameterName(), csrfToken.getToken());
         return "index_view";
     }
 
@@ -74,8 +83,8 @@ public class AuthorityCentralController {
      * @return 返回页面
      */
     @RequestMapping(name = "确认授权访问", path = "/oauth/confirm_access", method = RequestMethod.GET)
-    String loginGrantView(Model model, HttpServletRequest request, @SessionAttribute("authorizationRequest") AuthorizationRequest authorizationRequest) {
-        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+    String loginGrantView(HttpServletRequest request, Model model, @SuppressWarnings(Constants.Suppress_Warnings_Deprecation) @SessionAttribute("authorizationRequest") AuthorizationRequest authorizationRequest) {
+        CsrfToken csrfToken = CookieCsrfTokenRepository.withHttpOnlyFalse().loadToken(request);
         model.addAttribute(csrfToken.getParameterName(), csrfToken.getToken());
         model.addAttribute("clientId", authorizationRequest.getClientId());
         model.addAttribute("scopes", authorizationRequest.getScope());
@@ -83,28 +92,19 @@ public class AuthorityCentralController {
     }
 
     /**
-     * 同时支持GET，POST。当手动调用清除认证时，推荐采用重定向可直观改变浏览器URL，较美观；
+     * 当手动调用清除认证时，采用的是异步登出方式，那么前端调用接口后，必须location.reload(true)；
      *
      * @return 重定向登录页
      */
-    @RequestMapping(name = "后清除认证", path = "/do_logout", method = {RequestMethod.GET, RequestMethod.POST})
-    String doLogout() {
-        HttpSession httpSession = RequestHelper.getHttpSession(Boolean.FALSE);
-        if (!ObjectUtils.isEmpty(httpSession)) {
-            httpSession.invalidate();
+    @RequestMapping(name = "先吊销令牌，后清除认证", path = "/do_logout", method = RequestMethod.GET)
+    String doLogout(@RequestHeader(name = Constants.Header_Key_Access_Token, required = false) String accessToken, HttpSession session) {
+        if (StringUtils.hasText(accessToken)) {
+            consumerTokenServices.revokeToken(accessToken);
         }
+        session.invalidate();
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             SecurityContextHolder.clearContext();
         }
-        return "redirect:login_view";
-    }
-
-    /**
-     * 吊销令牌
-     */
-    @RequestMapping(name = "先吊销令牌", path = "/do_revoke_token", method = RequestMethod.POST)
-    String doRevokeToken(@RequestParam(Constants.Header_Key_Access_Token) String token) {
-        consumerTokenServices.revokeToken(token);
         return "redirect:login_view";
     }
 }

@@ -1,16 +1,65 @@
-
+一、为【oauth_approvals】表添加{userId、clientId、expiresAt、lastModifiedAt}字段。
 ALTER TABLE oauth_approvals ADD userId varchar(256) NULL COMMENT '用户ID(登录用户名)';
 ALTER TABLE oauth_approvals ADD clientId varchar(256) NULL COMMENT '客户端ID';
 ALTER TABLE oauth_approvals ADD expiresAt varchar(256) NULL COMMENT '到期时间';
 ALTER TABLE oauth_approvals ADD lastModifiedAt varchar(256) NULL COMMENT '上次修改时间';
 
+二、为【oauth_approvals、oauth_code、oauth_access_token、oauth_refresh_token】表设置{created_by、created_date、last_modified_by、last_modified_date、state}可为null字段。
+    ALTER TABLE oauth_approvals MODIFY COLUMN state tinyint(1) NULL COMMENT '数据状态';
+    ALTER TABLE oauth_approvals MODIFY COLUMN last_modified_date datetime NULL COMMENT '最后修改时间';
+    ALTER TABLE oauth_approvals MODIFY COLUMN last_modified_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '最后修改人';
+    ALTER TABLE oauth_approvals MODIFY COLUMN created_date datetime NULL COMMENT '创建时间';
+    ALTER TABLE oauth_approvals MODIFY COLUMN created_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '创建人';
 
-oauth_approvals、oauth_code、oauth_access_token、oauth_refresh_token：表字段created_by、created_date、last_modified_by、last_modified_date、state必须设置插入可为null。
+    ALTER TABLE oauth_code MODIFY COLUMN state tinyint(1) NULL COMMENT '数据状态';
+    ALTER TABLE oauth_code MODIFY COLUMN last_modified_date datetime NULL COMMENT '最后修改时间';
+    ALTER TABLE oauth_code MODIFY COLUMN last_modified_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '最后修改人';
+    ALTER TABLE oauth_code MODIFY COLUMN created_date datetime NULL COMMENT '创建时间';
+    ALTER TABLE oauth_code MODIFY COLUMN created_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '创建人';
 
+    ALTER TABLE oauth_access_token MODIFY COLUMN state tinyint(1) NULL COMMENT '数据状态';
+    ALTER TABLE oauth_access_token MODIFY COLUMN last_modified_date datetime NULL COMMENT '最后修改时间';
+    ALTER TABLE oauth_access_token MODIFY COLUMN last_modified_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '最后修改人';
+    ALTER TABLE oauth_access_token MODIFY COLUMN created_date datetime NULL COMMENT '创建时间';
+    ALTER TABLE oauth_access_token MODIFY COLUMN created_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '创建人';
 
-http://127.0.0.1:1469/infrastructureAuthorityCentral/oauth/authorize?response_type=code&client_id=0d55e4c5-aeb2-4e00-9b67-80c8f31918d8&redirect_uri=http://127.0.0.1:1649/infrastructureAuthorityCentralResource/indirect&scope=read&state=123456
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN state tinyint(1) NULL COMMENT '数据状态';
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN last_modified_date datetime NULL COMMENT '最后修改时间';
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN last_modified_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '最后修改人';
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN created_date datetime NULL COMMENT '创建时间';
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN created_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '创建人';
 
+三、
 http://127.0.0.1:1649/infrastructureAuthorityCentralResource
 
-http://127.0.0.1:1469/infrastructureAuthorityCentral/oauth/token?grant_type=authorization_code&code=KtvVrv&client_id=0d55e4c5-aeb2-4e00-9b67-80c8f31918d8&client_secret=123456&redirect_uri=http://127.0.0.1:1649/infrastructureAuthorityCentralResource/indirect
-
+四、
+    {
+    	"clientId": "0d55e4c5-aeb2-4e00-9b67-80c8f31918d8",
+    	"resourceIds": [
+    		"r1",
+    		"r2"
+    	],
+    	"clientSecret": "123456",
+    	"scope": [
+    		"READ",
+    		"WRITE"
+    	],
+    	"authorizedGrantTypes": [
+    		"authorization_code",
+    		"password",
+    		"refresh_token",
+    		"implicit",
+    		"client_credentials"
+    	],
+    	"webServerRedirectUri": "http://127.0.0.1:1649/infrastructureAuthorityCentralResource/indirect/",
+    	"authorities": [
+    		"ALL",
+    		"PROVIDED"
+    	],
+    	"accessTokenValidity": 3600,
+    	"refreshTokenValidity": 7200,
+    	"additionalInformation": {
+    		"name": "value"
+    	},
+    	"autoApprove": false
+    }

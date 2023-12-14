@@ -28,7 +28,7 @@ public class Oauth2ClientDetailsVo implements Serializable {
 
     private Long refreshTokenValidity;
 
-    private Map<String, String> additionalInformation;
+    private Map<String, Object> additionalInformation;
 
     private Boolean autoApprove;
 

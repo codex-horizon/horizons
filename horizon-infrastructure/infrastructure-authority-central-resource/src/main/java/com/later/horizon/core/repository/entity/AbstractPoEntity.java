@@ -57,6 +57,6 @@ public abstract class AbstractPoEntity implements Serializable {
     private Integer state;
 
     public void setState(Integer state) {
-        this.state = ObjectUtils.isEmpty(state) ? Constants.DataStatus.Disabled.getState() : state;
+        this.state = ObjectUtils.isEmpty(state) ? Constants.DataState.Disabled.getState() : state;
     }
 }

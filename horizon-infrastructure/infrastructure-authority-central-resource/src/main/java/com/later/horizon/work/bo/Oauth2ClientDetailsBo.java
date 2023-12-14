@@ -31,7 +31,7 @@ public class Oauth2ClientDetailsBo extends AbstractBoEntity implements Serializa
 
     private Integer refreshTokenValidity;
 
-    private Map<String, String> additionalInformation;
+    private Map<String, Object> additionalInformation;
 
     private Boolean autoApprove;
 

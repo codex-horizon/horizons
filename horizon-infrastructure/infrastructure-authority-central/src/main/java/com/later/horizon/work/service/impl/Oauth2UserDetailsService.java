@@ -72,7 +72,7 @@ public class Oauth2UserDetailsService implements IOauth2UserDetailsService {
 
         // 预判密码是否正确
         String encryptPassword = oauth2UserDetailsBo.getPassword();
-        String password = request.getParameter(Constants.Form_Parameter_Password_Lowercase);
+        String password = request.getParameter(Constants.Form_Parameter_Name_Password);
         if (!passwordEncoder.matches(password, encryptPassword)) {
             throw new BizException(Constants.BizStatus.Sso_User_Password_Incorrect);
         }

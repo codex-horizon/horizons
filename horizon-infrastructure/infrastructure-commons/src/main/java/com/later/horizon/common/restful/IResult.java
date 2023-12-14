@@ -24,51 +24,51 @@ public interface IResult<T> {
 
         private T data;
 
-        private Result(final Constants.BizResponseStatus responseStatus) {
-            this.code = responseStatus.getCode();
-            this.message = responseStatus.getMessage();
+        private Result(final Constants.BizResponseState bizResponseState) {
+            this.code = bizResponseState.getCode();
+            this.message = bizResponseState.getMessage();
         }
 
-        private Result(final Constants.BizResponseStatus responseStatus, final String message) {
-            this.code = responseStatus.getCode();
+        private Result(final Constants.BizResponseState bizResponseState, final String message) {
+            this.code = bizResponseState.getCode();
             this.message = message;
         }
 
-        private Result(final Constants.BizResponseStatus responseStatus, final String message, final T data) {
-            this.code = responseStatus.getCode();
+        private Result(final Constants.BizResponseState bizResponseState, final String message, final T data) {
+            this.code = bizResponseState.getCode();
             this.message = message;
             this.data = data;
         }
 
-        private static <T> IResult<T> restful(final Constants.BizResponseStatus responseStatus) {
-            return new Result<>(responseStatus);
+        private static <T> IResult<T> restful(final Constants.BizResponseState bizResponseState) {
+            return new Result<>(bizResponseState);
         }
 
-        private static <T> IResult<T> restful(final Constants.BizResponseStatus responseStatus, final String message) {
-            return new Result<>(responseStatus, message);
+        private static <T> IResult<T> restful(final Constants.BizResponseState bizResponseState, final String message) {
+            return new Result<>(bizResponseState, message);
         }
 
-        private static <T> IResult<T> restful(final Constants.BizResponseStatus responseStatus, final String message, final T data) {
-            return new Result<>(responseStatus, message, data);
+        private static <T> IResult<T> restful(final Constants.BizResponseState bizResponseState, final String message, final T data) {
+            return new Result<>(bizResponseState, message, data);
         }
 
         public static <T> IResult<T> failed() {
-            return restful(Constants.BizResponseStatus.Biz_Failed_Response);
+            return restful(Constants.BizResponseState.Biz_Failed_Response);
         }
 
-        public static <T> IResult<T> failed(final Constants.BizResponseStatus responseStatus) {
-            return restful(responseStatus);
+        public static <T> IResult<T> failed(final Constants.BizResponseState bizResponseState) {
+            return restful(bizResponseState);
         }
         public static <T> IResult<T> failed(final String message) {
-            return restful(Constants.BizResponseStatus.Biz_Failed_Response, message);
+            return restful(Constants.BizResponseState.Biz_Failed_Response, message);
         }
 
         public static <T> IResult<T> succeeded() {
-            return restful(Constants.BizResponseStatus.Biz_Ok_Response);
+            return restful(Constants.BizResponseState.Biz_Ok_Response);
         }
 
         public static <T> IResult<T> succeeded(final T data) {
-            return restful(Constants.BizResponseStatus.Biz_Ok_Response, Constants.BizResponseStatus.Biz_Ok_Response.getMessage(), data);
+            return restful(Constants.BizResponseState.Biz_Ok_Response, Constants.BizResponseState.Biz_Ok_Response.getMessage(), data);
         }
 
     }

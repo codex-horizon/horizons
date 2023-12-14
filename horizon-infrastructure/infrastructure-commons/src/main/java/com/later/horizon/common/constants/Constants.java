@@ -3,6 +3,7 @@ package com.later.horizon.common.constants;
 import lombok.Getter;
 
 public class Constants {
+
     public static final String Header_Key_Application_Name = "Application-Name";
     public static final String Header_Application_Name_None = "Application_Name_None";
     public static final String Header_Trace_Id = "Trace-Id";
@@ -10,16 +11,27 @@ public class Constants {
     public static final String Header_Key_Access_Token = "Access-Token";
     public static final String Header_Key_Refresh_Token = "Refresh-Token";
     public static final String Header_Key_Rsa_Public_Key = "Rsa-Public-Key";
-    public static final String Form_Parameter_Username_Lowercase = "username";
-    public static final String Form_Parameter_Password_Lowercase = "password";
-    public static final String Form_Parameter_Code_Lowercase = "code";
+
+    public static final String Default_Parameter_Name_Csrf = "_csrf";
+    public static final String Default_Header_Name_Csrf = "X-CSRF-TOKEN";
+
+    public static final String Form_Parameter_Name_Username = "username";
+    public static final String Form_Parameter_Name_Password = "password";
+    public static final String Form_Parameter_Name_Code = "code";
+
     public static final String Session_Captcha = "SessionCaptcha:";
-    public static final String Session_Saved_Request = "SPRING_SECURITY_SAVED_REQUEST";
-    public static final String Session_Context = "SPRING_SECURITY_CONTEXT";
+    public static final String Session_Spring_Security_Saved_Request = "SPRING_SECURITY_SAVED_REQUEST";
+    public static final String Session_Spring_Security_Context = "SPRING_SECURITY_CONTEXT";
+
     public static final String Env_Cfg_PlaintextDecrypt = "Cfg.PlaintextDecrypt";
     public static final String Env_RSA_PasswordSeed = "RSA.PasswordSeed";
-    public static final String Default_Username = "super";
-    public static final String Default_Password = "123456";
+
+    public static final String Suppress_Warnings_Deprecation = "deprecation";
+
+    public static final String Default_Authentication_Username = "super";
+    public static final String Default_Authentication_Password = "123456";
+    public static final String Default_Spring_Profiles_Active = "native";
+
 
     @Getter
     public enum BizStatus implements IEnum<String> {
@@ -60,7 +72,7 @@ public class Constants {
     }
 
     @Getter
-    public enum BizResponseStatus implements IEnum<String> {
+    public enum BizResponseState implements IEnum<String> {
 
         Biz_Ok_Response("Biz_Ok_Response", "业务响应成功"),
         Biz_Failed_Response("Biz_Failed_Response", "业务响应失败"),
@@ -71,7 +83,7 @@ public class Constants {
 
         private final String message;
 
-        BizResponseStatus(String code, String message) {
+        BizResponseState(String code, String message) {
             this.code = code;
             this.message = message;
         }
@@ -79,7 +91,7 @@ public class Constants {
     }
 
     @Getter
-    public enum DataStatus implements IEnum<String>, IEnumStatus<Integer> {
+    public enum DataState implements IEnum<String>, IEnumStatus<Integer> {
 
         Deleted(0, "Deleted", "已删除"),
         Saved(1, "Saved", "已保存"),
@@ -97,7 +109,7 @@ public class Constants {
 
         private final String message;
 
-        DataStatus(Integer state, String code, String message) {
+        DataState(Integer state, String code, String message) {
             this.state = state;
             this.code = code;
             this.message = message;

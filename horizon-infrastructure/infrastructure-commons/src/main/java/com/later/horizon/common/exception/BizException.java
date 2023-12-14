@@ -14,10 +14,10 @@ public class BizException extends RuntimeException {
         this.message = bizStatus.getMessage();
     }
 
-    public BizException(final Constants.BizResponseStatus bizResponseStatus) {
-        super(bizResponseStatus.getMessage());
-        this.code = bizResponseStatus.getCode();
-        this.message = bizResponseStatus.getMessage();
+    public BizException(final Constants.BizResponseState bizResponseState) {
+        super(bizResponseState.getMessage());
+        this.code = bizResponseState.getCode();
+        this.message = bizResponseState.getMessage();
     }
 
     public BizException(final String message, final Throwable cause) {

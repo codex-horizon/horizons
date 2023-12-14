@@ -71,7 +71,7 @@ public class Oauth2ClientDetailsDto implements Serializable {
             GroupValidator.Create.class,
             GroupValidator.Modify.class
     })
-    private Map<String, String> additionalInformation;
+    private Map<String, Object> additionalInformation;
 
     @NotNull(message = "autoapprove 空", groups = {
             GroupValidator.Create.class,
