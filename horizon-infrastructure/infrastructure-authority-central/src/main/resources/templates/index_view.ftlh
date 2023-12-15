@@ -3,22 +3,27 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <input type="text" id="code">
-                <button type="button" id="fetchToken">获取token</button>
+                <h1 class="title">用户登录</h1>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <input type="text" id="aToken">
-                <input type="text" id="rToken">
-                <button type="button" id="refreshToken">刷新token</button>
+                <input type="text" id="code" class="form-control">
+                <button type="button" id="fetchToken" class="btn btn-primary">获取token</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input type="text" id="aToken" class="form-control">
+                <input type="text" id="rToken" class="form-control">
+                <button type="button" id="refreshToken" class="btn btn-primary">刷新token</button>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <form id="logoutForm" method="GET" action="${req.contextPath}/do_logout">
-                    <input name="_csrf" value="${_csrf!''}">
-                    <button type="submit">登出</button>
+                    <input name="_csrf" value="${_csrf!''}" class="form-control">
+                    <button type="submit" class="btn btn-primary">登出</button>
                 </form>
             </div>
         </div>
@@ -85,6 +90,13 @@
 </#macro>
 <#macro MacroStyleHook>
     <style>
+        body {
+            background: url(${req.contextPath}/wallpaper/wallpaper.jpg) no-repeat;
+            background-size: cover;
+        }
 
+        .title {
+            padding-top: 4%;
+        }
     </style>
 </#macro>
