@@ -42,7 +42,7 @@ public abstract class AbstractPoEntity implements Serializable {
     private String createdBy;
 
     @CreatedDate
-    @Column(name = "created_date", nullable = false, columnDefinition = "datetime comment '创建时间'")
+    @Column(name = "created_date", nullable = false, columnDefinition = "timestamp default current_timestamp comment '创建时间'")
     private Timestamp createdDate;
 
     @LastModifiedBy
@@ -50,7 +50,7 @@ public abstract class AbstractPoEntity implements Serializable {
     private String lastModifiedBy;
 
     @LastModifiedDate
-    @Column(name = "last_modified_date", nullable = false, columnDefinition = "datetime comment '最后修改时间'")
+    @Column(name = "last_modified_date", nullable = false, columnDefinition = "timestamp default current_timestamp comment '最后修改时间'")
     private Timestamp lastModifiedDate;
 
     @Column(name = "state", nullable = false, columnDefinition = "tinyint(1) comment '数据状态'")
