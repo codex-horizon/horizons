@@ -29,6 +29,6 @@ public abstract class AbstractVoEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp lastModifiedDate;
 
-    private Integer status;
+    private Integer state;
 
 }
