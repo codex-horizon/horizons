@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: native
+  application:
+    name: InfrastructureAuthorityCentralApplication
+server:
+  shutdown: graceful
+  servlet:
+    context-path: /infrastructureAuthorityCentral
+  port: 1469
