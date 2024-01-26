@@ -1,7 +1,7 @@
 package com.later.horizon.common.helper;
 
 import com.later.horizon.common.constants.Constants;
-import com.later.horizon.common.exception.BizException;
+import com.later.horizon.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
@@ -43,7 +43,7 @@ public class RSAHelper {
         if (SecretKeyCaches.containsKey(publicKey)) {
             return SecretKeyCaches.get(publicKey);
         }
-        throw new BizException(Constants.BizStatus.Rsa_PublicKey_Expire);
+        throw new BusinessException(Constants.ProveProveState.RSA_PublicKey_Expire);
     }
 
     public static void removeKey(String publicKey) {
@@ -59,7 +59,7 @@ public class RSAHelper {
             SecretKeyCaches.put(publicKeyStr, new String(Base64.getEncoder().encode(privateKey.getEncoded()), StandardCharsets.UTF_8));
             return publicKeyStr;
         } catch (Exception ignore) {
-            throw new BizException(Constants.BizStatus.Rsa_SecretKey_Initialize_Failed);
+            throw new BusinessException(Constants.ProveProveState.RSA_SecretKey_Initialize_Failed);
         }
     }
 
@@ -79,7 +79,7 @@ public class RSAHelper {
             cipher.init(Cipher.ENCRYPT_MODE, rsaPublicKey);
             return new String(Base64.getEncoder().encode(cipher.doFinal(str.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
         } catch (Exception ignore) {
-            throw new BizException(Constants.BizStatus.Rsa_PublicKey_Encrypt_Failed);
+            throw new BusinessException(Constants.ProveProveState.RSA_PublicKey_Encrypt_Failed);
         }
     }
 
@@ -95,7 +95,7 @@ public class RSAHelper {
             }
             return new String(cipher.doFinal(Base64.getDecoder().decode(str.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
         } catch (Exception ignore) {
-            throw new BizException(Constants.BizStatus.Rsa_SecretKey_Decrypt_Failed);
+            throw new BusinessException(Constants.ProveProveState.RSA_SecretKey_Decrypt_Failed);
         }
     }
 

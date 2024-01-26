@@ -1,6 +1,6 @@
 package com.later.horizon.common.constants;
 
-public interface IEnumStatus<T> {
+public interface IEnumProveState<T> {
 
     T getState();
 

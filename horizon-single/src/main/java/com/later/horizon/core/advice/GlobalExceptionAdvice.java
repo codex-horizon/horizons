@@ -1,6 +1,6 @@
 package com.later.horizon.core.advice;
 
-import com.later.horizon.common.exception.BizException;
+import com.later.horizon.common.exception.BusinessException;
 import com.later.horizon.common.restful.IResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,9 +30,9 @@ public class GlobalExceptionAdvice {
         return IResult.Result.failed(e.getMessage());
     }
 
-    @ExceptionHandler(BizException.class)
+    @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, BizException e) {
+    public IResult<String> handle(HttpServletRequest request, BusinessException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
         return IResult.Result.failed(e.getMessage());
     }

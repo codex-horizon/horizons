@@ -2,8 +2,7 @@ package com.later.horizon.core.configurer;
 
 import com.later.horizon.common.converter.Converter;
 import com.later.horizon.common.converter.IConverter;
-import com.later.horizon.core.filters.CorsFilter;
-import com.later.horizon.core.filters.TraceFilter;
+import com.later.horizon.core.filters.TraceIdCorsFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -16,10 +15,10 @@ import java.util.Collections;
 @Configuration
 public class BeanConfigurer {
 
-    private final CommonConfigurer commonConfigurer;
+    private final ValuesConfigurer valuesConfigurer;
 
-    BeanConfigurer(final CommonConfigurer commonConfigurer) {
-        this.commonConfigurer = commonConfigurer;
+    BeanConfigurer(final ValuesConfigurer valuesConfigurer) {
+        this.valuesConfigurer = valuesConfigurer;
     }
 
     /*@Bean
@@ -38,19 +37,10 @@ public class BeanConfigurer {
     }
 
     @Bean
-    public FilterRegistrationBean<TraceFilter> traceFilter() {
-        return new FilterRegistrationBean<TraceFilter>() {{
-            setFilter(new TraceFilter(commonConfigurer));
+    public FilterRegistrationBean<TraceIdCorsFilter> traceIdCorsFilter() {
+        return new FilterRegistrationBean<TraceIdCorsFilter>() {{
+            setFilter(new TraceIdCorsFilter(valuesConfigurer));
             setOrder(Ordered.HIGHEST_PRECEDENCE);
-            setUrlPatterns(Collections.singletonList("/*"));
-        }};
-    }
-
-    @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
-        return new FilterRegistrationBean<CorsFilter>() {{
-            setFilter(new CorsFilter(commonConfigurer));
-            setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
             setUrlPatterns(Collections.singletonList("/*"));
         }};
     }

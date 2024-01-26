@@ -7,14 +7,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Configuration
-public class WebMvcInterceptorRegister implements WebMvcConfigurer {
+public class WebMvcConfigurer implements org.springframework.web.servlet.config.annotation.WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -49,11 +48,18 @@ public class WebMvcInterceptorRegister implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        // 设置允许跨域请求的路径
         registry.addMapping("/**")
-                .allowedHeaders("*")
+                // 允许任何域名访问
+                .allowedOrigins("*")
+                // 允许任意方法（GET, POST等）
                 .allowedMethods("*")
-                .allowedOriginPatterns("*")
-                .allowCredentials(true);
+                // 允许携带认证信息（cookies）
+                .allowCredentials(true)
+                // 允许所有的请求头
+                .allowedHeaders("*")
+                // 预检请求的有效期（单位：秒），设置预检请求（OPTIONS）的结果可以被缓存1小时，避免每次请求都发送预检请求
+                .maxAge(3600);
     }
 
     @Override

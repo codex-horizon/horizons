@@ -1,7 +1,7 @@
 package com.later.horizon.core.configurer.security;
 
 import com.later.horizon.common.constants.Constants;
-import com.later.horizon.common.exception.BizException;
+import com.later.horizon.common.exception.BusinessException;
 import com.later.horizon.common.helper.CommonHelper;
 import com.later.horizon.common.helper.RSAHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -39,20 +39,29 @@ public class EnvironmentDecryptParser implements BeanFactoryPostProcessor, Order
 
     @Override
     public void setEnvironment(Environment environment) {
-        String cfgPlaintextDecrypt = environment.getProperty(Constants.Env_Cfg_PlaintextDecrypt); // 是否启用明文密码
-        if (StringUtils.hasText(cfgPlaintextDecrypt) && Boolean.parseBoolean(cfgPlaintextDecrypt)) {
-            String rsaPasswordSeed = environment.getProperty(Constants.Env_RSA_PasswordSeed);
-            if (StringUtils.hasText(rsaPasswordSeed)) {
-                String publicKey = RSAHelper.getPublicKey(rsaPasswordSeed); // 获取加密公钥
-                this.environmentParser(environment, publicKey);
-                RSAHelper.removeKey(publicKey); // 移除加密公钥
+        // 是否启用配置密文
+        String plaintextDecrypt = environment.getProperty(Constants.Env_Run_Cfg_PlaintextDecrypt);
+        boolean hasPlaintextDecrypt = false;
+        try {
+            hasPlaintextDecrypt = Boolean.parseBoolean(plaintextDecrypt);
+        } catch (Exception ignored) {
+        }
+        if (hasPlaintextDecrypt) {
+            String passwordSeed = environment.getProperty(Constants.Env_Run_RSA_PasswordSeed);
+            if (StringUtils.hasText(passwordSeed)) {
+                // 获取加密公钥
+                String publicKey = RSAHelper.getPublicKey(passwordSeed);
+                // 解析加密配置文件
+                this.environmentDecryptParser(environment, publicKey);
+                // 移除加密公钥
+                RSAHelper.removeKey(publicKey);
             } else {
-                throw new BizException(Constants.BizStatus.Cfg_Decrypt_Obtain_Fail);
+                throw new BusinessException(Constants.ProveProveState.Env_Run_RSA_PasswordSeed_Empty);
             }
         }
     }
 
-    private void environmentParser(Environment environment, String publicKey) {
+    private void environmentDecryptParser(Environment environment, String publicKey) {
         MutablePropertySources mutablePropertySources = ((ConfigurableEnvironment) environment).getPropertySources();
         Properties finalProperties = new Properties();
         for (PropertySource<?> propertySources : mutablePropertySources) {

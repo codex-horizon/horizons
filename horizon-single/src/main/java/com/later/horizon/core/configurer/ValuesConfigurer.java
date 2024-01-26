@@ -20,11 +20,11 @@ import java.io.Serializable;
                 encoding = "UTF-8", ignoreResourceNotFound = false
         )
 })
-public class CommonConfigurer implements Serializable {
+public class ValuesConfigurer implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
-    @Value("${application.name}")
+    @Value("${spring.application.name}")
     private String applicationName;
 
     @Value("${request-white.ignored-uris}")

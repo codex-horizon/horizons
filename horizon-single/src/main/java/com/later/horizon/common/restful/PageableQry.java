@@ -19,7 +19,7 @@ public class PageableQry implements Serializable {
 
     private String direction;
 
-    private List<String> properties;
+    private List<String> properties = Collections.emptyList();
 
     public void setCurrentIndex(int currentIndex) {
         this.currentIndex = currentIndex > 0 ? --currentIndex : currentIndex;

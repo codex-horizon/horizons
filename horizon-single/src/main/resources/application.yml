@@ -2,9 +2,10 @@ spring:
   profiles:
     active: native
   application:
-    name: InfrastructureAuthorityCentralApplication
+    name: HorizonSingleApplication
 server:
   shutdown: graceful
   servlet:
-    context-path: /infrastructureAuthorityCentral
-  port: 1469
+    context-path: /single
+  port: 8080
+  server-header: "Horizon Single Application"

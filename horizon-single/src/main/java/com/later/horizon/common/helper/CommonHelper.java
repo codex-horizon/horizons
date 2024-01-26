@@ -1,10 +1,14 @@
 package com.later.horizon.common.helper;
 
+import com.wf.captcha.SpecCaptcha;
+import com.wf.captcha.base.Captcha;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,16 +40,19 @@ public class CommonHelper {
         return regex(expression, str).find();
     }
 
-    /**
-     * 判断字符串是否阿拉伯数字
-     * @param str 数字字符串
-     * @return 布尔值
-     */
-    public static boolean isNumeric(String str) {
+    public static boolean hasNumeric(String str) {
         return StringUtils.hasText(str) && Pattern.compile("[0-9]*").matcher(str.trim()).matches();
     }
 
     public static String createUUID() {
         return UUID.randomUUID() + "-" + Instant.now().getEpochSecond();
     }
+
+    public static Map<String, String> createCaptcha() {
+        Captcha captcha = new SpecCaptcha(150, 38, 5);
+        Map<String, String> result = new HashMap<>();
+        result.put(captcha.text(), captcha.toBase64());
+        return result;
+    }
+
 }

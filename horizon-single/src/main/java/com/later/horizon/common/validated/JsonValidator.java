@@ -6,11 +6,11 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * 验证是否JSON字符串
  */
-public class JsonValidator implements ConstraintValidator<Json, Object> {
+public class JsonValidator implements ConstraintValidator<Json, String> {
 
     @Override
-    public boolean isValid(Object value, ConstraintValidatorContext context) {
-        return value instanceof String/* && JSON.isValidObject((String) value)*/;
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        return value != null;
     }
 
 }
