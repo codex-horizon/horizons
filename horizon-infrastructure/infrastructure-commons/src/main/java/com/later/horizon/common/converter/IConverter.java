@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IConverter {
 
-    MapperFactory getMapperFactory();
+    MapperFactory initMapperFactory();
 
     <A, B> B convert(A clazzA, Class<B> clazzB);
 

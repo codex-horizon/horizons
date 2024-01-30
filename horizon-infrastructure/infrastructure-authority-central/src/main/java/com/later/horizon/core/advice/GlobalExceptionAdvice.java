@@ -1,7 +1,7 @@
 package com.later.horizon.core.advice;
 
-import com.later.horizon.common.exception.BizException;
-import com.later.horizon.common.restful.IResult;
+import com.later.horizon.common.exception.BusinessException;
+import com.later.horizon.common.restful.IResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -25,67 +25,67 @@ public class GlobalExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, Exception e) {
+    public IResponse<String> handle(HttpServletRequest request, Exception e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.Result.failed(e.getMessage());
+        return IResponse.Result.failed(e.getMessage());
     }
 
-    @ExceptionHandler(BizException.class)
+    @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, BizException e) {
+    public IResponse<String> handle(HttpServletRequest request, BusinessException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.Result.failed(e.getMessage());
+        return IResponse.Result.failed(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, MethodArgumentNotValidException e) {
+    public IResponse<String> handle(HttpServletRequest request, MethodArgumentNotValidException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
         // 打印待整理
         FieldError fieldError = e.getBindingResult().getFieldError();
         String field = fieldError.getField();
         String fieldMessage = fieldError.getDefaultMessage();
-        return IResult.Result.failed(fieldMessage);
+        return IResponse.Result.failed(fieldMessage);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, DataIntegrityViolationException e) {
+    public IResponse<String> handle(HttpServletRequest request, DataIntegrityViolationException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
         Matcher matcher = Pattern.compile("(?<=Duplicate entry ').*(?=' for key)").matcher(e.getRootCause().getMessage());
         if (matcher.find()) {
             String filedName = matcher.group();
-            return IResult.Result.failed(String.format("事务错误，某字段值【%s】，违反了惟一性限制", filedName));
+            return IResponse.Result.failed(String.format("事务错误，某字段值【%s】，违反了惟一性限制", filedName));
         }
-        return IResult.Result.failed("事务错误");
+        return IResponse.Result.failed("事务错误");
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, EntityNotFoundException e) {
+    public IResponse<String> handle(HttpServletRequest request, EntityNotFoundException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.Result.failed(e.getMessage());
+        return IResponse.Result.failed(e.getMessage());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, MissingServletRequestParameterException e) {
+    public IResponse<String> handle(HttpServletRequest request, MissingServletRequestParameterException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
         String message = String.format("参数[%s],类型[%s] 有误", e.getParameterName(), e.getParameterType());
-        return IResult.Result.failed(message);
+        return IResponse.Result.failed(message);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, HttpRequestMethodNotSupportedException e) {
+    public IResponse<String> handle(HttpServletRequest request, HttpRequestMethodNotSupportedException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.Result.failed(e.getMessage());
+        return IResponse.Result.failed(e.getMessage());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.OK)
-    public IResult<String> handle(HttpServletRequest request, HttpMessageNotReadableException e) {
+    public IResponse<String> handle(HttpServletRequest request, HttpMessageNotReadableException e) {
         log.error("方法:[{}],请求url:[{}],异常信息:[{}]", request.getMethod(), request.getRequestURI(), e.getMessage(), e);
-        return IResult.Result.failed("JSON解析错误");
+        return IResponse.Result.failed("JSON解析错误");
     }
 }

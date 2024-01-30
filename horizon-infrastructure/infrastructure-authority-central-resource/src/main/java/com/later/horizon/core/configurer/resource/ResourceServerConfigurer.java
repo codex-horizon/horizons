@@ -1,6 +1,6 @@
 package com.later.horizon.core.configurer.resource;
 
-import com.later.horizon.core.configurer.CommonConfigurer;
+import com.later.horizon.core.configurer.ValuesConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,27 +14,27 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 @EnableResourceServer
 public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
 
-    private final CommonConfigurer commonConfigurer;
+    private final ValuesConfigurer valuesConfigurer;
 
-    ResourceServerConfigurer(final CommonConfigurer commonConfigurer) {
-        this.commonConfigurer = commonConfigurer;
+    ResourceServerConfigurer(final ValuesConfigurer valuesConfigurer) {
+        this.valuesConfigurer = valuesConfigurer;
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
         resources
-                .resourceId(commonConfigurer.getAuthorityCentralResourceId())
+                .resourceId(valuesConfigurer.getAuthorityCentralResourceId())
                 .tokenServices(new RemoteTokenServices() {{
-                    setClientId(commonConfigurer.getAuthorityCentralClientId());
-                    setClientSecret(commonConfigurer.getAuthorityCentralClientSecret());
-                    setCheckTokenEndpointUrl(commonConfigurer.getAuthorityCentralResourceCheckTokenEndpointUrl());
+                    setClientId(valuesConfigurer.getAuthorityCentralClientId());
+                    setClientSecret(valuesConfigurer.getAuthorityCentralClientSecret());
+                    setCheckTokenEndpointUrl(valuesConfigurer.getAuthorityCentralResourceCheckTokenEndpointUrl());
                 }});
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(commonConfigurer.getRequestWhiteIgnoredUris()).permitAll()
+                .antMatchers(valuesConfigurer.getRequestWhiteIgnoredUris()).permitAll()
                 .anyRequest().fullyAuthenticated();
     }
 

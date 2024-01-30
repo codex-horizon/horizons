@@ -1,0 +1,40 @@
+---------------------------------------------- infrastructure-authority-central init script ----------------------------------------------
+---------------------------------------------- infrastructure-authority-central init script ----------------------------------------------
+---------------------------------------------- infrastructure-authority-central init script ----------------------------------------------
+
+一、为【oauth_approvals】表添加{userId、clientId、expiresAt、lastModifiedAt}字段。
+ALTER TABLE oauth_approvals ADD userId varchar(256) NULL COMMENT '用户ID(登录用户名)';
+ALTER TABLE oauth_approvals ADD clientId varchar(256) NULL COMMENT '客户端ID';
+ALTER TABLE oauth_approvals ADD expiresAt varchar(256) NULL COMMENT '到期时间';
+ALTER TABLE oauth_approvals ADD lastModifiedAt varchar(256) NULL COMMENT '上次修改时间';
+
+二、为【oauth_approvals、oauth_code、oauth_access_token、oauth_refresh_token】表，
+    设置{created_by、created_date、last_modified_by、last_modified_date、state}可为null字段。
+    ALTER TABLE oauth_approvals MODIFY COLUMN state tinyint(1) NULL COMMENT '数据状态';
+    ALTER TABLE oauth_approvals MODIFY COLUMN last_modified_date datetime NULL COMMENT '最后修改时间';
+    ALTER TABLE oauth_approvals MODIFY COLUMN last_modified_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '最后修改人';
+    ALTER TABLE oauth_approvals MODIFY COLUMN created_date datetime NULL COMMENT '创建时间';
+    ALTER TABLE oauth_approvals MODIFY COLUMN created_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '创建人';
+
+    ALTER TABLE oauth_code MODIFY COLUMN state tinyint(1) NULL COMMENT '数据状态';
+    ALTER TABLE oauth_code MODIFY COLUMN last_modified_date datetime NULL COMMENT '最后修改时间';
+    ALTER TABLE oauth_code MODIFY COLUMN last_modified_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '最后修改人';
+    ALTER TABLE oauth_code MODIFY COLUMN created_date datetime NULL COMMENT '创建时间';
+    ALTER TABLE oauth_code MODIFY COLUMN created_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '创建人';
+
+    ALTER TABLE oauth_access_token MODIFY COLUMN state tinyint(1) NULL COMMENT '数据状态';
+    ALTER TABLE oauth_access_token MODIFY COLUMN last_modified_date datetime NULL COMMENT '最后修改时间';
+    ALTER TABLE oauth_access_token MODIFY COLUMN last_modified_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '最后修改人';
+    ALTER TABLE oauth_access_token MODIFY COLUMN created_date datetime NULL COMMENT '创建时间';
+    ALTER TABLE oauth_access_token MODIFY COLUMN created_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '创建人';
+
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN state tinyint(1) NULL COMMENT '数据状态';
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN last_modified_date datetime NULL COMMENT '最后修改时间';
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN last_modified_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '最后修改人';
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN created_date datetime NULL COMMENT '创建时间';
+    ALTER TABLE oauth_refresh_token MODIFY COLUMN created_by varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '创建人';
+
+三、
+    INSERT INTO oauth_user_details (created_by,created_date,last_modified_by,last_modified_date,state,password,username) VALUES
+    ('Auditor','2024-01-30 15:56:49','Auditor','2024-01-30 15:56:49',1,'{bcrypt}$2a$10$sySi9ZqkPvGZQbsEaTp6/eA0EfpDVejxaRqT38mpV3D7YgKeChMXq','super')
+    ;

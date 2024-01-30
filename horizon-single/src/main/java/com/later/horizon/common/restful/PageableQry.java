@@ -15,7 +15,7 @@ public class PageableQry implements Serializable {
 
     private int pageableSize = 10;
 
-    private List<SimpleConditions<?>> conditions = Collections.emptyList();
+    private List<ConditionComposition<?>> conditions = Collections.emptyList();
 
     private String direction;
 
@@ -26,21 +26,16 @@ public class PageableQry implements Serializable {
     }
 
     @Data
-    public static class SimpleConditions<T> {
+    public static class ConditionComposition<T> {
 
         private String name;
 
         /**
-         * >(大于)、<(小于)、=(等于)、<>(不等)、like(模糊)
-         */
-        private String calc;
-
-        private T value;
-
-        /**
-         * and(与)、or(或)
+         * >(大于)、<(小于)、=(等于)、<>(不等)、like(模糊)、and(与)、or(或)
          */
         private String logic;
+
+        private T value;
 
     }
 }

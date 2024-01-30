@@ -40,19 +40,19 @@ public class EnvironmentDecryptParser implements BeanFactoryPostProcessor, Order
     @Override
     public void setEnvironment(Environment environment) {
         // 是否启用配置密文
-        String plaintextDecrypt = environment.getProperty(Constants.Env_Run_Cfg_PlaintextDecrypt);
+        String plaintextDecrypt = environment.getProperty(Constants.Env_Run_PlaintextDecrypt);
         boolean hasPlaintextDecrypt = false;
         try {
             hasPlaintextDecrypt = Boolean.parseBoolean(plaintextDecrypt);
         } catch (Exception ignored) {
         }
         if (hasPlaintextDecrypt) {
-            String passwordSeed = environment.getProperty(Constants.Env_Run_RSA_PasswordSeed);
+            String passwordSeed = environment.getProperty(Constants.Env_Run_PasswordSeed);
             if (StringUtils.hasText(passwordSeed)) {
                 // 获取加密公钥
                 String publicKey = RSAHelper.getPublicKey(passwordSeed);
                 // 解析加密配置文件
-                this.environmentDecryptParser(environment, publicKey);
+                environmentDecryptParser(environment, publicKey);
                 // 移除加密公钥
                 RSAHelper.removeKey(publicKey);
             } else {
@@ -78,7 +78,7 @@ public class EnvironmentDecryptParser implements BeanFactoryPostProcessor, Order
                 });
             }
         }
-        this.decryptParser(finalProperties, publicKey, mutablePropertySources, environment);
+        decryptParser(finalProperties, publicKey, mutablePropertySources, environment);
     }
 
     private void decryptParser(Properties properties, String publicKey, MutablePropertySources mutablePropertySources, Environment environment) {

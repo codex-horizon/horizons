@@ -1,8 +1,8 @@
 package com.later.horizon.work.service;
 
-import com.later.horizon.common.restful.IPageable;
+import com.later.horizon.common.restful.IPageableResponse;
 import com.later.horizon.work.bo.Oauth2UserDetailsBo;
-import com.later.horizon.work.qry.Oauth2UserDetailsQry;
+import com.later.horizon.work.qry.Oauth2UserDetailsQo;
 import com.later.horizon.work.vo.Oauth2UserDetailsVo;
 
 import java.util.List;
@@ -17,5 +17,5 @@ public interface IOauth2UserDetailsService {
 
     Oauth2UserDetailsBo detail(Long id);
 
-    IPageable<List<Oauth2UserDetailsVo>> list(Oauth2UserDetailsQry oauth2UserDetailsQry);
+    IPageableResponse<List<Oauth2UserDetailsVo>> list(Oauth2UserDetailsQo oauth2UserDetailsQry);
 }

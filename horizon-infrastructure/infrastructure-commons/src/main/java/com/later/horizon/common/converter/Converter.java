@@ -10,25 +10,29 @@ import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.metadata.Type;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * https://blog.csdn.net/weixin_43477531/article/details/114422604
+ * <a href="https://blog.csdn.net/weixin_43477531/article/details/114422604"/>
  */
 public class Converter implements IConverter {
 
-    private static MapperFacade MapperFacade;
+    private static MapperFacade Mapper_Facade;
 
     public Converter() {
-        MapperFactory mapperFactory = getMapperFactory();
+        MapperFactory mapperFactory = initMapperFactory();
+        // 注册数据类型转换
         ConverterFactory converterFactory = mapperFactory.getConverterFactory();
-        converterFactory.registerConverter(new String2StringArrayConverter());
-        converterFactory.registerConverter(new Map2JsonStringArrayConverter());
-        Converter.MapperFacade = mapperFactory.getMapperFacade();
+        converterFactory.registerConverter(new StringToStringArrayConverter());
+        converterFactory.registerConverter(new MapToJsonStringArrayConverter());
+        // 默认绑定全局转换
+        Converter.Mapper_Facade = mapperFactory.getMapperFacade();
     }
 
     @Override
-    public MapperFactory getMapperFactory() {
+    public MapperFactory initMapperFactory() {
         return new DefaultMapperFactory.Builder().build();
     }
 
@@ -44,16 +48,15 @@ public class Converter implements IConverter {
      */
     @Override
     public <S, D> D convert(S source, Class<D> destinationClass) {
-        return MapperFacade.map(source, destinationClass);
+        return Converter.Mapper_Facade.map(source, destinationClass);
     }
 
     @Override
     public <S, D> List<D> convert(Iterable<S> sources, Class<D> destinationClass) {
-        return MapperFacade.mapAsList(sources, destinationClass);
+        return Converter.Mapper_Facade.mapAsList(sources, destinationClass);
     }
 
-
-    static class String2StringArrayConverter extends BidirectionalConverter<String[], String> {
+    static class StringToStringArrayConverter extends BidirectionalConverter<String[], String> {
 
         @Override
         public String convertTo(String[] strings, Type<String> destinationType, MappingContext mappingContext) {
@@ -66,7 +69,7 @@ public class Converter implements IConverter {
         }
     }
 
-    static class Map2JsonStringArrayConverter extends BidirectionalConverter<Map<String, Object>, String> {
+    static class MapToJsonStringArrayConverter extends BidirectionalConverter<Map<String, Object>, String> {
 
 
         @Override

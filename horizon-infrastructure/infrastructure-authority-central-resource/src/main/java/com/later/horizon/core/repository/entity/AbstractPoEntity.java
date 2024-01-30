@@ -54,6 +54,6 @@ public abstract class AbstractPoEntity implements Serializable {
     private Timestamp lastModifiedDate;
 
     @Column(name = "state", nullable = false, columnDefinition = "tinyint(1) default 0 comment '数据状态'")
-    private Integer state = Constants.DataState.Disabled.getState();
+    private Long state = Constants.ProveProveState.Data_Status_Available.getState();
 
 }

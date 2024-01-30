@@ -18,9 +18,8 @@ public interface IGlobalResponse {
 
     void setBody(Object o);
 
-
     @Data
-    class GlobalResult implements IGlobalResponse, Serializable {
+    class GlobalResponse implements IGlobalResponse, Serializable {
 
         private static final long serialVersionUUID = 1L;
 
@@ -30,14 +29,14 @@ public interface IGlobalResponse {
 
         private Object body;
 
-        protected GlobalResult(final String applicationName, final String traceId, final Object body) {
+        protected GlobalResponse(final String applicationName, final String traceId, final Object body) {
             this.applicationName = applicationName;
             this.traceId = traceId;
             this.body = body;
         }
 
-        public static GlobalResult restful(final String applicationName, final String traceId, final Object body) {
-            return new GlobalResult(applicationName, traceId, body);
+        public static GlobalResponse restful(final String applicationName, final String traceId, final Object body) {
+            return new GlobalResponse(applicationName, traceId, body);
         }
 
     }

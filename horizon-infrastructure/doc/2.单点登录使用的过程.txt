@@ -1,0 +1,39 @@
+---------------------------------------------- infrastructure-authority-central init script ----------------------------------------------
+---------------------------------------------- infrastructure-authority-central init script ----------------------------------------------
+---------------------------------------------- infrastructure-authority-central init script ----------------------------------------------
+
+一、
+http://127.0.0.1:1469/infrastructureAuthorityCentral
+http://127.0.0.1:1649/infrastructureAuthorityCentralResource
+
+二、
+    {
+    	"clientId": "0d55e4c5-aeb2-4e00-9b67-80c8f31918d8",
+    	"resourceIds": [
+    		"r1",
+    		"r2"
+    	],
+    	"clientSecret": "123456",
+    	"scope": [
+    		"READ",
+    		"WRITE"
+    	],
+    	"authorizedGrantTypes": [
+    		"authorization_code",
+    		"password",
+    		"refresh_token",
+    		"implicit",
+    		"client_credentials"
+    	],
+    	"webServerRedirectUri": "http://127.0.0.1:1649/infrastructureAuthorityCentralResource/indirect/",
+    	"authorities": [
+    		"ALL",
+    		"PROVIDED"
+    	],
+    	"accessTokenValidity": 3600,
+    	"refreshTokenValidity": 7200,
+    	"additionalInformation": {
+    		"name": "value"
+    	},
+    	"autoApprove": false
+    }

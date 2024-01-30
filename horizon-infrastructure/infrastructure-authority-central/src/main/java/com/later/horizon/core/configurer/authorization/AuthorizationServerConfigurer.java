@@ -1,5 +1,6 @@
 package com.later.horizon.core.configurer.authorization;
 
+import com.later.horizon.common.constants.Constants;
 import com.later.horizon.work.service.IOauth2UserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
 
+@SuppressWarnings(Constants.Default_Suppress_Warnings_Deprecation)
 @Slf4j
 @Configuration
 @EnableAuthorizationServer

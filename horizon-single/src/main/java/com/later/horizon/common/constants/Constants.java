@@ -22,8 +22,8 @@ public class Constants {
     public static final String Form_Parameter_Name_Code = "code";
 
     // Environment Run Parameters Keys
-    public static final String Env_Run_Cfg_PlaintextDecrypt = "Cfg_PlaintextDecrypt";
-    public static final String Env_Run_RSA_PasswordSeed = "RSA_PasswordSeed";
+    public static final String Env_Run_PlaintextDecrypt = "PlaintextDecrypt";
+    public static final String Env_Run_PasswordSeed = "PasswordSeed";
 
     // Unknown Implicit Parameters Keys
     public static final String Default_Certifiers_Username = "super";
@@ -46,7 +46,7 @@ public class Constants {
         Business_Processing_Status_Warned("Business_Status", "业务处理 成功", "业务处理 成功", 202L),
 
         Data_Status_Removed("Data_Status_Removed", "数据 已移除", "数据 已移除（软删）", 0L),
-        Data_Status_Available("Data_Status_Available", "数据 可用", "数据状态可用", 1L),
+        Data_Status_Available("Data_Status_Available", "数据 可用中", "数据 可用中", 1L),
         Data_Status_Deleted("Data_Status_Deleted", "数据 已删除", "数据 已删除（硬删）", 2L),
 
         ;

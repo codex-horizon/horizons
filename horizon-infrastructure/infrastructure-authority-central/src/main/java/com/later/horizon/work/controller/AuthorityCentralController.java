@@ -17,14 +17,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+@SuppressWarnings(Constants.Default_Suppress_Warnings_Deprecation)
 @Slf4j
 @Controller
 public class AuthorityCentralController {
 
-    @SuppressWarnings(Constants.Suppress_Warnings_Deprecation)
+
     private final ConsumerTokenServices consumerTokenServices;
 
-    AuthorityCentralController(@SuppressWarnings(Constants.Suppress_Warnings_Deprecation) final ConsumerTokenServices consumerTokenServices) {
+    AuthorityCentralController(final ConsumerTokenServices consumerTokenServices) {
         this.consumerTokenServices = consumerTokenServices;
     }
 
@@ -48,7 +49,7 @@ public class AuthorityCentralController {
      */
     @RequestMapping(name = "成功页", path = "/login_succeed_view", method = {RequestMethod.GET, RequestMethod.POST})
     String loginSucceedView(HttpSession session) {
-        Object sessionSavedRequest = session.getAttribute(Constants.Session_Spring_Security_Saved_Request);
+        Object sessionSavedRequest = session.getAttribute(Constants.Default_Session_Spring_Security_Saved_Request);
         if (ObjectUtils.isEmpty(sessionSavedRequest)) {
             return "redirect:index_view";
         }
@@ -83,7 +84,7 @@ public class AuthorityCentralController {
      * @return 返回页面
      */
     @RequestMapping(name = "确认授权访问", path = "/oauth/confirm_access", method = RequestMethod.GET)
-    String loginGrantView(HttpServletRequest request, Model model, @SuppressWarnings(Constants.Suppress_Warnings_Deprecation) @SessionAttribute("authorizationRequest") AuthorizationRequest authorizationRequest) {
+    String loginGrantView(HttpServletRequest request, Model model, @SessionAttribute("authorizationRequest") AuthorizationRequest authorizationRequest) {
         CsrfToken csrfToken = CookieCsrfTokenRepository.withHttpOnlyFalse().loadToken(request);
         model.addAttribute(csrfToken.getParameterName(), csrfToken.getToken());
         model.addAttribute("clientId", authorizationRequest.getClientId());
@@ -97,7 +98,7 @@ public class AuthorityCentralController {
      * @return 重定向登录页
      */
     @RequestMapping(name = "先吊销令牌，后清除认证", path = "/do_logout", method = RequestMethod.GET)
-    String doLogout(@RequestHeader(name = Constants.Header_Key_Access_Token, required = false) String accessToken, HttpSession session) {
+    String doLogout(@RequestHeader(name = Constants.Header_Access_Token, required = false) String accessToken, HttpSession session) {
         if (StringUtils.hasText(accessToken)) {
             consumerTokenServices.revokeToken(accessToken);
         }

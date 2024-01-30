@@ -1,7 +1,7 @@
 package com.later.horizon.core.configurer.security;
 
 import com.later.horizon.core.configurer.security.filters.UsernamePasswordAuthenticationFilter;
-import com.later.horizon.core.configurer.CommonConfigurer;
+import com.later.horizon.core.configurer.ValuesConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -17,10 +17,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
-    private final CommonConfigurer commonConfigurer;
+    private final ValuesConfigurer valuesConfigurer;
 
-    WebSecurityConfigurer(final CommonConfigurer commonConfigurer) {
-        this.commonConfigurer = commonConfigurer;
+    WebSecurityConfigurer(final ValuesConfigurer valuesConfigurer) {
+        this.valuesConfigurer = valuesConfigurer;
     }
 
     /**
@@ -43,7 +43,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .authorizeRequests()
-                .antMatchers(commonConfigurer.getRequestWhiteIgnoredUris()).permitAll()
+                .antMatchers(valuesConfigurer.getRequestWhiteIgnoredUris()).permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin().loginPage("/login_view").permitAll().loginProcessingUrl("/do_login").defaultSuccessUrl("/index_view", Boolean.TRUE).successForwardUrl("/login_succeed_view").failureForwardUrl("/login_failed_view").failureUrl("/login_failed_view")

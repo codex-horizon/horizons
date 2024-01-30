@@ -1,8 +1,8 @@
 package com.later.horizon.work.controller;
 
 import com.later.horizon.common.helper.CommonHelper;
-import com.later.horizon.common.restful.IResult;
-import com.later.horizon.core.configurer.CommonConfigurer;
+import com.later.horizon.common.restful.IResponse;
+import com.later.horizon.core.configurer.ValuesConfigurer;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,19 +16,19 @@ import java.security.Principal;
 @Controller
 public class ResourceAuthenticationController {
 
-    private final CommonConfigurer commonConfigurer;
+    private final ValuesConfigurer valuesConfigurer;
 
-    ResourceAuthenticationController(final CommonConfigurer commonConfigurer) {
-        this.commonConfigurer = commonConfigurer;
+    ResourceAuthenticationController(final ValuesConfigurer valuesConfigurer) {
+        this.valuesConfigurer = valuesConfigurer;
     }
 
     @RequestMapping(name = "登录页", path = "/", method = RequestMethod.GET)
     String loginView() {
-        return "redirect:" + commonConfigurer.getAuthorityCentralUrl() + "/oauth/authorize" +
-                "?response_type=" + commonConfigurer.getAuthorityCentralClientAuthorizedGrantTypes()[0] +
-                "&client_id=" + commonConfigurer.getAuthorityCentralClientId() +
-                "&redirect_uri=" + commonConfigurer.getAuthorityCentralClientRedirectUrl() +
-                "&scope=" + commonConfigurer.getAuthorityCentralClientScope() +
+        return "redirect:" + valuesConfigurer.getAuthorityCentralUrl() + "/oauth/authorize" +
+                "?response_type=" + valuesConfigurer.getAuthorityCentralClientAuthorizedGrantTypes()[0] +
+                "&client_id=" + valuesConfigurer.getAuthorityCentralClientId() +
+                "&redirect_uri=" + valuesConfigurer.getAuthorityCentralClientRedirectUrl() +
+                "&scope=" + valuesConfigurer.getAuthorityCentralClientScope() +
                 "&state=" + CommonHelper.createUUID();
     }
 
@@ -36,7 +36,7 @@ public class ResourceAuthenticationController {
     String redirectView(@RequestParam("code") String code, @RequestParam("state") String state, RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("code", code);
         redirectAttributes.addAttribute("state", state);
-        return "redirect:" + commonConfigurer.getAuthorityCentralUrl();
+        return "redirect:" + valuesConfigurer.getAuthorityCentralUrl();
     }
 
     /**
@@ -44,9 +44,9 @@ public class ResourceAuthenticationController {
      */
     @GetMapping("/resource/public/{id}")
     @ResponseBody
-    IResult<String> publicResource(@PathVariable long id) {
+    IResponse<String> publicResource(@PathVariable long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication instanceof AnonymousAuthenticationToken ? IResult.Result.succeeded("No User：" + "this is public " + id) : IResult.Result.succeeded(authentication.getName() + "：" + "this is public " + id);
+        return authentication instanceof AnonymousAuthenticationToken ? IResponse.Result.succeeded("No User：" + "this is public " + id) : IResponse.Result.succeeded(authentication.getName() + "：" + "this is public " + id);
     }
 
     /**
@@ -54,9 +54,9 @@ public class ResourceAuthenticationController {
      */
     @GetMapping("/resource/protect/{id}")
     @ResponseBody
-    IResult<String> protectResource(@PathVariable long id) {
+    IResponse<String> protectResource(@PathVariable long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication instanceof OAuth2Authentication ? IResult.Result.succeeded(authentication.getName() + "：" + "this is protect " + id) : IResult.Result.succeeded("No User：" + "this is protect " + id);
+        return authentication instanceof OAuth2Authentication ? IResponse.Result.succeeded(authentication.getName() + "：" + "this is protect " + id) : IResponse.Result.succeeded("No User：" + "this is protect " + id);
     }
 
     /**
@@ -64,8 +64,8 @@ public class ResourceAuthenticationController {
      */
     @GetMapping("/resource/protect/user")
     @ResponseBody
-    IResult<Principal> user(Principal principal) {
-        return IResult.Result.succeeded(principal);
+    IResponse<Principal> user(Principal principal) {
+        return IResponse.Result.succeeded(principal);
     }
 
 }

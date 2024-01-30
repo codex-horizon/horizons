@@ -4,115 +4,79 @@ import lombok.Getter;
 
 public class Constants {
 
-    public static final String Header_Key_Application_Name = "Application-Name";
-    public static final String Header_Application_Name_None = "Application_Name_None";
+    // Request Header Keys
+    public static final String Header_Application_Name = "Application-Name";
+    public static final String Header_Application_Name_None = "Application-Name-None";
     public static final String Header_Trace_Id = "Trace-Id";
-    public static final String Header_Trace_Id_None = "Trace_Id_None";
-    public static final String Header_Key_Access_Token = "Access-Token";
-    public static final String Header_Key_Refresh_Token = "Refresh-Token";
-    public static final String Header_Key_Rsa_Public_Key = "Rsa-Public-Key";
+    public static final String Header_Trace_Id_None = "Trace-Id-None";
+    public static final String Header_Access_Token = "Access-Token";
+    public static final String Header_Refresh_Token = "Refresh-Token";
+    public static final String Header_RSA_PublicKey = "RSA-PublicKey";
 
-    public static final String Default_Parameter_Name_Csrf = "_csrf";
-    public static final String Default_Header_Name_Csrf = "X-CSRF-TOKEN";
+    // Request Session Keys
+    public static final String Session_Captcha = "SessionCaptcha:";
 
+    // Request From Keys
     public static final String Form_Parameter_Name_Username = "username";
     public static final String Form_Parameter_Name_Password = "password";
     public static final String Form_Parameter_Name_Code = "code";
 
-    public static final String Session_Captcha = "SessionCaptcha:";
-    public static final String Session_Spring_Security_Saved_Request = "SPRING_SECURITY_SAVED_REQUEST";
-    public static final String Session_Spring_Security_Context = "SPRING_SECURITY_CONTEXT";
+    // Environment Run Parameters Keys
+    public static final String Env_Run_PlaintextDecrypt = "PlaintextDecrypt";
+    public static final String Env_Run_PasswordSeed = "PasswordSeed";
 
-    public static final String Env_Cfg_PlaintextDecrypt = "Cfg.PlaintextDecrypt";
-    public static final String Env_RSA_PasswordSeed = "RSA.PasswordSeed";
-
-    public static final String Suppress_Warnings_Deprecation = "deprecation";
-
-    public static final String Default_Authentication_Username = "super";
-    public static final String Default_Authentication_Password = "123456";
+    // Unknown Implicit Parameters Keys
+    public static final String Default_Certifiers_Username = "super";
+    public static final String Default_Certifiers_Password = "123456";
     public static final String Default_Spring_Profiles_Active = "native";
+    public static final String Default_Session_Spring_Security_Context = "SPRING_SECURITY_CONTEXT";
+    public static final String Default_Suppress_Warnings_Deprecation = "deprecation";
+    public static final String Default_Session_Spring_Security_Saved_Request = "SPRING_SECURITY_SAVED_REQUEST";
 
 
     @Getter
-    public enum BizStatus implements IEnum<String> {
+    public enum ProveProveState implements IEnumProve<String>, IEnumProveState<Long> {
 
-        Request_Header_PublicKey_Non_Exist("Request_Header_PublicKey_Non_Exist", "请求头公钥不存在"),
-        Request_Obtain_Fail("Request_Obtain_Fail", "Request获取失败"),
-        Response_Obtain_Fail("Response_Obtain_Fail", "Response获取失败"),
-        Session_Obtain_Fail("Session_Obtain_Fail", "Session获取失败"),
-        ServletRequestAttributes_Obtain_Fail("ServletRequestAttributes_Obtain_Fail", "ServletRequestAttributes获取失败"),
-        Rsa_PublicKey_Expire("Rsa_PublicKey_Expire", "公钥失效"),
-        Rsa_SecretKey_Initialize_Failed("Rsa_PublicKey_Expire", "密钥初始化失败"),
-        Rsa_PublicKey_Encrypt_Failed("Rsa_PublicKey_Expire", "公钥加密失败"),
-        Rsa_SecretKey_Decrypt_Failed("Rsa_PublicKey_Expire", "私钥解密失败"),
-        Authentication_User_Non_Exist("Authentication_User_Non_Exist", "用户不存在"),
-        Captcha_Non_Match("Session_Captcha_Non_Match", "会话验证码不匹配"),
-        Jpa_Query_Service_Failed("Jpa_Query_Service_Failed", "查询服务失败"),
-        Cfg_Decrypt_Obtain_Fail("Cfg_Decrypt_Obtain_Fail", "配置解密密码获取失败"),
+        Example("Example", "例子", "这是一个例子", 1234567890L),
+        ServletRequest_Obtain_Failed("ServletRequest_Obtain_Failed", "ServletRequest获取失败", "ServletRequest获取失败", 1234567890L),
+        Header_RSA_PublicKey_Non_Exist("Header_RSA_PublicKey_Non_Exist", "Header_RSA_PublicKey不存在", "Header_RSA_PublicKey不存在", 1234567890L),
+        RSA_PublicKey_Expire("RSA_PublicKey_Expire", "RSA 公钥过期", "RSA 公钥过期", 1234567890L),
+        RSA_PublicKey_Encrypt_Failed("RSA_PublicKey_Encrypt_Failed", "RSA 公钥加密失败", "RSA 公钥加密失败", 1234567890L),
+        RSA_SecretKey_Initialize_Failed("RSA_PublicKey_Expire", "RSA 公钥过期", "RSA 公钥过期", 1234567890L),
+        RSA_SecretKey_Decrypt_Failed("RSA_SecretKey_Decrypt_Failed", "RSA 密钥解密失败", "RSA 密钥解密失败", 1234567890L),
+        Env_Run_RSA_PasswordSeed_Empty("Env_Run_RSA_PasswordSeed_Empty", "环境运行 RSA 密码种子为空", "环境运行 RSA 密码种子为空", 1234567890L),
 
-        Sso_Captcha_Not_Exists("Sso_Captcha_Not_Exists", "Sso验证码不存在"),
-        Sso_User_Not_Exists("Sso_User_Not_Exists", "Sso用户不存在"),
-        Sso_User_Exists("Sso_User_Exists", "Sso用户已存在"),
-        Sso_User_Password_Incorrect("Sso_User_Password_Incorrect", "Sso用户密码不正确"),
+        Business_Processing_Status_Succeeded("Business_Status", "业务处理 成功", "业务处理 成功", 200L),
+        Business_Processing_Status_Failed("Business_Status", "业务处理 失败", "业务处理 失败", 201L),
+        Business_Processing_Status_Warned("Business_Status", "业务处理 成功", "业务处理 成功", 202L),
 
-        Sso_Client_Details_Not_Exists("Sso_Client_Details_Not_Found", "Sso客户端详情不存在"),
-        Sso_User_Details_Not_Exists("Sso_User_Details_Not_Found", "Sso用户详情不存在"),
+        Data_Status_Removed("Data_Status_Removed", "数据 已移除", "数据 已移除（软删）", 0L),
+        Data_Status_Available("Data_Status_Available", "数据 可用中", "数据 可用中", 1L),
+        Data_Status_Deleted("Data_Status_Deleted", "数据 已删除", "数据 已删除（硬删）", 2L),
+
+        Sso_User_Exist("Sso_User_Exist", "用户已存在", "Sso用户已存在", 1234567890L),
+        Sso_User_Non_Exist("Sso_User_Non_Exist", "用户不存在", "Sso用户不存在", 1234567890L),
+        Sso_User_Password_Incorrect("Sso_User_Password_Incorrect", "用户密码不正确", "Sso用户密码不正确", 1234567890L),
+
+        Sso_Client_Non_Connected("Sso_Client_Non_Connected", "客户端未接入", "Sso客户端未接入", 1234567890L),
+        Sso_Client_Exist_Multiple("Sso_Client_Exist_Multiple", "客户端存在多个", "Sso客户端存在多个", 1234567890L),
 
         ;
 
+        // 替代state
         private final String code;
+        // 面向非开发人员的描述
+        private final String face;
+        // 面向开发人员详细用途面熟
+        private final String descriptors;
+        // 用于Database数据记录状态
+        private final Long state;
 
-        private final String message;
-
-        BizStatus(String code, String message) {
+        ProveProveState(String code, String face, String descriptors, Long state) {
             this.code = code;
-            this.message = message;
-        }
-
-    }
-
-    @Getter
-    public enum BizResponseState implements IEnum<String> {
-
-        Biz_Ok_Response("Biz_Ok_Response", "业务响应成功"),
-        Biz_Failed_Response("Biz_Failed_Response", "业务响应失败"),
-
-        ;
-
-        private final String code;
-
-        private final String message;
-
-        BizResponseState(String code, String message) {
-            this.code = code;
-            this.message = message;
-        }
-
-    }
-
-    @Getter
-    public enum DataState implements IEnum<String>, IEnumStatus<Integer> {
-
-        Deleted(0, "Deleted", "已删除"),
-        Saved(1, "Saved", "已保存"),
-
-        Disabled(2, "Disabled", "已禁用"),
-        Enabled(3, "Enabled", "已启用"),
-
-        Locked(4, "Locked", "已锁定"),
-        Unlocked(5, "Unlocked", "未锁定"),
-        ;
-
-        private final Integer state;
-
-        private final String code;
-
-        private final String message;
-
-        DataState(Integer state, String code, String message) {
+            this.face = face;
+            this.descriptors = descriptors;
             this.state = state;
-            this.code = code;
-            this.message = message;
         }
 
     }
