@@ -1,0 +1,11 @@
+@charset "UTF-8";
+.bodyLayer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.fromLayer {
+    flex-grow: 1;
+}
