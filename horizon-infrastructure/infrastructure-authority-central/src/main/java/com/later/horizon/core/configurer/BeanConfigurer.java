@@ -3,6 +3,7 @@ package com.later.horizon.core.configurer;
 import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.converter.Converter;
 import com.later.horizon.common.converter.IConverter;
+import com.later.horizon.common.exception.BusinessException;
 import com.later.horizon.common.helper.RSAHelper;
 import com.later.horizon.core.filters.TraceIdCorsFilter;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +32,15 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Optional;
 
+@SuppressWarnings(Constants.Default_Suppress_Warnings_Deprecation)
 @Slf4j
 @Configuration
 public class BeanConfigurer {
@@ -88,17 +94,35 @@ public class BeanConfigurer {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter() {
             @Override
             public OAuth2AccessToken enhance(OAuth2AccessToken oAuth2AccessToken, OAuth2Authentication oAuth2Authentication) {
-                return super.enhance(oAuth2AccessToken, oAuth2Authentication);
+                OAuth2AccessToken enhance = super.enhance(oAuth2AccessToken, oAuth2Authentication);
+                // JwtHelper.decode("");
+                return enhance;
             }
         };
-        String cfgPlaintextDecrypt = environment.getProperty(Constants.Env_Run_PlaintextDecrypt);
-        if (StringUtils.hasText(cfgPlaintextDecrypt) && Boolean.parseBoolean(cfgPlaintextDecrypt)) {
+        String plaintextDecrypt = environment.getProperty(Constants.Env_Run_PlaintextDecrypt);
+        boolean hasPlaintextDecrypt = false;
+        try {
+            hasPlaintextDecrypt = Boolean.parseBoolean(plaintextDecrypt);
+        } catch (Exception ignored) {
+        }
+        if (hasPlaintextDecrypt) {
             String passwordSeed = environment.getProperty(Constants.Env_Run_PasswordSeed);
             if (StringUtils.hasText(passwordSeed)) {
                 try {
-                    jwtAccessTokenConverter.setKeyPair(RSAHelper.generatorKeyPair(passwordSeed));
+                    // 密钥库获取的RSA密钥对
+                    KeyPair keyPair = RSAHelper.generatorKeyPair(passwordSeed);
+
+                    // 密钥库获取并设置公钥用于验证JWT令牌
+                    RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+                    String publicKeyStr = new String(Base64.getEncoder().encode(publicKey.getEncoded()), StandardCharsets.UTF_8);
+                    jwtAccessTokenConverter.setVerifierKey(publicKeyStr);
+
+                    // 设置密钥对用于生成JWT令牌
+                    jwtAccessTokenConverter.setKeyPair(keyPair);
                 } catch (NoSuchAlgorithmException ignored) {
                 }
+            } else {
+                throw new BusinessException(Constants.ProveProveState.Env_Run_RSA_PasswordSeed_Empty);
             }
         }
         return jwtAccessTokenConverter;
