@@ -28,6 +28,8 @@ public class Constants {
     // Unknown Implicit Parameters Keys
     public static final String Default_Certifiers_Username = "super";
     public static final String Default_Certifiers_Password = "123456";
+    public static final String Default_Spring_Profiles_Active = "native";
+    public static final String Default_Session_Spring_Security_Context = "SPRING_SECURITY_CONTEXT";
 
     @Getter
     public enum ProveProveState implements IEnumProve<String>, IEnumProveState<Long> {
@@ -40,6 +42,8 @@ public class Constants {
         RSA_SecretKey_Initialize_Failed("RSA_PublicKey_Expire", "RSA 公钥过期", "RSA 公钥过期", 1234567890L),
         RSA_SecretKey_Decrypt_Failed("RSA_SecretKey_Decrypt_Failed", "RSA 密钥解密失败", "RSA 密钥解密失败", 1234567890L),
         Env_Run_RSA_PasswordSeed_Empty("Env_Run_RSA_PasswordSeed_Empty", "环境运行 RSA 密码种子为空", "环境运行 RSA 密码种子为空", 1234567890L),
+        AES_SecretKey_Encrypt_Failed("AES_SecretKey_Encrypt_Failed", "AES 密钥解密失败", "AES 密钥解密失败", 1234567890L),
+        AES_SecretKey_Decrypt_Failed("AES_SecretKey_Decrypt_Failed", "AES 密钥解密失败", "AES 密钥解密失败", 1234567890L),
 
         Business_Processing_Status_Succeeded("Business_Status", "业务处理 成功", "业务处理 成功", 200L),
         Business_Processing_Status_Failed("Business_Status", "业务处理 失败", "业务处理 失败", 201L),

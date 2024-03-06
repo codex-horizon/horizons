@@ -100,8 +100,8 @@ public class RSAHelper {
     }
 
     public static void main(String[] args) {
-        String toEncryptedStr = "123456";
-        String publicKey = RSAHelper.getPublicKey("123456");
+        String toEncryptedStr = "root";
+        String publicKey = RSAHelper.getPublicKey("root");
         String encrypt = RSAHelper.encrypt(toEncryptedStr, publicKey);
         String decrypt = RSAHelper.decrypt(encrypt, publicKey, false);
 //        String decrypt = RSAHelper.decrypt(encrypt, publicKey, true);

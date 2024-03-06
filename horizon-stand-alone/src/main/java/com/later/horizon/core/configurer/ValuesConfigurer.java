@@ -24,10 +24,16 @@ public class ValuesConfigurer implements Serializable {
 
     private static final long serialVersionUUID = 1L;
 
+    @Value("${spring.profiles.active}")
+    private String profilesActive;
+
     @Value("${spring.application.name}")
     private String applicationName;
 
     @Value("${request-white.ignored-uris}")
     private String[] requestWhiteIgnoredUris;
+
+    @Value("${password.seed.url}")
+    private String passwordSeedURL;
 
 }

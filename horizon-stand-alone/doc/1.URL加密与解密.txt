@@ -1,0 +1,2 @@
+1.将如下URL，复制粘贴到Postman请求，即可debugger加解密整个过程；
+    http://localhost:8080/horizonStandAlone/+j7ucO6ziKjlIvzDasxoBg==

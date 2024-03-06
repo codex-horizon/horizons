@@ -8,8 +8,17 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Slf4j
 @Configuration
@@ -21,15 +30,15 @@ public class BeanConfigurer {
         this.valuesConfigurer = valuesConfigurer;
     }
 
-    /*@Bean
+    @Bean
     public AuditorAware<UserDetails> auditorAware() {
         return () -> Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
                 .map(Authentication::getPrincipal)
                 .map(User.class::cast)
-                *//*.map(User::getUsername)*//*;
-    }*/
+                /*.map(User::getUsername)*/;
+    }
 
     @Bean
     public IConverter iConverter() {
@@ -45,4 +54,9 @@ public class BeanConfigurer {
         }};
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        // return NoOpPasswordEncoder.getInstance();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 }

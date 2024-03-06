@@ -5,8 +5,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     name: horizon-stand-alone-${spring.profiles.active}
     url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.name}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: 'ENC(ITGKG+x43Pe+3VLn5eNs9XL1G6yLFx/rPHx/TwDwrNwi3HY1zJhDSbr/mPa/RCMPo+cteHCg2n7HLrnXDQ1VeeWKZJRcLegmOTJUt5wrbnA9x9p6FQVduCqnidxd15d68SFFeMlEdTIv36aDqZ5ApFwVYsXFiO6C3521LLM8Nq8=)'
-    password: 'ENC(TVqXpEqe83s4cDr1YEA/U8gukiHKVPQA3ZbwcLCiyhhUxMx1JlwrwFZdtG+yTsKpCqf0rNrwU4dA3KkPivzCx4J8aIDpjzymfxqtXijt5K1ceGE5lyXNR66mANa6qq6LfcfVjulU1lnheNg/jjDIYlTpHotZ8VWd+thhyq91920=)'
+    username: 'ENC(ZWlUhIWkL5hA4zSXlBieirl7EJHJ5Wg9JBOLgfloBxJS1YvdsTYRH6puGc2s69VpLyt8zALGlY90J9H/4S1XVyFEhVNn+8KeZtD0C2kgOYLBFMc66d8vAAok0nfIku76tODdSH/uPXLnNI5fQHatTav7Oxkv1K3FKuI7apiF8CE=)'
+    password: 'ENC(UaGFQ4/KVnUYc1bYMG3h5nhqTo7Kpul1Cht53J4m/igkXeyUGYv0iisd+/BEtf+dzkr63F7VSg5XdYKpg7W0uQFra/R9MA7MJw/7TZQv2UbpyZSB8QT5cxAVlEvOcuCHPW0H3ZuGeheY4N7Fo8w+ktRbCTBvRNBeSZjdQ3FvDRU=)'
   jpa:
     database: mysql
     show-sql: true
