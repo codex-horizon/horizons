@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Slf4j
 @SpringBootApplication
 @EnableJpaAuditing
-public class HorizonSingleApplication {
+public class HorizonStandAloneApplication {
 
     public static void main(String[] args) {
-        BeanHelper.setApplicationContext(SpringApplication.run(HorizonSingleApplication.class, args));
+        BeanHelper.setApplicationContext(SpringApplication.run(HorizonStandAloneApplication.class, args));
     }
 
 }

@@ -179,15 +179,26 @@
     </profiles>
     <repositories>
         <repository>
-            <id>central</id>
-            <url>https://maven.aliyun.com/repository/central</url>
+            <id>aliYun-repos</id>
+            <url>https://maven.aliyun.com/repository/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </repository>
     </repositories>
-
+    <pluginRepositories>
+        <pluginRepository>
+            <id>aliYun-repos</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: native
+  application:
+    name: HorizonStandAloneApplication
+server:
+  shutdown: graceful
+  servlet:
+    context-path: /horizonStandAlone
+  port: 8080
+  server-header: "HorizonStandAlone Application"
