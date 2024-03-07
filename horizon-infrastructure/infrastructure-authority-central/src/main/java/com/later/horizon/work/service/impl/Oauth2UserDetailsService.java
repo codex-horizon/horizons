@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,29 +63,33 @@ public class Oauth2UserDetailsService implements IOauth2UserDetailsService {
         );
         Oauth2UserDetailsBo oauth2UserDetailsBo = iConverter.convert(oauth2UserDetailsEntity, Oauth2UserDetailsBo.class);
         HttpServletRequest request = CommonHelper.getHttpServletRequest();
-        // 预判系统是否授权
-
-        // 预判用户是否授权
-
         // 预判验码是否命中
 //        String code = request.getParameter(Constants.Form_Parameter_Code_Lowercase);
 //        if(!StringUtils.hasText(code)) {
 //            throw new BizException(Constants.BizStatus.Sso_User_Password_Incorrect);
 //        }
 
+        // 预判系统是否授权
+
+        // 预判用户是否授权
+
         // 预判密码是否正确
         String encryptPassword = oauth2UserDetailsBo.getPassword();
         String password = request.getParameter(Constants.Form_Parameter_Name_Password);
-        if (!passwordEncoder.matches(password, encryptPassword)) {
-            throw new BusinessException(Constants.ProveProveState.Sso_User_Password_Incorrect);
-        }
-
         // 预判完全许可放行
-        return new org.springframework.security.core.userdetails.User(
-                username,
-                oauth2UserDetailsBo.getPassword(),
-                AuthorityUtils.NO_AUTHORITIES
-        );
+        if (
+                (
+                        StringUtils.hasText(password) && passwordEncoder.matches(password, encryptPassword)
+                )
+                        ||
+                        SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            return new org.springframework.security.core.userdetails.User(
+                    username,
+                    encryptPassword,
+                    AuthorityUtils.NO_AUTHORITIES
+            );
+        }
+        throw new BusinessException(Constants.ProveProveState.Sso_User_Password_Incorrect);
     }
 
     @Override

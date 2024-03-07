@@ -77,11 +77,14 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        // 启用增强型JWT，灵活禁用；
-        endpoints
-                .tokenServices(defaultTokenServices)
-                // oauth_user_details
-                .userDetailsService(iOauth2UserDetailsService)
+        endpoints.userDetailsService(iOauth2UserDetailsService) // oauth_user_details
+                .reuseRefreshTokens(Boolean.FALSE);
+
+        // 支持密码模式；
+        endpoints.authenticationManager(authenticationManager);
+
+        // 支持增强型JWT；
+        endpoints.tokenServices(defaultTokenServices)
                 // oauth_approvals
                 .approvalStore(jdbcApprovalStore)
                 // oauth_access_token、oauth_refresh_token
@@ -91,8 +94,6 @@ public class AuthorizationServerConfigurer extends AuthorizationServerConfigurer
                 // oauth_client_details
                 .setClientDetailsService(jdbcClientDetailsService);
 
-        // 同时支持密码模式
-        endpoints.authenticationManager(authenticationManager);
     }
 
 
