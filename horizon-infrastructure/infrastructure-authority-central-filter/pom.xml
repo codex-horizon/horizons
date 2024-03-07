@@ -13,13 +13,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -36,7 +31,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.later.horizon.HorizonUnifyAuthorityCentralFilterApplication</mainClass>
+                            <mainClass>com.later.horizon.InfrastructureAuthorityCentralFilterApplication</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
