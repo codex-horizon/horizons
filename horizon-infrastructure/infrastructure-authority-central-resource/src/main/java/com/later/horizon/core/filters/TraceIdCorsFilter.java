@@ -1,7 +1,7 @@
 package com.later.horizon.core.filters;
 
 import com.later.horizon.common.constants.Constants;
-import com.later.horizon.common.helper.RequestHelper;
+import com.later.horizon.common.helper.CommonHelper;
 import com.later.horizon.core.configurer.ValuesConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +31,7 @@ public class TraceIdCorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.setHeader(Constants.Header_Application_Name, valuesConfigurer.getApplicationName());
-        response.setHeader(Constants.Header_Trace_Id, RequestHelper.getTraceId());
+        response.setHeader(Constants.Header_Trace_Id, CommonHelper.createUUID());
         if (CorsUtils.isCorsRequest(request)) {
             String[] corsHeaders = {HttpHeaders.CONTENT_TYPE};
             response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, request.getHeader(HttpHeaders.ORIGIN));

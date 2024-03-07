@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class AuthorityCentralController {
 
-
     private final ConsumerTokenServices consumerTokenServices;
 
     AuthorityCentralController(final ConsumerTokenServices consumerTokenServices) {

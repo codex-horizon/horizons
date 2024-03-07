@@ -31,7 +31,6 @@ public class WebMvcConfigurer implements org.springframework.web.servlet.config.
         this.valuesConfigurer = valuesConfigurer;
     }
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry

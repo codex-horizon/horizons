@@ -3,10 +3,11 @@
 ---------------------------------------------- infrastructure-authority-central init script ----------------------------------------------
 
 一、
-http://127.0.0.1:1469/infrastructureAuthorityCentral
-http://127.0.0.1:1649/infrastructureAuthorityCentralResource
+    回归【http://127.0.0.1:1469/infrastructureAuthorityCentral】
+    回归【http://127.0.0.1:1649/infrastructureAuthorityCentralResource】
 
 二、
+   POST：【http://localhost:1649/infrastructureAuthorityCentralResource/oauth2ClientDetails/add】
     {
     	"clientId": "0d55e4c5-aeb2-4e00-9b67-80c8f31918d8",
     	"resourceIds": [

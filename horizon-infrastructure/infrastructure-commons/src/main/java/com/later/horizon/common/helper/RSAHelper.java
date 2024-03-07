@@ -100,15 +100,14 @@ public class RSAHelper {
     }
 
     public static void main(String[] args) {
-        String toEncryptedStr = "123456";
-        String publicKey = RSAHelper.getPublicKey("123456");
-        log.info("publicKey[{}]", publicKey);
+        String toEncryptedStr = "root";
+        String publicKey = RSAHelper.getPublicKey("root");
         String encrypt = RSAHelper.encrypt(toEncryptedStr, publicKey);
-        log.info("encrypt[{}]", encrypt);
         String decrypt = RSAHelper.decrypt(encrypt, publicKey, false);
+//        String decrypt = RSAHelper.decrypt(encrypt, publicKey, true);
+        log.info("publicKey[{}]", publicKey);
+        log.info("encrypt[{}]", encrypt);
         log.info("decrypt[{}]", decrypt);
-        String decrypt1 = RSAHelper.decrypt(encrypt, publicKey, true);
-        log.info("decrypt[{}]", decrypt1);
     }
 
 }

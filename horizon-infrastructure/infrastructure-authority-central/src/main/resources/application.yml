@@ -8,3 +8,4 @@ server:
   servlet:
     context-path: /infrastructureAuthorityCentral
   port: 1469
+  server-header: "InfrastructureAuthorityCentral Application"
