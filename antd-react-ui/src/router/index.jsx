@@ -1,10 +1,11 @@
-import React, {} from 'react';
+import React, {Suspense} from 'react';
 import {
     createBrowserRouter, /*createHashRouter,
     createRoutesFromElements,
     Route,*/
     Navigate
 } from 'react-router-dom';
+import Styles from './../index.module.css';
 
 const LoginView = React.lazy(() => import('../layer/loginLayer/index.jsx'));
 const IndexView = React.lazy(() => import('../layer/indexLayer/index.jsx'));
@@ -33,6 +34,16 @@ const contactAction = () => {
 
 }
 
+const lazyLoading = (childNodes) => {
+    return <Suspense fallback={
+        <div className={Styles.loadingLayer}>
+            <h1>🌀 加载中...</h1>
+        </div>}
+    >
+        {childNodes}
+    </Suspense>
+}
+
 const routes = [{
     path: '/',
     loader: contactLoader(),
@@ -57,13 +68,13 @@ const routes = [{
                 path: 'l0_0.html',
                 loader: contactLoader(),
                 action: contactAction(),
-                element: <L0View/>,
+                element: lazyLoading(<L0View/>),
                 errorElement: <ErrorView/>
             }, {
                 path: 'l0_1.html',
                 loader: contactLoader(),
                 action: contactAction(),
-                element: <L1View/>,
+                element: lazyLoading(<L1View/>),
                 errorElement: <ErrorView/>
             }]
         }, // 系统级
@@ -71,25 +82,25 @@ const routes = [{
             path: 'user.html',
             loader: contactLoader(),
             action: contactAction(),
-            element: <UserView/>,
+            element: lazyLoading(<UserView/>),
             errorElement: <ErrorView/>
         }, {
             path: 'role.html',
             loader: contactLoader(),
             action: contactAction(),
-            element: <RoleView/>,
+            element: lazyLoading(<RoleView/>),
             errorElement: <ErrorView/>
         }, {
             path: 'menu.html',
             loader: contactLoader(),
             action: contactAction(),
-            element: <MenuView/>,
+            element: lazyLoading(<MenuView/>),
             errorElement: <ErrorView/>
         }, {
             path: 'authority.html',
             loader: contactLoader(),
             action: contactAction(),
-            element: <AuthorityView/>,
+            element: lazyLoading(<AuthorityView/>),
             errorElement: <ErrorView/>
         }]
 }, {

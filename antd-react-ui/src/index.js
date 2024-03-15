@@ -4,21 +4,21 @@ import Styles from './index.module.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <React.Suspense fallback={<Loading/>}>
-            <App/>
-        </React.Suspense>
-    </React.StrictMode>
-);
-
-function Loading() {
-    return (
+const lazyLoading = (childNodes) => {
+    return <React.Suspense fallback={
         <div className={Styles.loadingLayer}>
             <h1>🌀 加载中...</h1>
-        </div>
-    );
+        </div>}
+    >
+        {childNodes}
+    </React.Suspense>
 }
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        {lazyLoading(<App/>)}
+    </React.StrictMode>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
