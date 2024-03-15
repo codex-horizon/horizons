@@ -1,6 +1,6 @@
 const AuthorityView = function () {
     return (
-        <div>authorityLayer</div>
+        <div>数据权限</div>
     );
 }
 

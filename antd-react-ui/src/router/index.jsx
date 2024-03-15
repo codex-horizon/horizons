@@ -10,8 +10,8 @@ import Styles from './../index.module.css';
 const LoginView = React.lazy(() => import('../layer/loginLayer/index.jsx'));
 const IndexView = React.lazy(() => import('../layer/indexLayer/index.jsx'));
 
-const L0View = React.lazy(() => import('../layer/indexLayer/level/0_0_0.jsx'));
-const L1View = React.lazy(() => import('../layer/indexLayer/level/0_1_0.jsx'));
+const VideoCategoryView = React.lazy(() => import('../layer/indexLayer/level/videoCategoryLayer/index.jsx'));
+const WallpaperCategoryView = React.lazy(() => import('../layer/indexLayer/level/wallpaperCategoryLayer/index.jsx'));
 
 const UserView = React.lazy(() => import('../layer/indexLayer/module/userLayer/index.jsx'));
 const RoleView = React.lazy(() => import('../layer/indexLayer/module/roleLayer/index.jsx'));
@@ -64,17 +64,17 @@ const routes = [{
     errorElement: <ErrorView/>,
     children: [// 业务级
         {
-            path: 'l0', loader: contactLoader(), action: contactAction(), children: [{
-                path: 'l0_0.html',
+            path: 'siteCategory', loader: contactLoader(), action: contactAction(), children: [{
+                path: 'videoCategory.html',
                 loader: contactLoader(),
                 action: contactAction(),
-                element: lazyLoading(<L0View/>),
+                element: lazyLoading(<VideoCategoryView/>),
                 errorElement: <ErrorView/>
             }, {
-                path: 'l0_1.html',
+                path: 'wallpaperCategory.html',
                 loader: contactLoader(),
                 action: contactAction(),
-                element: lazyLoading(<L1View/>),
+                element: lazyLoading(<WallpaperCategoryView/>),
                 errorElement: <ErrorView/>
             }]
         }, // 系统级

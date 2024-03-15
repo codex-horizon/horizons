@@ -32,7 +32,7 @@ export default function IndexView() {
     return (<React.Fragment>
         <div className={Styles.headLayer}>
             <Link to="/index" className={Styles.titleLayer} style={{textDecoration: 'none'}}>
-                <Avatar src={<img src={logoURL} alt={'avatar'}/>} size={44}/>
+                <Avatar src={<img src={logoURL} alt={'avatar'}/>} size={36}/>
                 <span className={Styles.title}>Antd React Pro</span>
             </Link>
             <Dropdown menu={{
@@ -60,14 +60,14 @@ function SideMenu() {
     const navigate = useNavigate();
 
     const items = [{
-        label: '0', key: '0', type: 'item', icon: <LogoutOutlined/>, children: [{
-            label: <span style={{fontSize: '12px', color: '#1677ff'}}>用户级别，会破坏数据安全</span>,
+        label: '站点管理', key: '0', type: 'item', icon: <LogoutOutlined/>, children: [{
+            label: <span style={{fontSize: '12px', color: '#1677ff'}}>用户级别，会破坏数据完整</span>,
             type: 'group',
             children: [{
-                label: '0-0', key: 'l0', type: 'item', icon: <UserOutlined/>, children: [{
-                    label: '0-0-0', key: 'l0_0.html', type: 'item', icon: <UserOutlined/>
+                label: '站点分类', key: 'siteCategory', type: 'item', icon: <UserOutlined/>, children: [{
+                    label: '视频类', key: 'videoCategory.html', type: 'item', icon: <UserOutlined/>
                 }, {
-                    label: '0-0-1', key: 'l0_1.html', type: 'item', icon: <UserOutlined/>
+                    label: '壁纸类', key: 'wallpaperCategory.html', type: 'item', icon: <UserOutlined/>
                 }]
             }]
         }],
@@ -90,11 +90,7 @@ function SideMenu() {
     return (<div style={{width: 256, height: '100%'}}>
         <Menu
             mode='inline'
-            onClick={(e) => {
-                let path = e.keyPath.reverse();
-                path[0] = 'index';
-                navigate('/'.concat(path.join('/')), {replace: true})
-            }}
+            onClick={(e) => navigate(('/'.concat(e.keyPath.reverse().join('/'))).replace(/\d+/, 'index'), {replace: true})}
             items={items}
             style={{height: '100%'}}/>
     </div>);
