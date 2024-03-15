@@ -10,22 +10,19 @@ function FromLayer() {
     const navigate = useNavigate();
 
     const onFinish = (values) => {
-        messageApi.open({
-            type: 'success',
-            content: '登录成功，即将跳转。',
-            onClose: function () {
-                userApi.sendAuthentication({}).then(res => {
-                    console.info('Success:', values);
-                }).catch(e => {
-                    console.info('Success:', values);
-                }).finally(() => {
-                    console.info('Success:', values);
+        userApi.sendAuthentication({}).then(res => {
+            messageApi.open({
+                type: 'success',
+                content: '登录成功，即将跳转。',
+                duration: 1,
+                onClose: function () {
                     navigate('/index/user.html');
-                })
-            }
-        }).then(r => {
-            console.info('Success:', values);
-        });
+                }
+            }).then(r => {
+            });
+        }).catch(e => {
+        }).finally(() => {
+        })
     };
 
     return (

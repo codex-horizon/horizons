@@ -17,7 +17,6 @@ import avatarURI from '../../assets/avatar.gif';
 
 export default function IndexView() {
     const logoURL = 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg';
-
     const dropdownItems = [{
         key: '0', label: '个人信息', icon: <UserOutlined/>
     }, {
@@ -27,13 +26,13 @@ export default function IndexView() {
     }, {
         key: '2', label: '自销账号', icon: <BugOutlined/>, disabled: true,
     }, {
-        key: '3', label: '注销登录', icon: <LogoutOutlined/>
-    },];
+        key: '3', label: (<Link to="/">注销登录</Link>), icon: <LogoutOutlined/>
+    }];
 
     return (<React.Fragment>
         <div className={Styles.headLayer}>
-            <Link to="/index.html" className={Styles.titleLayer} style={{textDecoration: 'none'}}>
-                <Avatar src={<img src={logoURL} alt={'avatar'}/>} size={36}/>
+            <Link to="/index" className={Styles.titleLayer} style={{textDecoration: 'none'}}>
+                <Avatar src={<img src={logoURL} alt={'avatar'}/>} size={44}/>
                 <span className={Styles.title}>Antd React Pro</span>
             </Link>
             <Dropdown menu={{
@@ -88,16 +87,14 @@ function SideMenu() {
         }],
     }];
 
-    const onClick = (e) => {
-        let path = e.keyPath.reverse();
-        path[0] = 'index';
-        navigate('/'.concat(path.join('/')), {replace: true})
-    };
-
     return (<div style={{width: 256, height: '100%'}}>
         <Menu
             mode='inline'
-            onClick={onClick}
+            onClick={(e) => {
+                let path = e.keyPath.reverse();
+                path[0] = 'index';
+                navigate('/'.concat(path.join('/')), {replace: true})
+            }}
             items={items}
             style={{height: '100%'}}/>
     </div>);

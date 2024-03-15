@@ -4,11 +4,5 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    padding: 20px;
+    padding: 56% 0 0;
 }
