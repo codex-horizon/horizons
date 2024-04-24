@@ -17,6 +17,11 @@
         <module>infrastructure-commons</module>
     </modules>
 
+    <description>
+        1.Spring Cloud 2021.0.9 基于 Spring Boot 2.6.15，兼容 Spring Boot 2.7.18 和 3.0.13；
+        具体细节：【https://spring.io/blog/2023/12/20/spring-cloud-2021-0-9-aka-jubilee-is-now-available】
+    </description>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
