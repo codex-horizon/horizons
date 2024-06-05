@@ -6,7 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -45,7 +46,7 @@ public class CommonHelper {
     }
 
     public static String createUUID() {
-        return UUID.randomUUID() + "-" + Instant.now().getEpochSecond();
+        return UUID.randomUUID() + "-" + DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
     }
 
     public static Map<String, String> createCaptcha() {

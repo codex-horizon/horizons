@@ -23,9 +23,11 @@ public class Constants {
     public static final String Form_Parameter_Name_Code = "code";
 
     // Environment Run Parameters Keys
-    public static final String Env_Run_SpecifiesCiphertext = "SpecifiesCiphertext";
-    public static final String Env_Run_PasswordSeed = "PasswordSeed";
     public static final String Env_Run_Profiles_Active = "native";
+    public static final String Env_Run_EnvironmentVariableEncipher = "OpenEnvironmentVariableEncipher";
+    public static final String Env_Run_EnvironmentVariablePasswordSeed = "EnvironmentVariablePasswordSeed";
+    public static final String Env_Run_RequestUrlEncipher = "OpenRequestUrlEncipher";
+    public static final String Env_Run_RequestUrlPasswordSeed = "RequestUrlEncipherPasswordSeed";
 
     // Login System Values
     public static final String Default_Certifiers_Username_Value = "super";

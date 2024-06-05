@@ -42,13 +42,12 @@ public class TraceIdCorsFilter implements Filter {
             response.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, Long.toString(60 * 60 * 2));
         }
         // 预判URL是否加密（也可用Spring Security PasswordEncoder 替代）
-        if (valuesConfigurer.getHasEncipherURL()) {
+        if (valuesConfigurer.getOpenRequestUrlEncipher()) {
             String encryptedURI = request.getRequestURI().substring(request.getContextPath().length() + 1);
-            String decryptedURI = EncryptAESHelper.decrypt(encryptedURI, EncryptAESHelper.initSecretKey(valuesConfigurer.getEncipherURLSeed()));
+            String decryptedURI = EncryptAESHelper.decrypt(encryptedURI, EncryptAESHelper.initSecretKey(valuesConfigurer.getRequestUrlEncipherPasswordSeed()));
             request.getRequestDispatcher(decryptedURI).forward(request, response);
             return;
         }
-        // 预判URL是否加密
         filterChain.doFilter(request, response);
     }
 

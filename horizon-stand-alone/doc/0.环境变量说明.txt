@@ -1,4 +1,0 @@
-一、设置启动【环境变量】；
-    SpecifiesCiphertext=true;PasswordSeed=root;
-
-二、

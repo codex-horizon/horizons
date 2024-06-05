@@ -33,10 +33,17 @@ public class ValuesConfigurer implements Serializable {
     @Value("${request-white.ignored-uris}")
     private String[] requestWhiteIgnoredUris;
 
-    @Value("${has-encipher-url}")
-    private Boolean hasEncipherURL;
+    @Value("${OpenEnvironmentVariableEncipher}")
+    private Boolean openEnvironmentVariableEncipher;
 
-    @Value("${encipher-url-seed}")
-    private String encipherURLSeed;
+    @Value("${EnvironmentVariablePasswordSeed}")
+    private String environmentVariablePasswordSeed;
+
+    @Value("${OpenRequestUrlEncipher}")
+    private Boolean openRequestUrlEncipher;
+
+    @Value("${RequestUrlEncipherPasswordSeed}")
+    private String requestUrlEncipherPasswordSeed;
+
 
 }
