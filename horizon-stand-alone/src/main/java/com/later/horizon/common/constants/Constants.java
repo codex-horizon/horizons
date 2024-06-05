@@ -15,6 +15,7 @@ public class Constants {
 
     // Request Session Keys
     public static final String Session_Captcha = "SessionCaptcha:";
+    public static final String Session_Security_Context = "SPRING_SECURITY_CONTEXT";
 
     // Request From Keys
     public static final String Form_Parameter_Name_Username = "username";
@@ -22,14 +23,13 @@ public class Constants {
     public static final String Form_Parameter_Name_Code = "code";
 
     // Environment Run Parameters Keys
-    public static final String Env_Run_PlaintextDecrypt = "PlaintextDecrypt";
+    public static final String Env_Run_SpecifiesCiphertext = "SpecifiesCiphertext";
     public static final String Env_Run_PasswordSeed = "PasswordSeed";
+    public static final String Env_Run_Profiles_Active = "native";
 
-    // Unknown Implicit Parameters Keys
-    public static final String Default_Certifiers_Username = "super";
-    public static final String Default_Certifiers_Password = "123456";
-    public static final String Default_Spring_Profiles_Active = "native";
-    public static final String Default_Session_Spring_Security_Context = "SPRING_SECURITY_CONTEXT";
+    // Login System Values
+    public static final String Default_Certifiers_Username_Value = "super";
+    public static final String Default_Certifiers_Password_Value = "123456";
 
     @Getter
     public enum ProveProveState implements IEnumProve<String>, IEnumProveState<Long> {
@@ -55,7 +55,7 @@ public class Constants {
 
         ;
 
-        // 替代state
+        // 替代State
         private final String code;
         // 面向非开发人员的描述
         private final String face;

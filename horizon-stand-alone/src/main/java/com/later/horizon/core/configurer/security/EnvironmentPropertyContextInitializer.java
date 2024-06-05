@@ -3,58 +3,43 @@ package com.later.horizon.core.configurer.security;
 import com.later.horizon.common.constants.Constants;
 import com.later.horizon.common.exception.BusinessException;
 import com.later.horizon.common.helper.CommonHelper;
-import com.later.horizon.common.helper.RSAHelper;
+import com.later.horizon.common.helper.EncryptRSAHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.boot.context.properties.bind.BindResult;
-import org.springframework.boot.context.properties.bind.Bindable;
-import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.boot.context.properties.bind.*;
+import org.springframework.boot.context.properties.source.ConfigurationPropertyName;
 import org.springframework.boot.env.OriginTrackedMapPropertySource;
 import org.springframework.boot.origin.OriginTrackedValue;
 import org.springframework.boot.origin.PropertySourceOrigin;
-import org.springframework.context.EnvironmentAware;
-import org.springframework.core.Ordered;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.*;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.Properties;
 
 @Slf4j
-@Component
-public class EnvironmentDecryptParser implements BeanFactoryPostProcessor, Ordered, EnvironmentAware {
+public class EnvironmentPropertyContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
     private static final String Encrypt_Regex_Exp = "(?<=ENC\\().+(?=\\))";
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
-    }
-
-    @Override
-    public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE; // 让其初始化顺序最低，即最后初始化。
-    }
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        // 是否启用配置密文
-        String plaintextDecrypt = environment.getProperty(Constants.Env_Run_PlaintextDecrypt);
-        boolean hasPlaintextDecrypt = false;
+    public void initialize(ConfigurableApplicationContext applicationContext) {
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        String plaintextDecrypt = environment.getProperty(Constants.Env_Run_SpecifiesCiphertext);
+        boolean specifiesCiphertext = Boolean.FALSE;
         try {
-            hasPlaintextDecrypt = Boolean.parseBoolean(plaintextDecrypt);
+            specifiesCiphertext = Boolean.parseBoolean(plaintextDecrypt);
         } catch (Exception ignored) {
         }
-        if (hasPlaintextDecrypt) {
+        if (specifiesCiphertext) {
             String passwordSeed = environment.getProperty(Constants.Env_Run_PasswordSeed);
             if (StringUtils.hasText(passwordSeed)) {
                 // 获取加密公钥
-                String publicKey = RSAHelper.getPublicKey(passwordSeed);
+                String publicKey = EncryptRSAHelper.getPublicKey(passwordSeed);
                 // 解析加密配置文件
                 environmentDecryptParser(environment, publicKey);
                 // 移除加密公钥
-                RSAHelper.removeKey(publicKey);
+                EncryptRSAHelper.removeKey(publicKey);
             } else {
                 throw new BusinessException(Constants.ProveProveState.Env_Run_RSA_PasswordSeed_Empty);
             }
@@ -87,7 +72,7 @@ public class EnvironmentDecryptParser implements BeanFactoryPostProcessor, Order
             String value = originTrackedValue.toString();
             if (CommonHelper.matchRegex(Encrypt_Regex_Exp, value)) {
                 String finalKey = (String) key;
-                String finalValue = RSAHelper.decrypt(CommonHelper.findRegex(Encrypt_Regex_Exp, value), publicKey, false);
+                String finalValue = EncryptRSAHelper.decrypt(CommonHelper.findRegex(Encrypt_Regex_Exp, value), publicKey, Boolean.FALSE);
                 mutablePropertySources.remove(finalKey);
                 // ----------------------------- 原生配置文件解析容器 -----------------------------
                 // OriginTrackedMapPropertySource originTrackedMapPropertySource = new OriginTrackedMapPropertySource(finalKey, properties, Boolean.TRUE);
@@ -99,13 +84,46 @@ public class EnvironmentDecryptParser implements BeanFactoryPostProcessor, Order
                 mutablePropertySources.addFirst(new PropertiesPropertySource(finalKey, new Properties() {{
                     setProperty(finalKey, finalValue);
                 }}));
-                BindResult<Properties> bindResult = Binder.get(environment).bind(finalKey, Bindable.of(Properties.class));
+                BindResult<Properties> bindResult = Binder.get(environment).bind(finalKey, Bindable.of(Properties.class), new BindHandler() {
+                    @Override
+                    public <T> Bindable<T> onStart(ConfigurationPropertyName name, Bindable<T> target, BindContext context) {
+                        log.info("In EnvironmentPropertyContextInitializer Binding Begins {} .", name);
+                        // return target;
+                        return BindHandler.super.onStart(name, target, context);
+                    }
+
+                    @Override
+                    public Object onSuccess(ConfigurationPropertyName name, Bindable<?> target, BindContext context, Object result) {
+                        log.info("In EnvironmentPropertyContextInitializer Binding Is Successful {} .", name);
+                        // return result;
+                        return BindHandler.super.onSuccess(name, target, context, result);
+                    }
+
+                    @Override
+                    public Object onCreate(ConfigurationPropertyName name, Bindable<?> target, BindContext context, Object result) {
+                        log.info("In EnvironmentPropertyContextInitializer Creation Is Successful {} .", name);
+                        // return result;
+                        return BindHandler.super.onCreate(name, target, context, result);
+                    }
+
+                    @Override
+                    public Object onFailure(ConfigurationPropertyName name, Bindable<?> target, BindContext context, Exception error) throws Exception {
+                        log.info("In EnvironmentPropertyContextInitializer Binding Failed {} .", name);
+                        // return "没有找到匹配的属性";
+                        return BindHandler.super.onFailure(name, target, context, error);
+                    }
+
+                    @Override
+                    public void onFinish(ConfigurationPropertyName name, Bindable<?> target, BindContext context, Object result) throws Exception {
+                        log.info("In EnvironmentPropertyContextInitializer Binding Ends {} .", name);
+                        BindHandler.super.onFinish(name, target, context, result);
+                    }
+                });
                 if (bindResult.isBound()) {
-                    log.trace("in EnvironmentDecryptParser decryptParser key:{} coverage complete.", finalKey);
+                    log.info("In EnvironmentPropertyContextInitializer DecryptParser Key {} Coverage Complete.", finalKey);
                 }
             }
         });
-        log.trace("in EnvironmentDecryptParser all coverage complete.");
+        log.info("In EnvironmentPropertyContextInitializer All Coverage Complete.");
     }
-
 }

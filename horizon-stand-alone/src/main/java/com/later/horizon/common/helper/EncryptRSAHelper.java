@@ -31,12 +31,12 @@ import java.util.Map;
  * –数字签名过程：甲方用私钥加密，乙方用公钥解密（乙方解密成功说明就是甲方加的密，甲方就不可以抵赖）
  */
 @Slf4j
-public class RSAHelper {
+public class EncryptRSAHelper {
 
     private final static Map<String, String> SecretKeyCaches = new HashMap<>();
 
     public static String getPublicKey(String passwordSeed) {
-        return RSAHelper.initSecretKey(passwordSeed);
+        return EncryptRSAHelper.initSecretKey(passwordSeed);
     }
 
     public static String getPrivateKey(String publicKey) {
@@ -52,7 +52,7 @@ public class RSAHelper {
 
     private static String initSecretKey(String passwordSeed) {
         try {
-            KeyPair keyPair = RSAHelper.generatorKeyPair(passwordSeed);
+            KeyPair keyPair = EncryptRSAHelper.generatorKeyPair(passwordSeed);
             RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
             RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
             String publicKeyStr = new String(Base64.getEncoder().encode(publicKey.getEncoded()), StandardCharsets.UTF_8);
@@ -91,7 +91,7 @@ public class RSAHelper {
             Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.DECRYPT_MODE, rsaPrivateKey);
             if (removeKeyPair) {
-                RSAHelper.removeKey(publicKey);
+                EncryptRSAHelper.removeKey(publicKey);
             }
             return new String(cipher.doFinal(Base64.getDecoder().decode(str.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
         } catch (Exception ignore) {
@@ -101,10 +101,10 @@ public class RSAHelper {
 
     public static void main(String[] args) {
         String toEncryptedStr = "root";
-        String publicKey = RSAHelper.getPublicKey("root");
-        String encrypt = RSAHelper.encrypt(toEncryptedStr, publicKey);
-        String decrypt = RSAHelper.decrypt(encrypt, publicKey, false);
-//        String decrypt = RSAHelper.decrypt(encrypt, publicKey, true);
+        String publicKey = EncryptRSAHelper.getPublicKey("root");
+        String encrypt = EncryptRSAHelper.encrypt(toEncryptedStr, publicKey);
+        String decrypt = EncryptRSAHelper.decrypt(encrypt, publicKey, Boolean.FALSE);
+        // String decrypt = EncryptRSAHelper.decrypt(encrypt, publicKey, Boolean.TRUE);
         log.info("publicKey[{}]", publicKey);
         log.info("encrypt[{}]", encrypt);
         log.info("decrypt[{}]", decrypt);

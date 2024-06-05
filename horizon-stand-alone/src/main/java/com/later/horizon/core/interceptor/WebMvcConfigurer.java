@@ -50,13 +50,13 @@ public class WebMvcConfigurer implements org.springframework.web.servlet.config.
 
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-            if (Constants.Default_Spring_Profiles_Active.equals(valuesConfigurer.getProfilesActive())) {
+            if (Constants.Env_Run_Profiles_Active.equals(valuesConfigurer.getProfilesActive())) {
                 HttpSession httpSession = request.getSession();
-                UserDetails userDetails = new User(Constants.Default_Certifiers_Username, Constants.Default_Certifiers_Password, AuthorityUtils.NO_AUTHORITIES);
+                UserDetails userDetails = new User(Constants.Default_Certifiers_Username_Value, Constants.Default_Certifiers_Password_Value, AuthorityUtils.NO_AUTHORITIES);
                 TestingAuthenticationToken authenticationToken = new TestingAuthenticationToken(userDetails, httpSession.getId());
                 authenticationToken.setAuthenticated(Boolean.TRUE);
                 SecurityContext securityContext = new SecurityContextImpl(authenticationToken);
-                httpSession.setAttribute(Constants.Default_Session_Spring_Security_Context, securityContext);
+                httpSession.setAttribute(Constants.Session_Security_Context, securityContext);
                 SecurityContextHolder.setContext(securityContext);
             }
             return Boolean.TRUE;
@@ -87,7 +87,7 @@ public class WebMvcConfigurer implements org.springframework.web.servlet.config.
                 // 允许任意方法（GET, POST等）
                 .allowedMethods("*")
                 // 允许携带认证信息（cookies）
-                .allowCredentials(true)
+                .allowCredentials(Boolean.TRUE)
                 // 允许所有的请求头
                 .allowedHeaders("*")
                 // 预检请求的有效期（单位：秒），设置预检请求（OPTIONS）的结果可以被缓存1小时，避免每次请求都发送预检请求

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Slf4j
-public class RequestHelper extends BeanHelper {
+public class RequestHelper {
 
     public static String getApplicationName() {
         return Optional.ofNullable(getHttpServletResponse().getHeader(Constants.Header_Application_Name)).orElse(Constants.Header_Application_Name_None);

@@ -2,10 +2,6 @@ package com.later.horizon.common.exception;
 
 import com.later.horizon.common.constants.Constants;
 
-/**
- * 用于系统级；
- * 比方：系统依赖的参数初始化。
- */
 public class SystemError extends Error {
 
     private static Constants.ProveProveState proveState;
