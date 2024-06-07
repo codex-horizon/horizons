@@ -1,102 +1,45 @@
 package com.later.horizon.common.restful;
 
-import com.later.horizon.common.constants.Constants;
 import lombok.Data;
 
 import java.io.Serializable;
 
-public interface IResponse<T> {
+public interface IResponse {
 
-    String getCode();
+    String getApplicationName();
 
-    String getFace();
+    void setApplicationName(String applicationName);
 
-    String getDescriptors();
+    String getTraceId();
 
-    T getData();
+    void setTraceId(String seqNo);
+
+    Object getBody();
+
+    void setBody(Object o);
 
     @Data
-    class Result<T> implements IResponse<T>, Serializable {
+    class Response implements IResponse, Serializable {
 
         private static final long serialVersionUUID = 1L;
 
-        private String code;
+        private String applicationName;
 
-        private String face;
+        private String traceId;
 
-        private String descriptors;
+        private Object body;
 
-        private T data;
-
-        private Result(final Constants.ProveProveState proveProveState) {
-            this.code = proveProveState.getCode();
-            this.face = proveProveState.getFace();
-            this.descriptors = proveProveState.getDescriptors();
+        protected Response(final String applicationName, final String traceId, final Object body) {
+            this.applicationName = applicationName;
+            this.traceId = traceId;
+            this.body = body;
         }
 
-        private Result(final Constants.ProveProveState proveProveState, final String descriptors) {
-            this.code = proveProveState.getCode();
-            this.face = proveProveState.getFace();
-            this.descriptors = descriptors;
-        }
-
-        private Result(final Constants.ProveProveState proveProveState, final String face, final String descriptors) {
-            this.code = proveProveState.getCode();
-            this.face = face;
-            this.descriptors = descriptors;
-        }
-
-        private Result(final Constants.ProveProveState proveProveState, final String descriptors, final T data) {
-            this.code = proveProveState.getCode();
-            this.face = proveProveState.getFace();
-            this.descriptors = descriptors;
-            this.data = data;
-        }
-
-        private static <T> IResponse<T> restful(final Constants.ProveProveState proveProveState) {
-            return new Result<>(proveProveState);
-        }
-
-        private static <T> IResponse<T> restful(final Constants.ProveProveState proveProveState, final String descriptors) {
-            return new Result<>(proveProveState, descriptors);
-        }
-
-        private static <T> IResponse<T> restful(final Constants.ProveProveState proveProveState, final String face, final String descriptors) {
-            return new Result<>(proveProveState, face, descriptors);
-        }
-
-        private static <T> IResponse<T> restful(final Constants.ProveProveState proveProveState, final String descriptors, final T data) {
-            return new Result<>(proveProveState, descriptors, data);
-        }
-
-        public static <T> IResponse<T> succeeded() {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Succeeded);
-        }
-
-        public static <T> IResponse<T> succeeded(final Constants.ProveProveState proveProveState) {
-            return restful(proveProveState);
-        }
-
-        public static <T> IResponse<T> succeeded(final T data) {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Succeeded, Constants.ProveProveState.Business_Processing_Status_Succeeded.getDescriptors(), data);
-        }
-
-        public static <T> IResponse<T> failed() {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Failed);
-        }
-
-
-        public static <T> IResponse<T> failed(final Constants.ProveProveState proveProveState) {
-            return restful(proveProveState);
-        }
-
-        public static <T> IResponse<T> failed(final String descriptors) {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Failed, descriptors);
-        }
-
-        public static <T> IResponse<T> failed(final String face, final String descriptors) {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Failed, face, descriptors);
+        public static Response restful(final String applicationName, final String traceId, final Object body) {
+            return new Response(applicationName, traceId, body);
         }
 
     }
+
 }
+

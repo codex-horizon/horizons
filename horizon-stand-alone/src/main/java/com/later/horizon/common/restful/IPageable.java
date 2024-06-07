@@ -4,14 +4,14 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-public interface IPageableResponse<T> {
+public interface IPageable<T> {
 
     long getTotal();
 
     T getList();
 
     @Data
-    class PageableResponse<T> implements IPageableResponse<T>, Serializable {
+    class Pageable<T> implements IPageable<T>, Serializable {
 
         private static final long serialVersionUUID = 1L;
 
@@ -19,13 +19,13 @@ public interface IPageableResponse<T> {
 
         private T list;
 
-        private PageableResponse(final Long total, final T list) {
+        private Pageable(final Long total, final T list) {
             this.total = total;
             this.list = list;
         }
 
-        public static <T> PageableResponse<T> response(final Long total, final T list) {
-            return new PageableResponse<>(total, list);
+        public static <T> Pageable<T> response(final Long total, final T list) {
+            return new Pageable<>(total, list);
         }
 
     }

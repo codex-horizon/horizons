@@ -100,7 +100,7 @@ public class EncryptRSAHelper {
     }
 
     public static void main(String[] args) {
-        String toEncryptedStr = "root";
+        String toEncryptedStr = "123456";
         String publicKey = EncryptRSAHelper.getPublicKey("root");
         String encrypt = EncryptRSAHelper.encrypt(toEncryptedStr, publicKey);
         String decrypt = EncryptRSAHelper.decrypt(encrypt, publicKey, Boolean.FALSE);

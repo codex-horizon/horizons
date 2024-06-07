@@ -4,7 +4,7 @@ import javax.validation.groups.Default;
 
 public class GroupValidator {
 
-    public interface Login extends Default {
+    public interface Authentication extends Default {
     }
 
     public interface Create extends Default {

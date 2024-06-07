@@ -55,6 +55,8 @@ public class Constants {
         Data_Status_Available("Data_Status_Available", "数据 可用中", "数据 可用中", 1L),
         Data_Status_Deleted("Data_Status_Deleted", "数据 已删除", "数据 已删除（硬删）", 2L),
 
+        User_Name_Exists("User_Name_Exists", "用户名称 已存在", "用户名称 已存在", 1234567890L),
+        User_Non_Existent("User_Non_Existent", "用户名称 不存在", "用户名称 不存在", 1234567890L),
         ;
 
         // 替代State

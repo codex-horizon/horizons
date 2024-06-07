@@ -14,3 +14,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+  security:
+    user:
+      name: 'ENC(LUYCxxJ3Sffm3SRVbmkGrM/rzDNANsMprg80f1lBUJCeDNpwn4N1wW3d5i3FjA+uaz7vJE8oNF4V6OOXJS4LH2VX0zzMhmNlPT218Zu4ySRt/B4/vXF9t1tKGpYSiObiV9uwca4Kvm+kY0RSQsHbEGvGdS+qye2zxDV+IYFbmYg=)'
+      password: 'ENC(A4gE3J+oKZc8OSI+1AOYv5WnQUY8t89g2Hkci48MxwtkWelXt7bbDK2e4j5eLv8MVpmZJRgZeUNut17ysZ03ZBZXfbuVr6Dq9xlKp2hJLaiOpAh82eJ2yN2mNhicbkCet79rrdm1akY0BrbFx7YicoH19lb+LVAK5tIR7eQoi2g=)'

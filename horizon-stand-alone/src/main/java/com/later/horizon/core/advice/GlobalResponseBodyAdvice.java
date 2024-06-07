@@ -1,7 +1,7 @@
 package com.later.horizon.core.advice;
 
 import com.later.horizon.common.helper.RequestHelper;
-import com.later.horizon.common.restful.IGlobalResponse;
+import com.later.horizon.common.restful.IResponse;
 import com.later.horizon.core.configurer.ValuesConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -29,6 +29,6 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        return IGlobalResponse.GlobalResponse.restful(valuesConfigurer.getApplicationName(), RequestHelper.getTraceId(), body);
+        return IResponse.Response.restful(valuesConfigurer.getApplicationName(), RequestHelper.getTraceId(), body);
     }
 }
