@@ -1,10 +1,10 @@
 一、设置启动【环境变量】；
     1.配置文件加密：
-        OpenEnvironmentVariableEncipher=true;EnvironmentVariablePasswordSeed=root;
+        encipherEnvironmentVariable=true;passwordSeedEnvironmentVariable=root;
     2.请求链接加密：
-        OpenRequestUrlEncipher=true;RequestUrlEncipherPasswordSeed=root;
+        encipherRequestUrl=true;passwordSeedRequestUrl=root;
 
-    最终合并：OpenEnvironmentVariableEncipher=true;EnvironmentVariablePasswordSeed=root;OpenRequestUrlEncipher=true;RequestUrlEncipherPasswordSeed=root;
+    最终合并：encipherEnvironmentVariable=true;passwordSeedEnvironmentVariable=root;encipherRequestUrl=true;passwordSeedRequestUrl=root;
 
 二、将如下URL，复制粘贴到Postman请求，即可debugger加解密整个过程；
     http://localhost:8080/horizonStandAlone/+j7ucO6ziKjlIvzDasxoBg==

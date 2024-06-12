@@ -30,20 +30,19 @@ public class ValuesConfigurer implements Serializable {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @Value("${request-white.ignored-uris}")
-    private String[] requestWhiteIgnoredUris;
+    @Value("${security.ignored-uris}")
+    private String[] securityIgnoredUris;
 
-    @Value("${OpenEnvironmentVariableEncipher}")
-    private Boolean openEnvironmentVariableEncipher;
+    @Value("${encipherEnvironmentVariable}")
+    private Boolean encipherEnvironmentVariable;
 
-    @Value("${EnvironmentVariablePasswordSeed}")
-    private String environmentVariablePasswordSeed;
+    @Value("${passwordSeedEnvironmentVariable}")
+    private String passwordSeedEnvironmentVariable;
 
-    @Value("${OpenRequestUrlEncipher}")
-    private Boolean openRequestUrlEncipher;
+    @Value("${encipherRequestUrl}")
+    private Boolean encipherRequestUrl;
 
-    @Value("${RequestUrlEncipherPasswordSeed}")
-    private String requestUrlEncipherPasswordSeed;
-
+    @Value("${passwordSeedRequestUrl}")
+    private String passwordSeedRequestUrl;
 
 }

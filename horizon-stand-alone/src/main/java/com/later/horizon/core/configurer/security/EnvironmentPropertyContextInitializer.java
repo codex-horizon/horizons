@@ -25,14 +25,14 @@ public class EnvironmentPropertyContextInitializer implements ApplicationContext
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
-        String plaintextDecrypt = environment.getProperty(Constants.Env_Run_EnvironmentVariableEncipher);
+        String plaintextDecrypt = environment.getProperty(Constants.Env_Run_EncipherEnvironmentVariable);
         boolean specifiesCiphertext = Boolean.FALSE;
         try {
             specifiesCiphertext = Boolean.parseBoolean(plaintextDecrypt);
         } catch (Exception ignored) {
         }
         if (specifiesCiphertext) {
-            String passwordSeed = environment.getProperty(Constants.Env_Run_EnvironmentVariablePasswordSeed);
+            String passwordSeed = environment.getProperty(Constants.Env_Run_PasswordSeedEnvironmentVariable);
             if (StringUtils.hasText(passwordSeed)) {
                 // 获取加密公钥
                 String publicKey = EncryptRSAHelper.getPublicKey(passwordSeed);

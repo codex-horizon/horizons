@@ -12,6 +12,7 @@ public class Constants {
     public static final String Header_Access_Token = "Access-Token";
     public static final String Header_Refresh_Token = "Refresh-Token";
     public static final String Header_RSA_PublicKey = "RSA-PublicKey";
+    public static final String Header_URL_Encipher = "URL_Encipher";
 
     // Request Session Keys
     public static final String Session_Captcha = "SessionCaptcha:";
@@ -24,10 +25,10 @@ public class Constants {
 
     // Environment Run Parameters Keys
     public static final String Env_Run_Profiles_Active = "native";
-    public static final String Env_Run_EnvironmentVariableEncipher = "OpenEnvironmentVariableEncipher";
-    public static final String Env_Run_EnvironmentVariablePasswordSeed = "EnvironmentVariablePasswordSeed";
-    public static final String Env_Run_RequestUrlEncipher = "OpenRequestUrlEncipher";
-    public static final String Env_Run_RequestUrlPasswordSeed = "RequestUrlEncipherPasswordSeed";
+    public static final String Env_Run_EncipherEnvironmentVariable = "encipherEnvironmentVariable";
+    public static final String Env_Run_PasswordSeedEnvironmentVariable = "passwordSeedEnvironmentVariable";
+    public static final String Env_Run_EncipherRequestUrl = "encipherRequestUrl";
+    public static final String Env_Run_PasswordSeedRequestUrl = "passwordSeedRequestUrl";
 
     // Login System Values
     public static final String Default_Certifiers_Username_Value = "super";
