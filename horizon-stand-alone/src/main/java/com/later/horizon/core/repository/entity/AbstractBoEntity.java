@@ -18,6 +18,8 @@ public abstract class AbstractBoEntity implements Serializable {
     // private String id;
     private Long id;
 
+    private Long tenantId;
+
     private String createdBy;
 
     private Timestamp createdDate;

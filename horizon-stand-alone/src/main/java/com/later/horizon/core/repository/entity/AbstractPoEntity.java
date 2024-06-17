@@ -33,8 +33,12 @@ public abstract class AbstractPoEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false, columnDefinition = "bigint(20) comment '主键'")
+    @Column(name = "id", unique = true, nullable = false, columnDefinition = "bigint(20) comment '主键ID'")
     private Long id;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tenant_id", unique = true, nullable = false, columnDefinition = "bigint(20) comment '租户ID'")
+    private Long tenantId;
 
     @CreatedBy
     @Column(name = "created_by", nullable = false, columnDefinition = "varchar(50) comment '创建人'")
