@@ -33,15 +33,15 @@ public abstract class AbstractPoEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false, columnDefinition = "bigint(20) comment '主键ID'")
+    @Column(name = "id", unique = true, nullable = false, columnDefinition = "bigint(20) comment '标识'")
     private Long id;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tenant_id", unique = true, nullable = false, columnDefinition = "bigint(20) comment '租户ID'")
+    @Column(name = "tenant_id", unique = true, nullable = false, columnDefinition = "bigint(20) comment '租户标识'")
     private Long tenantId;
 
     @CreatedBy
-    @Column(name = "created_by", nullable = false, columnDefinition = "varchar(50) comment '创建人'")
+    @Column(name = "created_by", nullable = false, columnDefinition = "varchar(20) comment '创建人（标识）'")
     private String createdBy;
 
     @CreatedDate
@@ -49,14 +49,14 @@ public abstract class AbstractPoEntity implements Serializable {
     private Timestamp createdDate;
 
     @LastModifiedBy
-    @Column(name = "last_modified_by", nullable = false, columnDefinition = "varchar(50) comment '最后修改人'")
+    @Column(name = "last_modified_by", nullable = false, columnDefinition = "varchar(20) comment '最后修改人（标识）'")
     private String lastModifiedBy;
 
     @LastModifiedDate
     @Column(name = "last_modified_date", nullable = false, columnDefinition = "timestamp default current_timestamp comment '最后修改时间'")
     private Timestamp lastModifiedDate;
 
-    @Column(name = "state", nullable = false, columnDefinition = "tinyint(1) default 1 comment '数据状态'")
-    private Long state = Constants.ProveProveState.Data_Status_Available.getState();
+    @Column(name = "status", nullable = false, columnDefinition = "tinyint(1) default 1 comment '数据状态'")
+    private Long status = Constants.ProveStatus.Data_Status_NORMAL.getStatus();
 
 }

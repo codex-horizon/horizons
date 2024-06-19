@@ -71,23 +71,23 @@ public class UserService implements IUserService {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userBo.getUsername());
         if (iUserRepository.exists(Example.of(userEntity))) {
-            throw new BusinessException(Constants.ProveProveState.User_Name_Exists);
+            throw new BusinessException(Constants.ProveStatus.User_Name_Exists);
         }
-        userBo.setState(Constants.ProveProveState.Data_Status_Available.getState());
+        userBo.setStatus(Constants.ProveStatus.Data_Status_NORMAL.getStatus());
         return iUserRepository.save(iConverter.convert(userBo, UserEntity.class)).getId();
     }
 
     @Override
     public Long update(UserBo userBo) {
-        UserEntity userEntity = iUserRepository.findById(userBo.getId()).orElseThrow(() -> new BusinessException(Constants.ProveProveState.User_Non_Existent));
+        UserEntity userEntity = iUserRepository.findById(userBo.getId()).orElseThrow(() -> new BusinessException(Constants.ProveStatus.User_Non_Existent));
         userEntity.setPassword(userBo.getPassword());
         return iUserRepository.save(userEntity).getId();
     }
 
     @Override
     public Boolean delete(Long id) {
-        UserEntity userEntity = iUserRepository.findById(id).orElseThrow(() -> new BusinessException(Constants.ProveProveState.Data_Status_Removed));
-        userEntity.setState(Constants.ProveProveState.Data_Status_Removed.getState());
+        UserEntity userEntity = iUserRepository.findById(id).orElseThrow(() -> new BusinessException(Constants.ProveStatus.Data_Status_Removed));
+        userEntity.setStatus(Constants.ProveStatus.Data_Status_Removed.getStatus());
         iUserRepository.save(userEntity);
         return Boolean.TRUE;
     }

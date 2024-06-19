@@ -41,7 +41,7 @@ public class EnvironmentPropertyContextInitializer implements ApplicationContext
                 // 移除加密公钥
                 EncryptRSAHelper.removeKey(publicKey);
             } else {
-                throw new BusinessException(Constants.ProveProveState.Env_Run_RSA_PasswordSeed_Empty);
+                throw new BusinessException(Constants.ProveStatus.Env_Run_RSA_PasswordSeed_Empty);
             }
         }
     }

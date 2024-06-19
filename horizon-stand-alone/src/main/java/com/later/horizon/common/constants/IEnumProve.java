@@ -4,8 +4,6 @@ public interface IEnumProve<T> {
 
     T getCode();
 
-    String getFace();
-
-    String getDescriptors();
+    String getMessage();
 
 }

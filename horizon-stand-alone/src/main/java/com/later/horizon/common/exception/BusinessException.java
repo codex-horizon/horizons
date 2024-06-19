@@ -4,34 +4,25 @@ import com.later.horizon.common.constants.Constants;
 
 public class BusinessException extends RuntimeException {
 
-    private static Constants.ProveProveState proveState;
 
-    public BusinessException(final Constants.ProveProveState proveState) {
-        super(proveState.getDescriptors());
-        BusinessException.proveState = proveState;
+    public BusinessException(final Constants.ProveStatus proveState) {
+        super(proveState.getMessage());
     }
 
 
-    public BusinessException(final Constants.ProveProveState proveState, final Throwable cause) {
-        super(proveState.getDescriptors(), cause);
-        BusinessException.proveState = proveState;
+    public BusinessException(final Constants.ProveStatus proveState, final Throwable cause) {
+        super(proveState.getMessage(), cause);
     }
 
-    /**
-     * 尽量勿用
-     */
     public BusinessException(final Throwable cause) {
         super(cause);
     }
 
-    /**
-     * 尽量勿用
-     */
-    public BusinessException(final Constants.ProveProveState proveState,
+    public BusinessException(final Constants.ProveStatus proveState,
                              final Throwable cause,
                              final boolean enableSuppression,
                              final boolean writableStackTrace) {
-        super(proveState.getDescriptors(), cause, enableSuppression, writableStackTrace);
+        super(proveState.getMessage(), cause, enableSuppression, writableStackTrace);
     }
 
 }

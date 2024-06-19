@@ -28,7 +28,7 @@ public class EncryptAESHelper {
             byte[] encryptedData = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(encryptedData);
         } catch (Exception ignored) {
-            throw new BusinessException(Constants.ProveProveState.AES_SecretKey_Encrypt_Failed);
+            throw new BusinessException(Constants.ProveStatus.AES_SecretKey_Encrypt_Failed);
         }
     }
 
@@ -40,7 +40,7 @@ public class EncryptAESHelper {
             byte[] decryptedData = cipher.doFinal(decodedData);
             return new String(decryptedData, StandardCharsets.UTF_8);
         } catch (Exception ignored) {
-            throw new BusinessException(Constants.ProveProveState.AES_SecretKey_Decrypt_Failed);
+            throw new BusinessException(Constants.ProveStatus.AES_SecretKey_Decrypt_Failed);
         }
     }
 

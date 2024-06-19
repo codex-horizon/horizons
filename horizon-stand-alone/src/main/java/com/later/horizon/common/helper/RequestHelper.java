@@ -23,25 +23,25 @@ public class RequestHelper {
     }
 
     public static String getRSAPublicKey() {
-        return Optional.ofNullable(getHttpServletRequest().getHeader(Constants.Header_RSA_PublicKey)).orElseThrow(() -> new BusinessException(Constants.ProveProveState.Header_RSA_PublicKey_Non_Exist));
+        return Optional.ofNullable(getHttpServletRequest().getHeader(Constants.Header_RSA_PublicKey)).orElseThrow(() -> new BusinessException(Constants.ProveStatus.Header_RSA_PublicKey_Non_Exist));
     }
 
     public static HttpSession getHttpSession(boolean create) {
         // getSession()相当于getSession(true)，参数为true时，若存在会话，则返回该会话，否则新建一个会话;
         // getSession(false)，参数为false时，如存在会话，则返回该会话，否则返回NULL;
-        return Optional.ofNullable(getHttpServletRequest().getSession(create)).orElseThrow(() -> new BusinessException(Constants.ProveProveState.ServletRequest_Obtain_Failed));
+        return Optional.ofNullable(getHttpServletRequest().getSession(create)).orElseThrow(() -> new BusinessException(Constants.ProveStatus.ServletRequest_Obtain_Failed));
     }
 
     public static HttpServletRequest getHttpServletRequest() {
-        return Optional.of(getServletRequestAttributes().getRequest()).orElseThrow(() -> new BusinessException(Constants.ProveProveState.ServletRequest_Obtain_Failed));
+        return Optional.of(getServletRequestAttributes().getRequest()).orElseThrow(() -> new BusinessException(Constants.ProveStatus.ServletRequest_Obtain_Failed));
     }
 
     public static HttpServletResponse getHttpServletResponse() {
-        return Optional.ofNullable(getServletRequestAttributes().getResponse()).orElseThrow(() -> new BusinessException(Constants.ProveProveState.ServletRequest_Obtain_Failed));
+        return Optional.ofNullable(getServletRequestAttributes().getResponse()).orElseThrow(() -> new BusinessException(Constants.ProveStatus.ServletRequest_Obtain_Failed));
     }
 
     private static ServletRequestAttributes getServletRequestAttributes() {
-        return Optional.ofNullable((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).orElseThrow(() -> new BusinessException(Constants.ProveProveState.ServletRequest_Obtain_Failed));
+        return Optional.ofNullable((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).orElseThrow(() -> new BusinessException(Constants.ProveStatus.ServletRequest_Obtain_Failed));
     }
 
 }

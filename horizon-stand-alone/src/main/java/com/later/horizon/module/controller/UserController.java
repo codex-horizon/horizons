@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(name = "用户删除", path = "/delete/{id}", method = RequestMethod.POST)
-    public IRestful<Boolean> delete(@PathVariable("id")Long id) {
+    public IRestful<Boolean> delete(@PathVariable("id") Long id) {
         return IRestful.Result.succeeded(iUserService.delete(id));
     }
 
@@ -55,6 +55,6 @@ public class UserController {
 
     @GetMapping(name = "实验性", path = "/exp/{id}")
     public IRestful<Long> exp(@PathVariable("id") Long id) {
-        return IRestful.Result.succeeded(id);
+        return IRestful.Result.succeeded("实验成功", id);
     }
 }

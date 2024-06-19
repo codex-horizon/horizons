@@ -6,18 +6,6 @@ import java.io.Serializable;
 
 public interface IResponse {
 
-    String getApplicationName();
-
-    void setApplicationName(String applicationName);
-
-    String getTraceId();
-
-    void setTraceId(String seqNo);
-
-    Object getBody();
-
-    void setBody(Object o);
-
     @Data
     class Response implements IResponse, Serializable {
 

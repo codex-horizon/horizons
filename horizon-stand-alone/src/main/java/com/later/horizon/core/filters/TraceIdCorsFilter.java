@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-public class TraceIdCorsFilter implements Filter {
+public class TraceIdCorsFilter extends OncePerRequestFilter {
 
     private final ValuesConfigurer valuesConfigurer;
 
@@ -24,14 +25,7 @@ public class TraceIdCorsFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {
-        log.trace("in TraceIdCorsFilter init");
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         response.setHeader(Constants.Header_Application_Name, valuesConfigurer.getApplicationName());
         response.setHeader(Constants.Header_Trace_Id, CommonHelper.createUUID());
         if (CorsUtils.isCorsRequest(request)) {
@@ -42,9 +36,15 @@ public class TraceIdCorsFilter implements Filter {
             response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, Boolean.TRUE.toString());
             response.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, Long.toString(60 * 60 * 2));
         }
-        // 预判URL是否加密（也可用Spring Security PasswordEncoder 替代）
+        // 预判URL是否加密（也可用Spring Security PasswordEncoder 平替）
         String headerUrlEncipher = request.getHeader(Constants.Header_URL_Encipher);
-        if (valuesConfigurer.getEncipherRequestUrl() || (StringUtils.hasText(headerUrlEncipher) && Boolean.parseBoolean(headerUrlEncipher))) {
+        if (StringUtils.hasText(headerUrlEncipher) && Boolean.parseBoolean(headerUrlEncipher)) {
+            String encryptedURI = request.getRequestURI().substring(request.getContextPath().length() + 1);
+            String decryptedURI = EncryptAESHelper.decrypt(encryptedURI, EncryptAESHelper.initSecretKey(valuesConfigurer.getPasswordSeedRequestUrl()));
+            request.getRequestDispatcher(decryptedURI).forward(request, response);
+            return;
+        }
+        if (valuesConfigurer.getEncipherRequestUrl()) {
             String encryptedURI = request.getRequestURI().substring(request.getContextPath().length() + 1);
             String decryptedURI = EncryptAESHelper.decrypt(encryptedURI, EncryptAESHelper.initSecretKey(valuesConfigurer.getPasswordSeedRequestUrl()));
             request.getRequestDispatcher(decryptedURI).forward(request, response);
@@ -52,10 +52,4 @@ public class TraceIdCorsFilter implements Filter {
         }
         filterChain.doFilter(request, response);
     }
-
-    @Override
-    public void destroy() {
-        log.trace("in TraceIdCorsFilter destroy");
-    }
-
 }

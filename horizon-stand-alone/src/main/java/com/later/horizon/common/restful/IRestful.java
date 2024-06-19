@@ -9,9 +9,7 @@ public interface IRestful<T> {
 
     String getCode();
 
-    String getFace();
-
-    String getDescriptors();
+    String getMessage();
 
     T getData();
 
@@ -22,79 +20,51 @@ public interface IRestful<T> {
 
         private String code;
 
-        private String face;
-
-        private String descriptors;
+        private String message;
 
         private T data;
 
-        private Result(final Constants.ProveProveState proveProveState) {
-            this.code = proveProveState.getCode();
-            this.face = proveProveState.getFace();
-            this.descriptors = proveProveState.getDescriptors();
+        private Result(final Constants.ProveStatus proveState) {
+            this.code = proveState.getCode();
+            this.message = proveState.getMessage();
         }
 
-        private Result(final Constants.ProveProveState proveProveState, final String descriptors) {
-            this.code = proveProveState.getCode();
-            this.face = proveProveState.getFace();
-            this.descriptors = descriptors;
-        }
-
-        private Result(final Constants.ProveProveState proveProveState, final String face, final String descriptors) {
-            this.code = proveProveState.getCode();
-            this.face = face;
-            this.descriptors = descriptors;
-        }
-
-        private Result(final Constants.ProveProveState proveProveState, final String descriptors, final T data) {
-            this.code = proveProveState.getCode();
-            this.face = proveProveState.getFace();
-            this.descriptors = descriptors;
+        private Result(final Constants.ProveStatus proveState, final T data) {
+            this.code = proveState.getCode();
+            this.message = proveState.getMessage();
             this.data = data;
         }
 
-        private static <T> IRestful<T> restful(final Constants.ProveProveState proveProveState) {
-            return new Result<>(proveProveState);
+        private static <T> IRestful<T> restful(final Constants.ProveStatus proveState) {
+            return new Result<>(proveState);
         }
 
-        private static <T> IRestful<T> restful(final Constants.ProveProveState proveProveState, final String descriptors) {
-            return new Result<>(proveProveState, descriptors);
+        private static <T> IRestful<T> restful(final Constants.ProveStatus proveState, final T data) {
+            return new Result<>(proveState, data);
         }
 
-        private static <T> IRestful<T> restful(final Constants.ProveProveState proveProveState, final String face, final String descriptors) {
-            return new Result<>(proveProveState, face, descriptors);
-        }
-
-        private static <T> IRestful<T> restful(final Constants.ProveProveState proveProveState, final String descriptors, final T data) {
-            return new Result<>(proveProveState, descriptors, data);
+        private static <T> IRestful<T> restful(final Constants.ProveStatus proveState, final String message, final T data) {
+            return new Result<>(proveState, data);
         }
 
         public static <T> IRestful<T> succeeded() {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Succeeded);
-        }
-
-        public static <T> IRestful<T> succeeded(final Constants.ProveProveState proveProveState) {
-            return restful(proveProveState);
+            return restful(Constants.ProveStatus.Succeeded);
         }
 
         public static <T> IRestful<T> succeeded(final T data) {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Succeeded, Constants.ProveProveState.Business_Processing_Status_Succeeded.getDescriptors(), data);
+            return restful(Constants.ProveStatus.Succeeded, data);
+        }
+
+        public static <T> IRestful<T> succeeded(final String message, final T data) {
+            return restful(Constants.ProveStatus.Succeeded, message, data);
         }
 
         public static <T> IRestful<T> failed() {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Failed);
+            return restful(Constants.ProveStatus.Failed);
         }
 
-        public static <T> IRestful<T> failed(final Constants.ProveProveState proveProveState) {
-            return restful(proveProveState);
-        }
-
-        public static <T> IRestful<T> failed(final String descriptors) {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Failed, descriptors);
-        }
-
-        public static <T> IRestful<T> failed(final String face, final String descriptors) {
-            return restful(Constants.ProveProveState.Business_Processing_Status_Failed, face, descriptors);
+        public static <T> IRestful<T> failed(String message) {
+            return restful(Constants.ProveStatus.Failed);
         }
 
     }

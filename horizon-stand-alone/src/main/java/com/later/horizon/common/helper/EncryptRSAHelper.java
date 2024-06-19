@@ -43,7 +43,7 @@ public class EncryptRSAHelper {
         if (SecretKeyCaches.containsKey(publicKey)) {
             return SecretKeyCaches.get(publicKey);
         }
-        throw new BusinessException(Constants.ProveProveState.RSA_PublicKey_Expire);
+        throw new BusinessException(Constants.ProveStatus.RSA_PublicKey_Expire);
     }
 
     public static void removeKey(String publicKey) {
@@ -59,7 +59,7 @@ public class EncryptRSAHelper {
             SecretKeyCaches.put(publicKeyStr, new String(Base64.getEncoder().encode(privateKey.getEncoded()), StandardCharsets.UTF_8));
             return publicKeyStr;
         } catch (Exception ignore) {
-            throw new BusinessException(Constants.ProveProveState.RSA_SecretKey_Initialize_Failed);
+            throw new BusinessException(Constants.ProveStatus.RSA_SecretKey_Initialize_Failed);
         }
     }
 
@@ -79,7 +79,7 @@ public class EncryptRSAHelper {
             cipher.init(Cipher.ENCRYPT_MODE, rsaPublicKey);
             return new String(Base64.getEncoder().encode(cipher.doFinal(str.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
         } catch (Exception ignore) {
-            throw new BusinessException(Constants.ProveProveState.RSA_PublicKey_Encrypt_Failed);
+            throw new BusinessException(Constants.ProveStatus.RSA_PublicKey_Encrypt_Failed);
         }
     }
 
@@ -95,7 +95,7 @@ public class EncryptRSAHelper {
             }
             return new String(cipher.doFinal(Base64.getDecoder().decode(str.getBytes(StandardCharsets.UTF_8))), StandardCharsets.UTF_8);
         } catch (Exception ignore) {
-            throw new BusinessException(Constants.ProveProveState.RSA_SecretKey_Decrypt_Failed);
+            throw new BusinessException(Constants.ProveStatus.RSA_SecretKey_Decrypt_Failed);
         }
     }
 
