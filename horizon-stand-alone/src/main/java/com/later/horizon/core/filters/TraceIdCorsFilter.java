@@ -6,7 +6,6 @@ import com.later.horizon.common.helper.CommonHelper;
 import com.later.horizon.core.configurer.ValuesConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.util.StringUtils;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -36,9 +35,8 @@ public class TraceIdCorsFilter extends OncePerRequestFilter {
             response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, Boolean.TRUE.toString());
             response.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, Long.toString(60 * 60 * 2));
         }
-        // 预判URL是否加密（也可用Spring Security PasswordEncoder 平替）
         String headerUrlEncipher = request.getHeader(Constants.Header_URL_Encipher);
-        if (StringUtils.hasText(headerUrlEncipher) && Boolean.parseBoolean(headerUrlEncipher)) {
+        if (Boolean.parseBoolean(headerUrlEncipher)) {
             String encryptedURI = request.getRequestURI().substring(request.getContextPath().length() + 1);
             String decryptedURI = EncryptAESHelper.decrypt(encryptedURI, EncryptAESHelper.initSecretKey(valuesConfigurer.getPasswordSeedRequestUrl()));
             request.getRequestDispatcher(decryptedURI).forward(request, response);

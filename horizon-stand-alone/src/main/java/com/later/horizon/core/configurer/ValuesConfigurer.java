@@ -33,13 +33,13 @@ public class ValuesConfigurer implements Serializable {
     @Value("${security.ignored-uris}")
     private String[] securityIgnoredUris;
 
-    @Value("${encipherEnvironmentVariable}")
+    @Value("${encipherEnvironmentVariable:false}")
     private Boolean encipherEnvironmentVariable;
 
     @Value("${passwordSeedEnvironmentVariable}")
     private String passwordSeedEnvironmentVariable;
 
-    @Value("${encipherRequestUrl}")
+    @Value("${encipherRequestUrl:false}")
     private Boolean encipherRequestUrl;
 
     @Value("${passwordSeedRequestUrl}")
